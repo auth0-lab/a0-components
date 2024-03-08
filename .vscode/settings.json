@@ -1,0 +1,16 @@
+{
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.tslint": "explicit"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.format.enable": true,
+    "importSorter.importStringConfiguration.trailingComma": "multiLine",
+    "importSorter.generalConfiguration.sortOnBeforeSave": true,
+    "importSorter.importStringConfiguration.quoteMark": "double",
+    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 120,
+    "importSorter.importStringConfiguration.tabSize": 2,
+    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne"
+  }
+  
