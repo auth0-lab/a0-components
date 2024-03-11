@@ -4,8 +4,6 @@ import { NextRequest } from "next/server";
 
 import { handleCallback, handleLogin, Session } from "@auth0/nextjs-auth0";
 
-import { CLAIMS } from "../utils";
-
 const client = new ManagementClient({
   domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
   clientId: process.env.AUTH0_CLIENT_ID_MGMT!,

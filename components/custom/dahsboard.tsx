@@ -54,14 +54,17 @@ export default async function DashboardPage() {
       <div className="hidden flex-col md:flex">
         <div className="border-b">
           <div className="flex h-16 items-center px-4">
-            <OrganizationSwitcher
-              user={session?.user!}
-              organizationsClaim={CLAIMS.ORGANIZATIONS}
-              subtitle="Basic (individual)"
-              showAvatar={false}
-              personalAccountLabel="Individual Account"
-              addOrganizationLink="/signup/organization"
-            />
+            <div className="w-[200px]">
+              <OrganizationSwitcher
+                showBorder={false}
+                user={session?.user!}
+                organizationsClaim={CLAIMS.ORGANIZATIONS}
+                subtitle="Basic (individual)"
+                showAvatar={false}
+                personalAccountLabel="Individual Account"
+                addOrganizationLink="/signup/organization"
+              />
+            </div>
 
             <MainNav className="mx-6" />
             <div className="ml-auto flex items-center space-x-4">

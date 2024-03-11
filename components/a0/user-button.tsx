@@ -16,7 +16,7 @@ import { Claims } from "@auth0/nextjs-auth0";
 
 import Badge from "./badge";
 
-export default async function UserButton({
+export default function UserButton({
   user,
   children,
   logoutUrl = "/api/auth/logout",

@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import * as React from "react";
+import { Check } from "react-feather";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,16 +20,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { A0Organization } from "@/lib/a0/lib";
 import { cn } from "@/lib/utils";
 import { Claims } from "@auth0/nextjs-auth0";
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import Badge from "./badge";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
 >;
+
+type A0Organization = {
+  id: string;
+  name: string;
+  display_name: string;
+  picture: string;
+};
 
 // https://auth0.com/docs/manage-users/organizations/configure-organizations/define-organization-behavior
 export enum OrganizationTypeOfUsers {
@@ -43,7 +49,10 @@ interface OrganizationSwitcherProps extends PopoverTriggerProps {
   loginUrl?: string;
   typeOfUsers?: OrganizationTypeOfUsers;
   subtitle?: string;
+
   showAvatar?: boolean;
+  showBorder?: boolean;
+
   organizationsLabel?: string;
   personalAccountLabel?: string;
   addOrganizationLabel?: string;
@@ -58,6 +67,7 @@ export default function OrganizationSwitcher({
   typeOfUsers = OrganizationTypeOfUsers.Allow,
   subtitle,
   showAvatar = true,
+  showBorder = true,
   organizationsLabel = "Organizations",
   personalAccountLabel = "Personal Account",
   addOrganizationLabel = "Add Organization",
@@ -110,7 +120,10 @@ export default function OrganizationSwitcher({
             role="combobox"
             aria-expanded={open}
             aria-label="Select a team"
-            className={cn("w-[200px] justify-between pr-1 pl-2", className)}
+            className={cn(
+              `w-full justify-between pr-1 pl-2 ${!showBorder && "border-0"}`,
+              className
+            )}
           >
             {showAvatar && (
               <Avatar className="mr-2 h-5 w-5">
@@ -123,12 +136,26 @@ export default function OrganizationSwitcher({
             <div className="flex flex-col items-start">
               <span className="text-sm">{selectedOrg.label}</span>
               {subtitle && (
-                <span className="text-neutral-400 font-light text-xs">
+                <span className="text-gray-500 font-light text-xs">
                   {subtitle}
                 </span>
               )}
             </div>
-            <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+            <svg
+              className="ml-auto h-4 w-4 shrink-0 opacity-50"
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
@@ -161,20 +188,17 @@ export default function OrganizationSwitcher({
                               ? `${loginUrl}?returnTo=${pathname}`
                               : `${loginUrl}?organization=${org.value}&returnTo=${pathname}`
                           }
-                          className="flex w-full"
+                          className="flex w-full flex items-center"
                         >
-                          <Avatar className="mr-2 h-5 w-5">
-                            <AvatarImage src={org.picture} alt={org.label} />
-                          </Avatar>
+                          {showAvatar && (
+                            <Avatar className="mr-2 h-5 w-5">
+                              <AvatarImage src={org.picture} alt={org.label} />
+                            </Avatar>
+                          )}
                           {org.label}
-                          <CheckIcon
-                            className={cn(
-                              "ml-auto h-4 w-4",
-                              selectedOrg.value === org.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
+                          {selectedOrg.value === org.value && (
+                            <Check className={cn("ml-auto h-4 w-4")} />
+                          )}
                         </a>
                       </CommandItem>
                     )
