@@ -57,6 +57,10 @@ export default async function DashboardPage() {
             <OrganizationSwitcher
               user={session?.user!}
               organizationsClaim={CLAIMS.ORGANIZATIONS}
+              subtitle="Basic (individual)"
+              showAvatar={false}
+              personalAccountLabel="Individual Account"
+              addOrganizationLink="/signup/organization"
             />
 
             <MainNav className="mx-6" />
