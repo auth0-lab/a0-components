@@ -60,7 +60,7 @@ interface OrganizationSwitcherProps extends PopoverTriggerProps {
   organizationsLabel?: string;
   personalAccountLabel?: string;
   addOrganizationLabel?: string;
-  addOrganizationLink?: string;
+  createOrganizationUrl?: string;
   createOrganizationMode?: CreateOrganizationMode;
 }
 
@@ -76,7 +76,7 @@ export default function OrganizationSwitcher({
   organizationsLabel = "Organizations",
   personalAccountLabel = "Personal Account",
   addOrganizationLabel = "Add Organization",
-  addOrganizationLink,
+  createOrganizationUrl,
   createOrganizationMode = CreateOrganizationMode.Modal,
 }: OrganizationSwitcherProps) {
   const groups = [
@@ -205,31 +205,38 @@ export default function OrganizationSwitcher({
               ))}
             </CommandList>
 
-            {addOrganizationLink && (
+            {createOrganizationMode === CreateOrganizationMode.Modal && (
               <>
                 <CommandSeparator />
                 <CommandList>
                   <CommandGroup>
                     <CommandItem>
-                      {createOrganizationMode ===
-                      CreateOrganizationMode.Modal ? (
-                        <OrganizationCreate
-                          triggerLabel={addOrganizationLabel}
-                        />
-                      ) : (
-                        <a
-                          href={addOrganizationLink}
-                          className="flex items-center justify-between gap-3 w-full block text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >
-                          {addOrganizationLabel}
-                          <div className="RightSlot">+</div>
-                        </a>
-                      )}
+                      <OrganizationCreate triggerLabel={addOrganizationLabel} />
                     </CommandItem>
                   </CommandGroup>
                 </CommandList>
               </>
             )}
+
+            {createOrganizationUrl &&
+              createOrganizationMode === CreateOrganizationMode.Navigation && (
+                <>
+                  <CommandSeparator />
+                  <CommandList>
+                    <CommandGroup>
+                      <CommandItem>
+                        <a
+                          href={createOrganizationUrl}
+                          className="flex items-center justify-between gap-3 w-full block text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                          {addOrganizationLabel}
+                          <div className="RightSlot">+</div>
+                        </a>
+                      </CommandItem>
+                    </CommandGroup>
+                  </CommandList>
+                </>
+              )}
 
             <CommandSeparator />
 

@@ -1,8 +1,9 @@
+"use client";
 import { MainNav } from "@/components/main-nav";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { DropdownMenu, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
 import { CLAIMS } from "@/lib/utils";
-import OrganizationSwitcher from "@/sdk/components/organization-switcher";
+import OrganizationSwitcher, { CreateOrganizationMode } from "@/sdk/components/organization-switcher";
 import UserButton from "@/sdk/components/user-button";
 import { Claims } from "@auth0/nextjs-auth0";
 
@@ -18,7 +19,7 @@ export default function TopBar({ user }: { user: Claims }) {
             subtitle="Basic (individual)"
             showAvatar={false}
             personalAccountLabel="Individual Account"
-            addOrganizationLink="/signup/organization"
+            createOrganizationMode={CreateOrganizationMode.Modal}
           />
         </div>
 
