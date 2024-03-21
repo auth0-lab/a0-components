@@ -1,5 +1,10 @@
-export async function GET(request: Request) {
-  return Response.json({ test: true });
-}
+import { handleOrganizationCreation } from "@/components/a0-routes/organizations";
 
-// export const GET = handleOrgs();
+export const POST = handleOrganizationCreation({
+  enabled_connections: process.env
+    .ORGANIZATIONS_ENABLED_CONNECTIONS!.split(",")
+    .map((connId) => ({
+      connection_id: connId.trim(),
+      assign_membership_on_login: false,
+    })),
+});
