@@ -1,4 +1,4 @@
-import { handleOrganizationCreation } from "@/components/a0-routes/organizations";
+import { handleOrganizationCreation } from "@/sdk/routes/organizations";
 
 export const POST = handleOrganizationCreation({
   enabled_connections: process.env

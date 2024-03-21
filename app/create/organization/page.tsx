@@ -2,8 +2,8 @@ import DashboardPage from "@/components/dashboard";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 export default withPageAuthRequired(
-  async function Dashboard() {
-    return <DashboardPage />;
+  async function CreateOrganization() {
+    return <>hello</>;
   },
-  { returnTo: "/dashboard" }
+  { returnTo: "/create/organization" }
 );
