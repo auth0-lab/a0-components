@@ -80,6 +80,17 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+  safelist: [
+    "max-w-screen-lg",
+    "mx-auto",
+    "text-gray-500",
+    "font-light",
+    "text-xs",
+    "items-start",
+    "h-8",
+    "w-8",
+    "animate-spin",
+  ],
 } satisfies Config;
 
 export default config;

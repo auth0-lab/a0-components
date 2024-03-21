@@ -213,7 +213,9 @@ export default function OrganizationSwitcher({
                     <CommandItem>
                       {createOrganizationMode ===
                       CreateOrganizationMode.Modal ? (
-                        <OrganizationCreate label={addOrganizationLabel} />
+                        <OrganizationCreate
+                          triggerLabel={addOrganizationLabel}
+                        />
                       ) : (
                         <a
                           href={addOrganizationLink}

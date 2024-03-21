@@ -1,9 +1,9 @@
-import DashboardPage from "@/components/dashboard";
+import { CreateOrganizationPage } from "@/components/create-organizations";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 export default withPageAuthRequired(
   async function CreateOrganization() {
-    return <>hello</>;
+    return <CreateOrganizationPage />;
   },
   { returnTo: "/create/organization" }
 );
