@@ -190,7 +190,7 @@ function PageMode({ form, working, customFields, onSubmit }: PageModeProps) {
                 disabled={working}
                 className="disabled:opacity-50"
               >
-                {working && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {working && <Loader2 size={17} className="mr-2 animate-spin" />}
                 Create
               </Button>
             </div>

@@ -85,7 +85,7 @@ export function PlanPicker({ form }: { form: any }) {
             <RadioGroup
               onValueChange={field.onChange}
               defaultValue={field.value}
-              className="grid gap-5 md:gap-5 lg:gap-5 justify-center"
+              className="grid gap-5 md:gap-5 lg:gap-5 justify-between"
               style={{
                 gridTemplateColumns: "repeat(auto-fit, minmax(290px, 290px))",
               }}

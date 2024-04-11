@@ -7,6 +7,7 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./sdk/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -72,25 +73,9 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-
-      // A0 theme
-      spacing: {
-        "6": "2.5rem", // 40px
-      },
     },
   },
   plugins: [require("tailwindcss-animate")],
-  safelist: [
-    "max-w-screen-lg",
-    "mx-auto",
-    "text-gray-500",
-    "font-light",
-    "text-xs",
-    "items-start",
-    "h-8",
-    "w-8",
-    "animate-spin",
-  ],
 } satisfies Config;
 
 export default config;

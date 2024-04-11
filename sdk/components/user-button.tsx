@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Claims } from "@auth0/nextjs-auth0";
 
+import { getAvatarFallback } from "../helpers";
 import Badge from "./badge";
 
 export default function UserButton({
@@ -36,7 +37,7 @@ export default function UserButton({
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage src={picture} alt={picture} />
-            <AvatarFallback>A0</AvatarFallback>
+            <AvatarFallback>{getAvatarFallback(user)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -45,7 +46,7 @@ export default function UserButton({
           <div className="flex gap-3">
             <Avatar className="h-8 w-8">
               <AvatarImage src={picture} alt={picture} />
-              <AvatarFallback>A0</AvatarFallback>
+              <AvatarFallback>{getAvatarFallback(user)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{name}</p>

@@ -10,6 +10,14 @@ const client = new ManagementClient({
   clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
 });
 
+async function getUserMetadata(userId: string) {
+  const { data } = await client.users.get({
+    id: userId,
+  });
+
+  return data.user_metadata;
+}
+
 async function getMemberOrganizations(userId: string) {
   // TODO: consider paging
   const { data: orgs } = await client.users.getUserOrganizations({
@@ -43,6 +51,20 @@ export function handleOrganizationsParams(req: NextRequest | NextApiRequest) {
   return {
     authorizationParams: { prompt, organization },
   };
+}
+
+// TODO: Maybe this can be an action
+export async function enhanceClaimsWithUserMetadata(
+  session: Session,
+  userMetadataClaim: string
+) {
+  const user = session.user;
+
+  // fetch user metadata
+  const metadata = await getUserMetadata(user.sub);
+  user[userMetadataClaim] = metadata;
+
+  return session;
 }
 
 // TODO: Maybe this can be an action

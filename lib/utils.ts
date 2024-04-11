@@ -7,4 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 
 export const CLAIMS = {
   ORGANIZATIONS: "https://sample.com/claims/organizations", // organizations that user belongs to
+  USER_METADATA: "https://sample.com/claims/user_metadata", // user metadata
 };
