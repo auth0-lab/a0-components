@@ -1,18 +1,12 @@
 "use client";
 
-import React from "react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { CLAIMS } from "@/lib/utils";
 import { Claims } from "@auth0/nextjs-auth0";
 
 import { getAvatarFallback } from "../helpers";
 import BasicInfoForm from "./basic-info-form";
+import MFAForm from "./mfa-form";
 import UserMetadataForm from "./user-metadata-form";
 
 export default function UserProfile({
@@ -46,66 +40,7 @@ export default function UserProfile({
         defaultValues={metadataDefaultValues}
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-normal">
-            Multi-Factor Authentication
-          </CardTitle>
-          <CardDescription></CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-6">
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="performance" className="flex flex-col space-y-1">
-              <span>WebAuthn with FIDO Security Keys</span>
-              <span className="font-normal leading-snug text-muted-foreground">
-                Security Keys can be used as an additional authentication
-                factor.
-              </span>
-            </Label>
-            <div className="flex space-x-24">
-              <Badge variant="outline" className="font-medium rounded-lg">
-                Not enrolled
-              </Badge>
-              <Switch id="performance" />
-            </div>
-          </div>
-          <Separator />
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="functional" className="flex flex-col space-y-1">
-              <span>Auth0 Guardian</span>
-              <span className="font-normal leading-snug text-muted-foreground">
-                Use Auth0 Guardian as your authenticator app.
-              </span>
-            </Label>
-            <div className="flex space-x-24">
-              <Badge variant="outline" className="font-medium rounded-lg">
-                Not enrolled
-              </Badge>
-              <Switch id="functional" />
-            </div>
-          </div>
-          <Separator />
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="necessary" className="flex flex-col space-y-1">
-              <span>
-                Google authenticator or similar
-                <Badge variant="outline" className="font-medium rounded-lg">
-                  Not enrolled
-                </Badge>
-              </span>
-              <span className="font-normal leading-snug text-muted-foreground">
-                Use your preferred authenticator app.
-              </span>
-            </Label>
-            <div className="flex space-x-24">
-              <Badge variant="outline" className="font-medium rounded-lg">
-                Not enrolled
-              </Badge>
-              <Switch id="necessary" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <MFAForm />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -25,7 +25,7 @@ export default function UserMetadataForm({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [working, setWorking] = React.useState<boolean>(false);
+  const [working, setWorking] = useState<boolean>(false);
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues,

@@ -1,6 +1,5 @@
 import { LogOut } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";

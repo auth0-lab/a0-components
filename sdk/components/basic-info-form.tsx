@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -54,6 +52,7 @@ export default function BasicInfoForm({ user }: { user: Claims }) {
           <div className="grid items-center gap-1.5">
             <Label htmlFor="phone">Phone</Label>
             <Input
+              disabled
               type="phone"
               id="phone"
               placeholder="(415) 555-5555"
