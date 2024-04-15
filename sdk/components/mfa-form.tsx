@@ -3,53 +3,17 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 
-const factorsMapper: any = {
-  sms: {
-    title: "Phone Message",
-    description: "Users will receive a phone message with a verification code",
-  },
-  "push-notification": {
-    title: "Push Notification using Auth0 Guardian",
-    description: "Provide a push notification using Auth0 Guardian.",
-  },
-  otp: {
-    title: "One-time Password",
-    description:
-      "Provide a one-time password using Google Authenticator or similar.",
-  },
-  email: {
-    title: "Email",
-    description:
-      "Users will receive an email message containing a verification code.",
-  },
-  duo: {
-    title: "Duo Security",
-    description: "Use your DUO account for Multi-factor Authentication.",
-  },
-  "webauthn-roaming": {
-    title: "WebAuthn with FIDO Security Keys",
-    description:
-      "Depending on your browser, you can use WebAuthn-compliant security keys (like FIDO2) as a second factor of authentication.",
-  },
-  "webauthn-platform": {
-    title: "WebAuthn with FIDO Device Biometrics",
-    description:
-      "Depending on your browser, you can use WebAuthn-compliant device biometrics as a second factor of authentication",
-  },
-  "recovery-code": {
-    title: "Recovery Code",
-    description:
-      "Provide a unique code that allows users to regain access to their account.",
-  },
-};
+import { factorsMapper } from "./lib/factors-mapper";
+import openPopupWindow from "./open-popup-window";
 
 export default function MFAForm() {
   const [factors, setFactors] = useState([]);
+
   const fetchFactors = useCallback(async () => {
     try {
       const response = await fetch("/api/auth/mfa", {
@@ -58,9 +22,37 @@ export default function MFAForm() {
           "Content-Type": "application/json",
         },
       });
-      const { data } = await response.json();
+      const data = await response.json();
 
       setFactors(data.filter((factor: any) => factor.enabled));
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const createEnrollment = useCallback(async (factor: string) => {
+    try {
+      const response = await fetch("/api/auth/mfa", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ factor }),
+      });
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const deleteEnrollment = useCallback(async (enrollmentId: string) => {
+    try {
+      const response = await fetch(`/api/auth/mfa/${enrollmentId}`, {
+        method: "DELETE",
+      });
+      return await response.json();
     } catch (error) {
       console.error(error);
     }
@@ -69,6 +61,31 @@ export default function MFAForm() {
   useEffect(() => {
     fetchFactors();
   }, [fetchFactors]);
+
+  const handleEnrollment = (factor: string) => async () => {
+    const { ticket_url } = await createEnrollment(factor);
+
+    const enrollmentPopupWindow = openPopupWindow({
+      url: ticket_url,
+      title: "",
+      width: 600,
+      height: 800,
+      scrollbars: true,
+      focus: true,
+    });
+
+    const timer = setInterval(async () => {
+      if (enrollmentPopupWindow && enrollmentPopupWindow.closed) {
+        clearInterval(timer);
+        fetchFactors();
+      }
+    }, 0);
+  };
+
+  const handleRemoveEnrloment = (enrollmentId: string) => async () => {
+    await deleteEnrollment(enrollmentId);
+    fetchFactors();
+  };
 
   return (
     <>
@@ -98,19 +115,41 @@ export default function MFAForm() {
                         htmlFor="performance"
                         className="flex flex-col space-y-1"
                       >
-                        <span>{meta.title}</span>
+                        <span>
+                          {meta.title}
+                          {factor.enrollmentId && (
+                            <Badge
+                              variant="default"
+                              className="h-fit bg-green-300 text-black ml-3 font-light hover:bg-green-300"
+                            >
+                              Enrolled
+                            </Badge>
+                          )}
+                        </span>
                         <p className="font-normal leading-snug text-muted-foreground max-w-fit">
                           {meta.description}
                         </p>
                       </Label>
-                      <div className="flex space-x-24">
-                        <Badge
-                          variant="outline"
-                          className="font-medium rounded-lg min-w-24"
-                        >
-                          Not enrolled
-                        </Badge>
-                        <Switch id="performance" />
+                      <div
+                        className={`flex space-x-24 items-center justify-end min-w-72`}
+                      >
+                        {factor.enrollmentId ? (
+                          <Button
+                            className="h-fit"
+                            variant="outline"
+                            onClick={handleRemoveEnrloment(factor.enrollmentId)}
+                          >
+                            Remove
+                          </Button>
+                        ) : (
+                          <Button
+                            className="h-fit"
+                            variant="default"
+                            onClick={handleEnrollment(factor.name)}
+                          >
+                            Enroll
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </>
