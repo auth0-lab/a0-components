@@ -39,6 +39,13 @@ export function handleMFAFactorsList() {
           })
           .map((factor: any) => {
             const enrollmentInfo = enrollments.find((enrollment: any) => {
+              if (
+                enrollment.type === "authenticator" &&
+                factor.name === "otp"
+              ) {
+                return true;
+              }
+
               return enrollment.type === factor.name;
             });
 

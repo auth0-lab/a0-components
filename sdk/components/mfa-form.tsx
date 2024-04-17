@@ -1,10 +1,17 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
@@ -13,6 +20,7 @@ import openPopupWindow from "./open-popup-window";
 
 export default function MFAForm() {
   const [factors, setFactors] = useState([]);
+  const [isEnrolling, setIsEnrolling] = useState<string | null>(null);
 
   const fetchFactors = useCallback(async () => {
     try {
@@ -63,6 +71,7 @@ export default function MFAForm() {
   }, [fetchFactors]);
 
   const handleEnrollment = (factor: string) => async () => {
+    setIsEnrolling(factor);
     const { ticket_url } = await createEnrollment(factor);
 
     const enrollmentPopupWindow = openPopupWindow({
@@ -76,6 +85,7 @@ export default function MFAForm() {
 
     const timer = setInterval(async () => {
       if (enrollmentPopupWindow && enrollmentPopupWindow.closed) {
+        setIsEnrolling(null);
         clearInterval(timer);
         fetchFactors();
       }
@@ -146,7 +156,11 @@ export default function MFAForm() {
                             className="h-fit"
                             variant="default"
                             onClick={handleEnrollment(factor.name)}
+                            disabled={isEnrolling === factor.name}
                           >
+                            {isEnrolling === factor.name && (
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            )}
                             Enroll
                           </Button>
                         )}
