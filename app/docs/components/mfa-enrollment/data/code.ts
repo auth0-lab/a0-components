@@ -1,4 +1,4 @@
-export const componentCode = `""use client";
+export const componentCode = `"use client";
 
 import { useEffect, useState } from "react";
 
@@ -264,4 +264,5 @@ export default function MFAEnrollment({
       )}
     </>
   );
-}`;
+}
+`;

@@ -107,4 +107,5 @@ export default function UserButton({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}`;
+}
+`;

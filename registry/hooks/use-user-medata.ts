@@ -5,7 +5,7 @@ interface KeyValueMap {
   [key: string]: any;
 }
 
-export default function useUpdateUserMedata(user: KeyValueMap) {
+export default function useUserMedata(user: KeyValueMap) {
   const router = useRouter();
   const pathname = usePathname();
 

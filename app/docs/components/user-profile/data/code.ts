@@ -3,10 +3,10 @@ export const componentCode = `"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import useMfaEnrollment from "../hooks/use-mfa-enrollment";
-import useUserMedata from "../hooks/use-update-user-medata";
+import useUserMedata from "../hooks/use-user-medata";
 import BasicInfoForm from "./basic-info-form";
 import MFAEnrollment from "./mfa-enrollment";
-import UserMetadataForm from "./user-metadata-form";
+import UserMetadata from "./user-metadata";
 
 interface KeyValueMap {
   [key: string]: any;
@@ -49,7 +49,8 @@ export default function UserProfile({
   const picture = user.picture;
   const metadataDefaultValues = userMetadata;
   const { update } = useUserMedata(user);
-  const { fetchFactors, createEnrollment, deleteEnrollment } = useMfaEnrollment();
+  const { fetchFactors, createEnrollment, deleteEnrollment } =
+    useMfaEnrollment();
 
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col w-full">
@@ -66,7 +67,7 @@ export default function UserProfile({
 
       <BasicInfoForm user={user} />
 
-      <UserMetadataForm
+      <UserMetadata
         schema={metadataSchema}
         defaultValues={metadataDefaultValues}
         onSave={update}
@@ -80,4 +81,5 @@ export default function UserProfile({
       />
     </div>
   );
-}`;
+}
+`;

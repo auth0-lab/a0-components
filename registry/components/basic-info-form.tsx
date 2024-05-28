@@ -10,11 +10,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-interface UserClaims {
+interface KeyValueMap {
   [key: string]: any;
 }
 
-export default function BasicInfoForm({ user }: { user: UserClaims }) {
+export default function BasicInfoForm({ user }: { user: KeyValueMap }) {
   const name = user.name;
   const email = user.email;
   const nickname = user.nickname;

@@ -2,13 +2,13 @@
 
 import { z } from "zod";
 
-import UserMetadataForm from "@/registry/components/user-metadata-form";
+import UserMetadata from "@/registry/components/user-metadata";
 
 const languages = ["en-US", "es-AR"] as const;
 
 export function Example() {
   return (
-    <UserMetadataForm
+    <UserMetadata
       onSave={async () => {
         alert("Saved!");
       }}
