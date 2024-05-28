@@ -152,3 +152,11 @@ body {
   margin-top: -4px;
   content: counter(step);
 }
+
+.code-container button {
+  display: inline !important;
+}
+
+.code-container span {
+  padding: 0 !important;
+}

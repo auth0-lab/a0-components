@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CodeBlock } from "react-code-blocks";
+import { CopyBlock } from "react-code-blocks";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -46,16 +46,20 @@ export function DocTabs({ children, align = "center", code }: DocTabsProps) {
         </TabsContent>
         <TabsContent value="code">
           <div className="flex flex-col space-y-4">
-            <div className="w-full rounded-md [&_button]:hidden [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto font-mono text-sm">
-              <CodeBlock
+            <div className="w-full rounded-md [&_button]:hidden [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto font-mono text-sm code-container">
+              <CopyBlock
                 customStyle={{
                   fontWeight: "100",
                   padding: "8px 16px",
+                  minHeight: "45px",
+                  display: "flex",
+                  alignItems: "center",
                 }}
                 text={code}
                 language={"jsx"}
                 showLineNumbers={false}
                 theme={theme}
+                wrapLongLines={true}
               />
             </div>
           </div>

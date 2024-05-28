@@ -65,7 +65,9 @@ export default function OrganizationSwitcherPage() {
           </h3>
 
           <div className="flex flex-col gap-2 mt-8">
-            <Code language="bash" text={componentDependencies} />
+            {componentDependencies.map((dependency, index) => (
+              <Code key={index} language="bash" text={dependency} />
+            ))}
           </div>
 
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">

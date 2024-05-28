@@ -2,13 +2,6 @@
 
 import MFAForm from "@/registry/components/mfa-form";
 
-type MfaEnrollment = {
-  name: string;
-  enabled: boolean;
-  trialExpired?: boolean;
-  enrollmentId: string;
-};
-
 export function Example() {
   return (
     <MFAForm
