@@ -18,8 +18,14 @@ import { Separator } from "@/components/ui/separator";
 import { factorsMapper } from "./lib/factors-mapper";
 import openPopupWindow from "./open-popup-window";
 
-export default function MFAForm() {
-  const [factors, setFactors] = useState([]);
+type MfaEnrollment = {
+  name: string;
+  enabled: boolean;
+  enrollmentId?: string;
+};
+
+export default function MFAForm({ factors }: { factors?: MfaEnrollment[] }) {
+  const [currentFactors, setCurrentFactors] = useState(factors || []);
   const [isEnrolling, setIsEnrolling] = useState<string | null>(null);
 
   const fetchFactors = useCallback(async () => {
@@ -32,7 +38,9 @@ export default function MFAForm() {
       });
       const data = await response.json();
 
-      setFactors(data.filter((factor: any) => factor.enabled));
+      setCurrentFactors(data.filter((factor: any) => factor.enabled));
+
+      console.log(JSON.stringify(data.filter((factor: any) => factor.enabled)));
     } catch (error) {
       console.error(error);
     }
@@ -67,8 +75,10 @@ export default function MFAForm() {
   }, []);
 
   useEffect(() => {
-    fetchFactors();
-  }, [fetchFactors]);
+    if (!factors) {
+      fetchFactors();
+    }
+  }, [factors, fetchFactors]);
 
   const handleEnrollment = (factor: string) => async () => {
     setIsEnrolling(factor);
@@ -99,7 +109,7 @@ export default function MFAForm() {
 
   return (
     <>
-      {factors.length > 0 && (
+      {currentFactors.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-normal">
@@ -109,7 +119,7 @@ export default function MFAForm() {
           </CardHeader>
 
           <CardContent className="grid gap-6">
-            {factors
+            {currentFactors
               .filter((factor: any) => factor.enabled)
               .map((factor: any, idx: number) => {
                 const meta = factorsMapper[factor.name];

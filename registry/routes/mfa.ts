@@ -16,37 +16,34 @@ export function handleMFAFactorsList() {
       const user_id = session?.user.sub;
       const availableFactors = [
         "push-notification",
-        "phone",
+        "sms",
+        "voice",
         "otp",
         "webauthn-roaming",
         "webauthn-platform",
       ];
-      const { data } = await client.guardian.getFactors();
-      const { data: enrollments } = await client.users.getEnrollments({
-        id: user_id,
-      });
+      const { data: factors } = await client.guardian.getFactors();
+
+      const { data: enrollments } = await client.users.getAuthenticationMethods(
+        { id: user_id }
+      );
 
       return NextResponse.json(
-        data
+        factors
           .filter((factor: any) => {
             let factorName: string = factor.name;
-
-            if (factor.name === "sms" || factor.name === "voice") {
-              factorName = "phone";
-            }
 
             return availableFactors.includes(factorName) && factor.enabled;
           })
           .map((factor: any) => {
             const enrollmentInfo = enrollments.find((enrollment: any) => {
-              if (
-                enrollment.type === "authenticator" &&
-                factor.name === "otp"
-              ) {
-                return true;
+              let factorName: string = factor.name;
+
+              if (factor.name === "sms" || factor.name === "voice") {
+                factorName = "phone";
               }
 
-              return enrollment.type === factor.name;
+              return enrollment.type.includes(factorName);
             });
 
             return {

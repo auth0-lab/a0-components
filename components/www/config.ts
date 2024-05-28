@@ -37,6 +37,21 @@ export const config = {
           items: [],
         },
         {
+          title: "Basic Info",
+          href: "/docs/components/basic-info",
+          items: [],
+        },
+        {
+          title: "User Metadata",
+          href: "/docs/components/user-metadata",
+          items: [],
+        },
+        {
+          title: "Multi-factor authentication",
+          href: "/docs/components/mfa",
+          items: [],
+        },
+        {
           title: "User Button",
           href: "/docs/components/user-button",
           items: [],

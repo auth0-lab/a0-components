@@ -1,4 +1,4 @@
-"use client";
+export const componentCode = `"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CLAIMS } from "@/lib/utils";
@@ -20,7 +20,7 @@ export default function UserProfile({
   const metadataDefaultValues = user[CLAIMS.USER_METADATA];
 
   return (
-    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col w-full">
+    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col">
       <div className="flex flex-col items-center gap-3">
         <Avatar className="h-16 w-16">
           <AvatarImage src={picture} alt={picture} />
@@ -43,4 +43,4 @@ export default function UserProfile({
       <MFAForm />
     </div>
   );
-}
+}`;

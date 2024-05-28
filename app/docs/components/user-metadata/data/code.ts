@@ -1,4 +1,4 @@
-"use client";
+export const componentCode = `"use client";
 
 import { Loader2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -65,11 +65,11 @@ export default function UserMetadataForm({
 
       if (user.org_id) {
         return router.push(
-          `/api/auth/login?organization=${user.org_id}&returnTo=${pathname}`
+          \`/api/auth/login?organization=\${user.org_id}&returnTo=\${pathname}\`
         );
       }
 
-      return router.push(`/api/auth/login?returnTo=${pathname}`);
+      return router.push(\`/api/auth/login?returnTo=\${pathname}\`);
     } catch (e) {
       console.error(e);
     }
@@ -160,4 +160,4 @@ export default function UserMetadataForm({
       </Form>
     </Card>
   );
-}
+}`;

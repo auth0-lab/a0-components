@@ -1,4 +1,4 @@
-"use client";
+export const componentCode = `"use client";
 
 import {
   Card,
@@ -69,4 +69,4 @@ export default function BasicInfoForm({ user }: { user: Claims }) {
       </CardContent>
     </Card>
   );
-}
+}`;
