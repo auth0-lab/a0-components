@@ -1,3 +1,3 @@
-import { handleUserMetadataUpdate } from "@/sdk/routes/user-metadata";
+import { handleUserMetadataUpdate } from "@/registry/routes/user-metadata";
 
 export const PUT = handleUserMetadataUpdate();

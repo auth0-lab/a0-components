@@ -1,4 +1,8 @@
-import { handleMFADeleteEnrollment, handleMFAFactorEnrollment, handleMFAFactorsList } from "@/sdk/routes/mfa";
+import {
+  handleMFADeleteEnrollment,
+  handleMFAFactorEnrollment,
+  handleMFAFactorsList,
+} from "@/registry/routes/mfa";
 
 export const GET = handleMFAFactorsList();
 

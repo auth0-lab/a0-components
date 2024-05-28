@@ -1,8 +1,17 @@
 import { NextRequest } from "next/server";
 
 import { CLAIMS } from "@/lib/utils";
-import { enhanceClaimsWithOrganizations, enhanceClaimsWithUserMetadata, handleOrganizationsParams } from "@/sdk/lib";
-import { handleAuth, handleCallback, handleLogin, Session } from "@auth0/nextjs-auth0";
+import {
+  enhanceClaimsWithOrganizations,
+  enhanceClaimsWithUserMetadata,
+  handleOrganizationsParams,
+} from "@/registry/lib";
+import {
+  handleAuth,
+  handleCallback,
+  handleLogin,
+  Session,
+} from "@auth0/nextjs-auth0";
 
 export const GET = handleAuth({
   login: handleLogin(handleOrganizationsParams),

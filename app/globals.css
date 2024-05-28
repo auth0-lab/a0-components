@@ -121,3 +121,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  counter-reset: step;
+}
+
+.steps > h3 {
+  counter-increment: step;
+}
+
+.steps > h3:before {
+  position: absolute;
+  display: inline-flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 4px;
+  border-color: hsl(var(--background));
+  background-color: hsl(var(--muted));
+  text-align: center;
+  text-indent: -1px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    Liberation Mono, Courier New, monospace;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  margin-left: -50px;
+  margin-top: -4px;
+  content: counter(step);
+}

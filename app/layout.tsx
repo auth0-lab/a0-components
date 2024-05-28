@@ -1,18 +1,16 @@
 import "./globals.css";
 
+import { GeistSans } from "geist/font/sans";
 import { Metadata } from "next";
-import { Inter } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import TopBar from "@/components/top-bar";
-import { getSession } from "@auth0/nextjs-auth0";
+import { SiteHeader } from "@/components/www/header";
+import { cn } from "@/lib/utils";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "A0 Components",
-  description: "A0 Components sample",
+  title: "Auth0 Lab - UI Components",
+  description: "UI Components",
 };
 
 export default async function RootLayout({
@@ -20,22 +18,33 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
-
   return (
     <html lang="en">
       <UserProvider>
-        <body className={inter.className}>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            GeistSans.className
+          )}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex-col md:flex">
-              {session && <TopBar user={session!.user} />}
-              <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
-            </div>
+            <SiteHeader />
+            {/* <div className="border-b">
+              <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+                <aside className="fixed top-14 z-30 -ml-2 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 md:sticky md:block">
+                  <ScrollArea className="h-full py-6 pr-6 lg:py-8">
+                    <DocsSidebarNav items={config.sidebarNav} />
+                  </ScrollArea>
+                </aside>
+                <main className="flex-1">{children}</main>
+              </div>
+            </div> */}
+            {children}
           </ThemeProvider>
         </body>
       </UserProvider>
