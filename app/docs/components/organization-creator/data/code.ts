@@ -13,16 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   Form,
   FormControl,
   FormDescription,
@@ -56,7 +46,6 @@ export type OrganizationCreationProps = {
 };
 
 type OrganizationCreateProps = {
-  triggerLabel?: string;
   customFields?: any[];
   schema?: any;
   defaultValues?: any;
@@ -77,9 +66,6 @@ type PageModeProps = BaseFormProps & {
   working: boolean;
   customFields?: any[];
 };
-
-type DialogModeProps = OrganizationCreateProps &
-  Omit<PageModeProps, "customFields">;
 
 const formSchemaBase = z.object({
   organization_name: z
@@ -148,61 +134,6 @@ function OrganizationForm({
   );
 }
 
-function DialogMode({
-  triggerLabel,
-  form,
-  working,
-  customFields,
-  onSubmit,
-}: DialogModeProps) {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button className="flex items-center justify-between gap-3 w-full block text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-          {triggerLabel}
-          <div className="RightSlot">+</div>
-        </button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Create Organization</DialogTitle>
-          <DialogDescription>
-            Creating a new organization will allow you to manage a separate
-            group with unique settings and resources.
-          </DialogDescription>
-        </DialogHeader>
-
-        <OrganizationForm
-          form={form}
-          onSubmit={onSubmit}
-          customFields={customFields}
-        >
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                disabled={working}
-                className="disabled:opacity-50"
-              >
-                Close
-              </Button>
-            </DialogClose>
-            <Button
-              type="submit"
-              disabled={working}
-              className="disabled:opacity-50"
-            >
-              {working && <Spinner />}
-              Create
-            </Button>
-          </DialogFooter>
-        </OrganizationForm>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 function PageMode({ form, working, customFields, onSubmit }: PageModeProps) {
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2">
@@ -247,7 +178,6 @@ function PageMode({ form, working, customFields, onSubmit }: PageModeProps) {
 }
 
 export default function OrganizationCreate({
-  triggerLabel,
   customFields,
   defaultValues,
   schema,
@@ -283,14 +213,7 @@ export default function OrganizationCreate({
     setWorking(false);
   }
 
-  return triggerLabel ? (
-    <DialogMode
-      triggerLabel={triggerLabel}
-      working={working}
-      form={form}
-      onSubmit={onSubmit}
-    />
-  ) : (
+  return (
     <PageMode
       working={working}
       form={form}

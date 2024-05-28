@@ -37,8 +37,8 @@ export const config = {
           items: [],
         },
         {
-          title: "Basic Info",
-          href: "/docs/components/basic-info",
+          title: "User Button",
+          href: "/docs/components/user-button",
           items: [],
         },
         {
@@ -47,13 +47,13 @@ export const config = {
           items: [],
         },
         {
-          title: "MFA Enrollment",
-          href: "/docs/components/mfa",
+          title: "Basic Info",
+          href: "/docs/components/basic-info",
           items: [],
         },
         {
-          title: "User Button",
-          href: "/docs/components/user-button",
+          title: "MFA Enrollment",
+          href: "/docs/components/mfa",
           items: [],
         },
         {

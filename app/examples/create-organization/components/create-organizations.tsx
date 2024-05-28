@@ -16,11 +16,11 @@ export function CreateOrganizationPage() {
   const { createOrganization } = useOrganizations();
 
   async function handleOnCreate(organization: OrganizationCreationProps) {
-    console.log(organization);
+    debugger;
+    const createdOrg = await createOrganization(organization);
 
-    await createOrganization(organization);
     return router.push(
-      `/api/auth/login?organization=${organization.id}&returnTo=${pathname}`
+      `/api/auth/login?organization=${createdOrg.id}&returnTo=${pathname}`
     );
   }
 

@@ -18,6 +18,7 @@ export default function OrganizationSwitcherPage() {
         <DocTabs align="start" code={componentUsage}>
           <div className="w-full max-w-[200px]">
             <OrganizationSwitcher
+              createOrganizationUrl="/docs/components/organization-switcher"
               user={{
                 given_name: "John",
                 family_name: "Doe",

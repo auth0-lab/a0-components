@@ -29,7 +29,37 @@ export default function Docs() {
             .
           </AlertDescription>
         </Alert>
-        Content
+        <div>
+          <p className="mb-6 leading-7">
+            Our goal is to deliver reusable UI components that help customers
+            build high-quality interfaces efficiently. These self-contained
+            pieces of code can be easily integrated into existing projects,
+            allowing for customization and extension as needed.
+          </p>
+          <div>
+            <ul className="list-disc ml-4">
+              <li className="leading-7">
+                <strong>Code ownership</strong>: Take ownership of the UI
+                components code, just like you would with any other code in
+                their project.
+              </li>
+              <li className="leading-7">
+                <strong>Customization</strong>: Modify the pre-built components
+                to fit your specific needs and branding. This might involve
+                changing colors, fonts, or layouts, or adding custom
+                functionality.
+              </li>
+              <li className="leading-7">
+                <strong>Integration</strong>: Integrage the UI components into
+                your existing codebase.
+              </li>
+              <li className="leading-7">
+                <strong>Version control</strong>: Manage the UI components code
+                alongside your codebase.
+              </li>
+            </ul>
+          </div>
+        </div>
       </PageLayout>
     </DocsLayout>
   );

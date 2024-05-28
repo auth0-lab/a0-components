@@ -19,8 +19,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import OrganizationCreate from "./organization-create";
-
 interface KeyValueMap {
   [key: string]: any;
 }
@@ -45,11 +43,6 @@ enum OrganizationTypeOfUsers {
 
 type SubtitleHandler = string | ((organization: any) => string);
 
-export enum CreateOrganizationMode {
-  Modal = "modal",
-  Navigation = "navigation",
-}
-
 interface OrganizationSwitcherProps extends PopoverTriggerProps {
   user: KeyValueMap;
   availableOrganizations: Organization[];
@@ -61,7 +54,6 @@ interface OrganizationSwitcherProps extends PopoverTriggerProps {
   personalAccountLabel?: string;
   addOrganizationLabel?: string;
   createOrganizationUrl?: string;
-  createOrganizationMode?: CreateOrganizationMode;
   returnTo?: string;
 }
 
@@ -76,7 +68,6 @@ export default function OrganizationSwitcher({
   personalAccountLabel = "Personal Account",
   addOrganizationLabel = "Add Organization",
   createOrganizationUrl,
-  createOrganizationMode = CreateOrganizationMode.Modal,
   returnTo = "/",
 }: OrganizationSwitcherProps) {
   const groups = [
@@ -146,7 +137,7 @@ export default function OrganizationSwitcher({
         <PopoverContent className="w-[200px] p-0">
           <Command>
             <CommandList>
-              <CommandInput placeholder={`Search ...`} />
+              <CommandInput placeholder="Search ..." />
               <CommandEmpty>
                 No {organizationsLabel.toLowerCase()} found.
               </CommandEmpty>
@@ -190,38 +181,24 @@ export default function OrganizationSwitcher({
               ))}
             </CommandList>
 
-            {createOrganizationMode === CreateOrganizationMode.Modal && (
+            {createOrganizationUrl && (
               <>
                 <CommandSeparator />
                 <CommandList>
                   <CommandGroup>
                     <CommandItem>
-                      <OrganizationCreate triggerLabel={addOrganizationLabel} />
+                      <a
+                        href={createOrganizationUrl}
+                        className="flex items-center justify-between gap-3 w-full block text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >
+                        {addOrganizationLabel}
+                        <div className="RightSlot">+</div>
+                      </a>
                     </CommandItem>
                   </CommandGroup>
                 </CommandList>
               </>
             )}
-
-            {createOrganizationUrl &&
-              createOrganizationMode === CreateOrganizationMode.Navigation && (
-                <>
-                  <CommandSeparator />
-                  <CommandList>
-                    <CommandGroup>
-                      <CommandItem>
-                        <a
-                          href={createOrganizationUrl}
-                          className="flex items-center justify-between gap-3 w-full block text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >
-                          {addOrganizationLabel}
-                          <div className="RightSlot">+</div>
-                        </a>
-                      </CommandItem>
-                    </CommandGroup>
-                  </CommandList>
-                </>
-              )}
           </Command>
         </PopoverContent>
       </Popover>

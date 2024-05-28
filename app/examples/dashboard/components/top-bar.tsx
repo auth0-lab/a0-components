@@ -6,9 +6,7 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { CLAIMS } from "@/lib/utils";
-import OrganizationSwitcher, {
-  CreateOrganizationMode,
-} from "@/registry/components/organization-switcher";
+import OrganizationSwitcher from "@/registry/components/organization-switcher";
 import UserButton from "@/registry/components/user-button";
 import { Claims } from "@auth0/nextjs-auth0";
 
@@ -20,12 +18,12 @@ export default function TopBar({ user }: { user: Claims }) {
       <div className="flex h-16 items-center px-4">
         <div className="w-[200px]">
           <OrganizationSwitcher
+            returnTo="/examples/dashboard"
             showBorder={false}
             user={user}
             availableOrganizations={user[CLAIMS.ORGANIZATIONS] || []}
             subtitle="Basic (individual)"
             personalAccountLabel="Individual Account"
-            createOrganizationMode={CreateOrganizationMode.Modal}
           />
         </div>
 

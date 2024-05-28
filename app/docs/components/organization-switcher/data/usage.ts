@@ -1,4 +1,5 @@
 export const componentUsage = `<OrganizationSwitcher
+  createOrganizationUrl="/docs/components/organization-switcher"
   user={{
     given_name: "John",
     family_name: "Doe",
