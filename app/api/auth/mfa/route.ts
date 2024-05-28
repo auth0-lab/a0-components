@@ -1,5 +1,4 @@
 import {
-  handleMFADeleteEnrollment,
   handleMFAFactorEnrollment,
   handleMFAFactorsList,
 } from "@/registry/routes/mfa";

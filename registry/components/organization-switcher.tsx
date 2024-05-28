@@ -1,10 +1,8 @@
 "use client";
 
 import { Check, ChevronsUpDown } from "lucide-react";
-import { usePathname } from "next/navigation";
 import * as React from "react";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -20,16 +18,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Claims } from "@auth0/nextjs-auth0";
 
 import OrganizationCreate from "./organization-create";
+
+interface KeyValueMap {
+  [key: string]: any;
+}
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
 >;
 
-type A0Organization = {
+type Organization = {
   id: string;
   name: string;
   display_name: string;
@@ -37,7 +37,7 @@ type A0Organization = {
 };
 
 // https://auth0.com/docs/manage-users/organizations/configure-organizations/define-organization-behavior
-export enum OrganizationTypeOfUsers {
+enum OrganizationTypeOfUsers {
   Deny = "deny",
   Require = "require",
   Allow = "allow",
@@ -51,36 +51,33 @@ export enum CreateOrganizationMode {
 }
 
 interface OrganizationSwitcherProps extends PopoverTriggerProps {
-  user: Claims;
-  organizationsClaim: string;
+  user: KeyValueMap;
+  availableOrganizations: Organization[];
   loginUrl?: string;
   typeOfUsers?: OrganizationTypeOfUsers;
   subtitle?: SubtitleHandler;
-
-  showAvatar?: boolean;
   showBorder?: boolean;
-
   organizationsLabel?: string;
   personalAccountLabel?: string;
   addOrganizationLabel?: string;
   createOrganizationUrl?: string;
   createOrganizationMode?: CreateOrganizationMode;
+  returnTo?: string;
 }
 
 export default function OrganizationSwitcher({
-  className,
   user,
-  organizationsClaim,
   loginUrl = "/api/auth/login",
   typeOfUsers = OrganizationTypeOfUsers.Allow,
   subtitle,
-  showAvatar = true,
   showBorder = true,
+  availableOrganizations,
   organizationsLabel = "Organizations",
   personalAccountLabel = "Personal Account",
   addOrganizationLabel = "Add Organization",
   createOrganizationUrl,
   createOrganizationMode = CreateOrganizationMode.Modal,
+  returnTo = "/",
 }: OrganizationSwitcherProps) {
   const groups = [
     {
@@ -96,7 +93,7 @@ export default function OrganizationSwitcher({
     },
     {
       label: organizationsLabel,
-      organizations: user[organizationsClaim].map((org: A0Organization) => ({
+      organizations: availableOrganizations.map((org: Organization) => ({
         type: "organization",
         label: org.display_name,
         value: org.id,
@@ -109,7 +106,6 @@ export default function OrganizationSwitcher({
     groups.shift();
   }
 
-  const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   const [selectedOrg, setSelectedOrg] = React.useState<
     (typeof groups)[number]["organizations"][number]
@@ -130,10 +126,9 @@ export default function OrganizationSwitcher({
             role="combobox"
             aria-expanded={open}
             aria-label="Select a team"
-            className={cn(
-              `w-full justify-between pr-1 pl-2 ${!showBorder && "border-0"}`,
-              className
-            )}
+            className={`w-full justify-between pr-1 pl-2 ${
+              !showBorder && "border-0"
+            }`}
           >
             <div className="flex flex-col items-start">
               <span className="text-sm">{selectedOrg.label}</span>
@@ -178,19 +173,14 @@ export default function OrganizationSwitcher({
                         <a
                           href={
                             org.type === "personal"
-                              ? `${loginUrl}?returnTo=${pathname}`
-                              : `${loginUrl}?organization=${org.value}&returnTo=${pathname}`
+                              ? `${loginUrl}?returnTo=${returnTo}`
+                              : `${loginUrl}?organization=${org.value}&returnTo=${returnTo}`
                           }
                           className="flex w-full flex items-center"
                         >
-                          {showAvatar && (
-                            <Avatar className="mr-2 h-5 w-5">
-                              <AvatarImage src={org.picture} alt={org.label} />
-                            </Avatar>
-                          )}
                           {org.label}
                           {selectedOrg.value === org.value && (
-                            <Check className={cn("ml-auto h-4 w-4")} />
+                            <Check className={"ml-auto h-4 w-4"} />
                           )}
                         </a>
                       </CommandItem>

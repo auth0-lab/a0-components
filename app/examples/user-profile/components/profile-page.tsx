@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 
+import { CLAIMS } from "@/lib/utils";
 import UserProfile from "@/registry/components/user-profile";
 import { Claims } from "@auth0/nextjs-auth0";
 
@@ -11,6 +12,7 @@ export function ProfilePage({ user }: { user: Claims }) {
   return (
     <UserProfile
       user={user}
+      userMetadata={user[CLAIMS.USER_METADATA]}
       metadataSchema={z.object({
         address: z
           .string()

@@ -1,8 +1,5 @@
 "use client";
 
-import { PostOrganizationsRequest } from "auth0";
-import { Loader2 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -37,7 +34,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export type OnPostOrganizationCreationProps = PostOrganizationsRequest & {
+export type OrganizationCreationProps = {
+  name: string;
+  display_name?: string;
+  branding?: {
+    logo_url?: string;
+    colors?: {
+      primary: string;
+      page_background: string;
+    };
+  };
+  metadata?: {
+    [key: string]: any;
+  };
+  enabled_connections?: Array<{
+    connection_id: string;
+    assign_membership_on_login?: boolean;
+    show_as_button?: boolean;
+  }>;
   id: string;
 };
 
@@ -46,9 +60,7 @@ type OrganizationCreateProps = {
   customFields?: any[];
   schema?: any;
   defaultValues?: any;
-  onPostOrganizationCreation?: (
-    organization: OnPostOrganizationCreationProps
-  ) => Promise<void>;
+  onCreate?: (organization: OrganizationCreationProps) => Promise<void>;
 };
 
 type BaseFormProps = {
@@ -82,6 +94,25 @@ const formSchemaBase = z.object({
       message: "Invalid organization name.",
     }),
 });
+
+function Spinner() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mr-2 animate-spin"
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+    </svg>
+  );
+}
 
 function OrganizationForm({
   form,
@@ -162,7 +193,7 @@ function DialogMode({
               disabled={working}
               className="disabled:opacity-50"
             >
-              {working && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {working && <Spinner />}
               Create
             </Button>
           </DialogFooter>
@@ -204,7 +235,7 @@ function PageMode({ form, working, customFields, onSubmit }: PageModeProps) {
                 disabled={working}
                 className="disabled:opacity-50"
               >
-                {working && <Loader2 size={17} className="mr-2 animate-spin" />}
+                {working && <Spinner />}
                 Create
               </Button>
             </div>
@@ -220,10 +251,8 @@ export default function OrganizationCreate({
   customFields,
   defaultValues,
   schema,
-  onPostOrganizationCreation,
+  onCreate,
 }: OrganizationCreateProps) {
-  const router = useRouter();
-  const pathname = usePathname();
   const [working, setWorking] = React.useState<boolean>(false);
   let formSchema: any = formSchemaBase;
 
@@ -242,27 +271,16 @@ export default function OrganizationCreate({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setWorking(true);
 
-    const res = await fetch("/api/auth/orgs", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: values.organization_name }),
-    });
-    const organization = (await res.json()) as OnPostOrganizationCreationProps;
-
     // TODO: better handling errors.
     try {
-      if (onPostOrganizationCreation) {
-        await onPostOrganizationCreation(organization);
+      if (typeof onCreate === "function") {
+        await onCreate(values);
       }
     } catch (e) {
       console.error(e);
     }
 
-    return router.push(
-      `/api/auth/login?organization=${organization.id}&returnTo=${pathname}`
-    );
+    setWorking(false);
   }
 
   return triggerLabel ? (

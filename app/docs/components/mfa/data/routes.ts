@@ -1,4 +1,8 @@
-import { ManagementClient } from "auth0";
+export const componentRoutes = [
+  {
+    name: "MFA router",
+    description: "Handles list, update and create enrollments.",
+    code: `import { ManagementClient } from "auth0";
 import { NextResponse } from "next/server";
 
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
@@ -101,4 +105,6 @@ export function handleMFADeleteEnrollment() {
       return NextResponse.json({ enrollmentId });
     }
   );
-}
+}`,
+  },
+];

@@ -47,7 +47,7 @@ export const config = {
           items: [],
         },
         {
-          title: "Multi-factor authentication",
+          title: "MFA Enrollment",
           href: "/docs/components/mfa",
           items: [],
         },

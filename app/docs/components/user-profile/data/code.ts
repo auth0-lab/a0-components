@@ -1,26 +1,58 @@
 export const componentCode = `"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CLAIMS } from "@/lib/utils";
-import { Claims } from "@auth0/nextjs-auth0";
 
-import { getAvatarFallback } from "../helpers";
+import useMfaForm from "../hooks/use-mfa-form";
+import useUserMedata from "../hooks/use-update-user-medata";
 import BasicInfoForm from "./basic-info-form";
 import MFAForm from "./mfa-form";
 import UserMetadataForm from "./user-metadata-form";
 
+interface KeyValueMap {
+  [key: string]: any;
+}
+
+type MfaEnrollment = {
+  name: string;
+  enabled: boolean;
+  enrollmentId?: string;
+};
+
+function getAvatarFallback(user: KeyValueMap) {
+  const givenName = user.given_name;
+  const familyName = user.family_name;
+  const nickname = user.nickname;
+  const name = user.name;
+
+  if (givenName && familyName) {
+    return \`\${givenName[0]}\${familyName[0]}\`;
+  }
+
+  if (nickname) {
+    return nickname[0];
+  }
+
+  return name[0];
+}
+
 export default function UserProfile({
   user,
+  userMetadata,
   metadataSchema,
+  factors,
 }: {
-  user: Claims;
+  user: KeyValueMap;
   metadataSchema: any;
+  userMetadata: KeyValueMap;
+  factors?: MfaEnrollment[];
 }) {
   const picture = user.picture;
-  const metadataDefaultValues = user[CLAIMS.USER_METADATA];
+  const metadataDefaultValues = userMetadata;
+  const { update } = useUserMedata(user);
+  const { fetchFactors, createEnrollment, deleteEnrollment } = useMfaForm();
 
   return (
-    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col">
+    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col w-full">
       <div className="flex flex-col items-center gap-3">
         <Avatar className="h-16 w-16">
           <AvatarImage src={picture} alt={picture} />
@@ -35,12 +67,17 @@ export default function UserProfile({
       <BasicInfoForm user={user} />
 
       <UserMetadataForm
-        user={user}
         schema={metadataSchema}
         defaultValues={metadataDefaultValues}
+        onSave={update}
       />
 
-      <MFAForm />
+      <MFAForm
+        factors={factors}
+        onFetch={fetchFactors}
+        onCreate={createEnrollment}
+        onDelete={deleteEnrollment}
+      />
     </div>
   );
 }`;

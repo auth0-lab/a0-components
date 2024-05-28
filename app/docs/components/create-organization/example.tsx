@@ -20,6 +20,9 @@ import OrganizationCreate from "@/registry/components/organization-create";
 export default function Example() {
   return (
     <OrganizationCreate
+      onCreate={async () => {
+        alert("Created!");
+      }}
       schema={z.object({
         plan: z.enum(["basic", "starter", "business"], {
           required_error: "You need to select a plan.",

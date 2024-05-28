@@ -1,7 +1,6 @@
 export const componentCode = `"use client";
 
-import { Loader2 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,74 +14,138 @@ import {
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
-import { factorsMapper } from "./lib/factors-mapper";
-import openPopupWindow from "./open-popup-window";
-
 type MfaEnrollment = {
   name: string;
   enabled: boolean;
   enrollmentId?: string;
 };
 
-export default function MFAForm({ factors }: { factors?: MfaEnrollment[] }) {
+interface IPopupWindow {
+  width: number;
+  height: number;
+  title: string;
+  url: string;
+  focus: boolean;
+  scrollbars: boolean;
+}
+
+const factorsMeta: {
+  [key: string]: any;
+} = {
+  sms: {
+    title: "Phone Message",
+    description: "Users will receive a phone message with a verification code",
+  },
+  "push-notification": {
+    title: "Push Notification using Auth0 Guardian",
+    description: "Provide a push notification using Auth0 Guardian.",
+  },
+  otp: {
+    title: "One-time Password",
+    description:
+      "Provide a one-time password using Google Authenticator or similar.",
+  },
+  email: {
+    title: "Email",
+    description:
+      "Users will receive an email message containing a verification code.",
+  },
+  duo: {
+    title: "Duo Security",
+    description: "Use your DUO account for Multi-factor Authentication.",
+  },
+  "webauthn-roaming": {
+    title: "WebAuthn with FIDO Security Keys",
+    description:
+      "Depending on your browser, you can use WebAuthn-compliant security keys (like FIDO2) as a second factor of authentication.",
+  },
+  "webauthn-platform": {
+    title: "WebAuthn with FIDO Device Biometrics",
+    description:
+      "Depending on your browser, you can use WebAuthn-compliant device biometrics as a second factor of authentication",
+  },
+  "recovery-code": {
+    title: "Recovery Code",
+    description:
+      "Provide a unique code that allows users to regain access to their account.",
+  },
+};
+
+function openPopupWindow(popupOptions: IPopupWindow): Window | null {
+  {
+    const dualScreenLeft =
+      window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+    const dualScreenTop =
+      window.screenTop !== undefined ? window.screenTop : window.screenY;
+
+    const width = window.innerWidth
+      ? window.innerWidth
+      : document.documentElement.clientWidth
+      ? document.documentElement.clientWidth
+      : screen.width;
+    const height = window.innerHeight
+      ? window.innerHeight
+      : document.documentElement.clientHeight
+      ? document.documentElement.clientHeight
+      : screen.height;
+
+    const systemZoom = width / window.screen.availWidth;
+    const left = (width - popupOptions.width) / 2 / systemZoom + dualScreenLeft;
+    const top = (height - popupOptions.height) / 2 / systemZoom + dualScreenTop;
+    const newWindow = window.open(
+      popupOptions.url,
+      popupOptions.title,
+      \`scrollbars=\${popupOptions.scrollbars ? "yes" : "no"},
+      width=\${popupOptions.width / systemZoom}, 
+      height=\${popupOptions.height / systemZoom}, 
+      top=\${top}, 
+      left=\${left}
+      \`
+    );
+    newWindow!.opener = null;
+    if (popupOptions.focus) {
+      newWindow!.focus();
+    }
+    return newWindow;
+  }
+}
+
+function Spinner() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mr-2 animate-spin"
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+    </svg>
+  );
+}
+
+export default function MFAForm({
+  factors,
+  onFetch,
+  onCreate,
+  onDelete,
+}: {
+  factors?: MfaEnrollment[];
+  onFetch: () => Promise<MfaEnrollment[]>;
+  onCreate: (factor: string) => Promise<{ ticket_url: string }>;
+  onDelete: (enrollmentId: string) => Promise<void>;
+}) {
   const [currentFactors, setCurrentFactors] = useState(factors || []);
   const [isEnrolling, setIsEnrolling] = useState<string | null>(null);
 
-  const fetchFactors = useCallback(async () => {
-    try {
-      const response = await fetch("/api/auth/mfa", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-
-      setCurrentFactors(data.filter((factor: any) => factor.enabled));
-
-      console.log(JSON.stringify(data.filter((factor: any) => factor.enabled)));
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  const createEnrollment = useCallback(async (factor: string) => {
-    try {
-      const response = await fetch("/api/auth/mfa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ factor }),
-      });
-      const data = await response.json();
-
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  const deleteEnrollment = useCallback(async (enrollmentId: string) => {
-    try {
-      const response = await fetch(\`/api/auth/mfa/\${enrollmentId}\`, {
-        method: "DELETE",
-      });
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!factors) {
-      fetchFactors();
-    }
-  }, [factors, fetchFactors]);
-
-  const handleEnrollment = (factor: string) => async () => {
+  const handleCreateEnrollment = (factor: string) => async () => {
     setIsEnrolling(factor);
-    const { ticket_url } = await createEnrollment(factor);
+    const { ticket_url } = await onCreate(factor);
 
     const enrollmentPopupWindow = openPopupWindow({
       url: ticket_url,
@@ -97,15 +160,23 @@ export default function MFAForm({ factors }: { factors?: MfaEnrollment[] }) {
       if (enrollmentPopupWindow && enrollmentPopupWindow.closed) {
         setIsEnrolling(null);
         clearInterval(timer);
-        fetchFactors();
+        setCurrentFactors(await onFetch());
       }
     }, 0);
   };
 
-  const handleRemoveEnrloment = (enrollmentId: string) => async () => {
-    await deleteEnrollment(enrollmentId);
-    fetchFactors();
+  const handleRemoveEnrollment = (enrollmentId: string) => async () => {
+    await onDelete(enrollmentId);
+    setCurrentFactors(await onFetch());
   };
+
+  useEffect(() => {
+    (async () => {
+      if (!factors) {
+        setCurrentFactors(await onFetch());
+      }
+    })();
+  }, [factors, onFetch]);
 
   return (
     <>
@@ -122,7 +193,7 @@ export default function MFAForm({ factors }: { factors?: MfaEnrollment[] }) {
             {currentFactors
               .filter((factor: any) => factor.enabled)
               .map((factor: any, idx: number) => {
-                const meta = factorsMapper[factor.name];
+                const meta = factorsMeta[factor.name];
 
                 return (
                   <>
@@ -150,14 +221,14 @@ export default function MFAForm({ factors }: { factors?: MfaEnrollment[] }) {
                           {meta.description}
                         </p>
                       </Label>
-                      <div
-                        className={\`flex space-x-24 items-center justify-end min-w-72\`}
-                      >
+                      <div className="flex space-x-24 items-center justify-end min-w-72">
                         {factor.enrollmentId ? (
                           <Button
                             className="h-fit"
                             variant="outline"
-                            onClick={handleRemoveEnrloment(factor.enrollmentId)}
+                            onClick={handleRemoveEnrollment(
+                              factor.enrollmentId
+                            )}
                           >
                             Remove
                           </Button>
@@ -165,12 +236,10 @@ export default function MFAForm({ factors }: { factors?: MfaEnrollment[] }) {
                           <Button
                             className="h-fit"
                             variant="default"
-                            onClick={handleEnrollment(factor.name)}
+                            onClick={handleCreateEnrollment(factor.name)}
                             disabled={isEnrolling === factor.name}
                           >
-                            {isEnrolling === factor.name && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
+                            {isEnrolling === factor.name && <Spinner />}
                             Enroll
                           </Button>
                         )}

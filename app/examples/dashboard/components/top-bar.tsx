@@ -22,9 +22,8 @@ export default function TopBar({ user }: { user: Claims }) {
           <OrganizationSwitcher
             showBorder={false}
             user={user}
-            organizationsClaim={CLAIMS.ORGANIZATIONS}
+            availableOrganizations={user[CLAIMS.ORGANIZATIONS] || []}
             subtitle="Basic (individual)"
-            showAvatar={false}
             personalAccountLabel="Individual Account"
             createOrganizationMode={CreateOrganizationMode.Modal}
           />

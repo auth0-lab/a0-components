@@ -1,6 +1,18 @@
 export const componentUsage = `<OrganizationSwitcher
-  user={user}
-  organizationsClaim={"https://sample.com/claims/organizations"}
+  user={{
+    given_name: "John",
+    family_name: "Doe",
+    nickname: "johndoe",
+    name: "John Doe",
+    email: "john.doe@acme.com",
+  }}
+  availableOrganizations={[
+    {
+      id: "org_xxxxxxxxxxx",
+      name: "acme",
+      display_name: "Acme",
+      picture: "https://cdn.auth0.com/avatars/b.png",
+    },
+  ]}
   subtitle="Basic (individual)"
-  personalAccountLabel="Individual Account"
 />`;

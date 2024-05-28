@@ -1,7 +1,4 @@
-export const componentCode = `import { LogOut } from "lucide-react";
-import Link from "next/link";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+export const componentCode = `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,17 +8,54 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Claims } from "@auth0/nextjs-auth0";
 
-import { getAvatarFallback } from "../helpers";
-import Badge from "./badge";
+interface KeyValueMap {
+  [key: string]: any;
+}
+
+function LogOut() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+      <polyline points="16 17 21 12 16 7"></polyline>
+      <line x1="21" x2="9" y1="12" y2="12"></line>
+    </svg>
+  );
+}
+
+function getAvatarFallback(user: KeyValueMap) {
+  const givenName = user.given_name;
+  const familyName = user.family_name;
+  const nickname = user.nickname;
+  const name = user.name;
+
+  if (givenName && familyName) {
+    return \`\${givenName[0]}\${familyName[0]}\`;
+  }
+
+  if (nickname) {
+    return nickname[0];
+  }
+
+  return name[0];
+}
 
 export default function UserButton({
   user,
   children,
   logoutUrl = "/api/auth/logout",
 }: {
-  user: Claims;
+  user: KeyValueMap;
   children?: React.ReactNode;
   logoutUrl?: string;
 }) {
@@ -59,21 +93,17 @@ export default function UserButton({
         {children && (
           <>
             <DropdownMenuSeparator />
-
             {children}
-
             <DropdownMenuSeparator />
           </>
         )}
 
         <DropdownMenuItem>
-          <Link href={resolvedLogoutUrl} className="flex gap-2 items-center">
-            <LogOut size={15} />
+          <a href={resolvedLogoutUrl} className="flex gap-2 items-center">
+            <LogOut />
             Log out
-          </Link>
+          </a>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <Badge />
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,4 +1,8 @@
-import { ManagementClient, PostOrganizationsRequest } from "auth0";
+export const componentRoutes = [
+  {
+    name: "Organizations router",
+    description: "The route can be used to create an organization.",
+    code: `import { ManagementClient, PostOrganizationsRequest } from "auth0";
 import { NextResponse } from "next/server";
 
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
@@ -59,4 +63,6 @@ export function handleOrganizationCreation(
       });
     }
   );
-}
+}`,
+  },
+];

@@ -2,9 +2,7 @@ import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
 import { DocTabs } from "@/components/www/tabs";
-import OrganizationSwitcher, {
-  CreateOrganizationMode,
-} from "@/registry/components/organization-switcher";
+import OrganizationSwitcher from "@/registry/components/organization-switcher";
 
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
@@ -26,18 +24,16 @@ export default function OrganizationSwitcherPage() {
                 nickname: "johndoe",
                 name: "John Doe",
                 email: "john.doe@acme.com",
-                "https://sample.com/claims/organizations": [
-                  {
-                    id: "org_M4xQQkzIDK5SXbAI",
-                    name: "acme",
-                    display_name: "Acme",
-                    picture: "https://cdn.auth0.com/avatars/b.png",
-                  },
-                ],
               }}
-              organizationsClaim={"https://sample.com/claims/organizations"}
+              availableOrganizations={[
+                {
+                  id: "org_xxxxxxxxxxx",
+                  name: "acme",
+                  display_name: "Acme",
+                  picture: "https://cdn.auth0.com/avatars/b.png",
+                },
+              ]}
               subtitle="Basic (individual)"
-              personalAccountLabel="Individual Account"
             />
           </div>
         </DocTabs>

@@ -1,4 +1,8 @@
-import { ManagementClient } from "auth0";
+export const componentRoutes = [
+  {
+    name: "UserMetadata router",
+    description: "Handles user metadata update.",
+    code: `import { ManagementClient } from "auth0";
 import { NextResponse } from "next/server";
 
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
@@ -25,4 +29,6 @@ export function handleUserMetadataUpdate() {
       return NextResponse.json(user_metadata);
     }
   );
-}
+}`,
+  },
+];
