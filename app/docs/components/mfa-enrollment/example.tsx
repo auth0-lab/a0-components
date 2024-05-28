@@ -1,6 +1,6 @@
 "use client";
 
-import MFAForm from "@/registry/components/mfa-form";
+import MFAEnrollment from "@/registry/components/mfa-enrollment";
 
 export function Example() {
   const factors = [
@@ -20,7 +20,7 @@ export function Example() {
   ];
 
   return (
-    <MFAForm
+    <MFAEnrollment
       factors={factors}
       onFetch={async () => {
         return factors;

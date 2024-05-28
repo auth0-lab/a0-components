@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 
-export default function useMfaForm() {
+export default function useMfaEnrollment() {
   const fetchFactors = useCallback(async () => {
     try {
       const response = await fetch("/api/auth/mfa", {

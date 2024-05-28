@@ -92,10 +92,13 @@ export function handleMFAFactorEnrollment() {
 export function handleMFADeleteEnrollment() {
   return withApiAuthRequired(
     async (request: Request, { params }: any): Promise<NextResponse> => {
+      const session = await getSession();
+      const user_id = session?.user.sub;
       const { enrollmentId }: { enrollmentId: string } = params;
 
-      await client.guardian.deleteGuardianEnrollment({
-        id: enrollmentId,
+      await client.users.deleteAuthenticationMethod({
+        id: user_id,
+        authentication_method_id: enrollmentId,
       });
 
       return NextResponse.json({ enrollmentId });

@@ -1,4 +1,4 @@
-export const componentUsage = `<MFAForm
+export const componentUsage = `<MFAEnrollment
   factors={factors}
   onFetch={async () => {
     return factors;

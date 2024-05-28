@@ -77,8 +77,8 @@ export default function CreateOrganizationPage() {
         </h2>
 
         <div className=" mb-12">
-          {componentHooks.map((hook) => (
-            <>
+          {componentHooks.map((hook, index) => (
+            <div key={index}>
               <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
                 {hook.name}
               </h3>
@@ -86,7 +86,7 @@ export default function CreateOrganizationPage() {
               <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
                 <Code language="bash" text={hook.code} />
               </div>
-            </>
+            </div>
           ))}
         </div>
 
@@ -105,8 +105,8 @@ export default function CreateOrganizationPage() {
         </h2>
 
         <div className=" mb-12">
-          {componentRoutes.map((hook) => (
-            <>
+          {componentRoutes.map((hook, index) => (
+            <div key={index}>
               <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
                 {hook.name}
               </h3>
@@ -114,7 +114,7 @@ export default function CreateOrganizationPage() {
               <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
                 <Code language="bash" text={hook.code} />
               </div>
-            </>
+            </div>
           ))}
         </div>
       </PageLayout>

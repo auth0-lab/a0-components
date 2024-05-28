@@ -53,7 +53,7 @@ export const config = {
         },
         {
           title: "MFA Enrollment",
-          href: "/docs/components/mfa",
+          href: "/docs/components/mfa-enrollment",
           items: [],
         },
         {

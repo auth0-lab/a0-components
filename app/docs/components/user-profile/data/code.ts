@@ -2,10 +2,10 @@ export const componentCode = `"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import useMfaForm from "../hooks/use-mfa-form";
+import useMfaEnrollment from "../hooks/use-mfa-enrollment";
 import useUserMedata from "../hooks/use-update-user-medata";
 import BasicInfoForm from "./basic-info-form";
-import MFAForm from "./mfa-form";
+import MFAEnrollment from "./mfa-enrollment";
 import UserMetadataForm from "./user-metadata-form";
 
 interface KeyValueMap {
@@ -49,7 +49,7 @@ export default function UserProfile({
   const picture = user.picture;
   const metadataDefaultValues = userMetadata;
   const { update } = useUserMedata(user);
-  const { fetchFactors, createEnrollment, deleteEnrollment } = useMfaForm();
+  const { fetchFactors, createEnrollment, deleteEnrollment } = useMfaEnrollment();
 
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col w-full">
@@ -72,7 +72,7 @@ export default function UserProfile({
         onSave={update}
       />
 
-      <MFAForm
+      <MFAEnrollment
         factors={factors}
         onFetch={fetchFactors}
         onCreate={createEnrollment}

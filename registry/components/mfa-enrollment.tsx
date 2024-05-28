@@ -1,4 +1,4 @@
-export const componentCode = `"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 
@@ -95,12 +95,12 @@ function openPopupWindow(popupOptions: IPopupWindow): Window | null {
     const newWindow = window.open(
       popupOptions.url,
       popupOptions.title,
-      \`scrollbars=\${popupOptions.scrollbars ? "yes" : "no"},
-      width=\${popupOptions.width / systemZoom}, 
-      height=\${popupOptions.height / systemZoom}, 
-      top=\${top}, 
-      left=\${left}
-      \`
+      `scrollbars=${popupOptions.scrollbars ? "yes" : "no"},
+      width=${popupOptions.width / systemZoom}, 
+      height=${popupOptions.height / systemZoom}, 
+      top=${top}, 
+      left=${left}
+      `
     );
     newWindow!.opener = null;
     if (popupOptions.focus) {
@@ -129,7 +129,7 @@ function Spinner() {
   );
 }
 
-export default function MFAForm({
+export default function MFAEnrollment({
   factors,
   onFetch,
   onCreate,
@@ -142,6 +142,9 @@ export default function MFAForm({
 }) {
   const [currentFactors, setCurrentFactors] = useState(factors || []);
   const [isEnrolling, setIsEnrolling] = useState<string | null>(null);
+  const [isRemovingEnrollment, setIsRemovingEnrollment] = useState<
+    string | null
+  >(null);
 
   const handleCreateEnrollment = (factor: string) => async () => {
     setIsEnrolling(factor);
@@ -166,8 +169,10 @@ export default function MFAForm({
   };
 
   const handleRemoveEnrollment = (enrollmentId: string) => async () => {
+    setIsRemovingEnrollment(enrollmentId);
     await onDelete(enrollmentId);
     setCurrentFactors(await onFetch());
+    setIsRemovingEnrollment(enrollmentId);
   };
 
   useEffect(() => {
@@ -229,7 +234,13 @@ export default function MFAForm({
                             onClick={handleRemoveEnrollment(
                               factor.enrollmentId
                             )}
+                            disabled={
+                              isRemovingEnrollment === factor.enrollmentId
+                            }
                           >
+                            {isRemovingEnrollment === factor.enrollmentId && (
+                              <Spinner />
+                            )}
                             Remove
                           </Button>
                         ) : (
@@ -253,4 +264,4 @@ export default function MFAForm({
       )}
     </>
   );
-}`;
+}

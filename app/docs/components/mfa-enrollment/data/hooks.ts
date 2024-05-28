@@ -1,12 +1,12 @@
 export const componentHooks = [
   {
-    name: "useMfaForm",
+    name: "useMfaEnrollment",
     description: "A hook to manage MFA enrollments.",
     code: `"use client";
 
 import { useCallback } from "react";
 
-export default function useMfaForm() {
+export default function useMfaEnrollment() {
   const fetchFactors = useCallback(async () => {
     try {
       const response = await fetch("/api/auth/mfa", {
