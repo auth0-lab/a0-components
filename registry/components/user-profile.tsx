@@ -6,6 +6,7 @@ import { Claims } from "@auth0/nextjs-auth0";
 
 import { getAvatarFallback } from "../helpers";
 import BasicInfoForm from "./basic-info-form";
+import useUpdateUserMedata from "./helpers/user-metadata";
 import MFAForm from "./mfa-form";
 import UserMetadataForm from "./user-metadata-form";
 
@@ -18,6 +19,7 @@ export default function UserProfile({
 }) {
   const picture = user.picture;
   const metadataDefaultValues = user[CLAIMS.USER_METADATA];
+  const updateUserMetadata = useUpdateUserMedata(user);
 
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col w-full">
@@ -35,9 +37,9 @@ export default function UserProfile({
       <BasicInfoForm user={user} />
 
       <UserMetadataForm
-        user={user}
         schema={metadataSchema}
         defaultValues={metadataDefaultValues}
+        onSave={updateUserMetadata}
       />
 
       <MFAForm />

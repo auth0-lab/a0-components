@@ -9,12 +9,8 @@ const languages = ["en-US", "es-AR"] as const;
 export function Example() {
   return (
     <UserMetadataForm
-      user={{
-        given_name: "John",
-        family_name: "Doe",
-        nickname: "johndoe",
-        name: "John Doe",
-        email: "john.doe@acme.com",
+      onSave={async () => {
+        alert("Saved!");
       }}
       schema={z.object({
         address: z.string(),

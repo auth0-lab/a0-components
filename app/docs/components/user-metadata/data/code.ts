@@ -1,7 +1,5 @@
 export const componentCode = `"use client";
 
-import { Loader2 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,20 +29,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Claims } from "@auth0/nextjs-auth0";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+interface KeyValueMap {
+  [key: string]: any;
+}
+
+function Spinner() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      className="lucide lucide-loader2 mr-2 animate-spin"
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+    </svg>
+  );
+}
+
 export default function UserMetadataForm({
-  user,
   schema,
   defaultValues,
+  onSave,
 }: {
-  user: Claims;
   schema: any;
-  defaultValues: any;
+  defaultValues: KeyValueMap;
+  onSave?: (values: KeyValueMap) => Promise<void>;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
   const [working, setWorking] = useState<boolean>(false);
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -54,25 +72,11 @@ export default function UserMetadataForm({
   async function onSubmit(values: z.infer<typeof schema>) {
     setWorking(true);
 
-    try {
-      await fetch("/api/auth/user/metadata", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (user.org_id) {
-        return router.push(
-          \`/api/auth/login?organization=\${user.org_id}&returnTo=\${pathname}\`
-        );
-      }
-
-      return router.push(\`/api/auth/login?returnTo=\${pathname}\`);
-    } catch (e) {
-      console.error(e);
+    if (typeof onSave === "function") {
+      await onSave(values);
     }
+
+    setWorking(false);
   }
 
   return (
@@ -152,7 +156,7 @@ export default function UserMetadataForm({
               disabled={working}
               className="disabled:opacity-50 ml-auto"
             >
-              {working && <Loader2 size={17} className="mr-2 animate-spin" />}
+              {working && <Spinner />}
               Save Preferences
             </Button>
           </CardFooter>

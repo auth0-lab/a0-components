@@ -1,5 +1,7 @@
-export const componentUsage = ` <UserMetadataForm
-  user={user}
+export const componentUsage = `<UserMetadataForm
+  onSave={async () => {
+    alert("Saved!");
+  }}
   schema={z.object({
     address: z.string(),
     job_title: z.string(),

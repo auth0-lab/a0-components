@@ -9,9 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Claims } from "@auth0/nextjs-auth0";
 
-export default function BasicInfoForm({ user }: { user: Claims }) {
+interface UserClaims {
+  [key: string]: any;
+}
+
+export default function BasicInfoForm({ user }: { user: UserClaims }) {
   const name = user.name;
   const email = user.email;
   const nickname = user.nickname;

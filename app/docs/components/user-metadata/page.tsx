@@ -5,6 +5,7 @@ import { DocTabs } from "@/components/www/tabs";
 
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
+import { componentHelpers } from "./data/helpers";
 import { componentUsage } from "./data/usage";
 import { Example } from "./example";
 
@@ -58,6 +59,36 @@ export default function UserProfile() {
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Update the import paths to match your project setup.
           </h3>
+        </div>
+
+        <h2
+          className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
+          id="installation"
+        >
+          <a
+            className="font-medium underline underline-offset-4 subheading-anchor"
+            aria-label="Link to section"
+            href="#installation"
+          >
+            <span className="icon icon-link"></span>
+          </a>
+          Helpers
+        </h2>
+
+        <div className=" mb-12">
+          {componentHelpers.map((helper) => (
+            <>
+              <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
+                {helper.name}
+              </h3>
+              <p>{helper.description}</p>
+              <div className="flex flex-col gap-2 mt-8">
+                {componentHelpers.map((helper, index) => (
+                  <Code key={index} language="bash" text={helper.code} />
+                ))}
+              </div>
+            </>
+          ))}
         </div>
       </PageLayout>
     </DocsLayout>
