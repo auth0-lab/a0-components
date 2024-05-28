@@ -11,5 +11,5 @@ export default withPageAuthRequired(
       </ExamplesLayout>
     );
   },
-  { returnTo: "/create/organization" }
+  { returnTo: "/examples/create-organization" }
 );

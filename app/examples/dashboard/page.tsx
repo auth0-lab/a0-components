@@ -11,5 +11,5 @@ export default withPageAuthRequired(
       </ExamplesLayout>
     );
   },
-  { returnTo: "/dashboard" }
+  { returnTo: "/examples/dashboard" }
 );

@@ -14,5 +14,5 @@ export default withPageAuthRequired(
       </ExamplesLayout>
     );
   },
-  { returnTo: "/profile" }
+  { returnTo: "/examples/user-profile" }
 );
