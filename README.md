@@ -1,6 +1,6 @@
 # Auth0 Lab / UI Components
 
-The UI Components are for experimentation and testing purposes only, not intended for production use. They are provided for evaluation in a non-commercial environment and may not remain available or be incorporated into the Auth0 platform. Use of these components is without support, and all questions should be directed to discussion groups.
+The UI components are an experimental Auth0Lab library. They might not remain available or be incorporated into the Auth0 platform. Use of these components is without support and all questions should be directed to the open source repository or the [Auth0Lab discord](https://discord.gg/QGHxwDsbQQ).
 
 ## Getting Started
 

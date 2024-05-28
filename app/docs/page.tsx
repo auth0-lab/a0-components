@@ -15,12 +15,18 @@ export default function Docs() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Important</AlertTitle>
           <AlertDescription>
-            The UI Components are for experimentation and testing purposes only,
-            not intended for production use. They are provided for evaluation in
-            a non-commercial environment and may not remain available or be
-            incorporated into the Auth0 platform. Use of these components is
-            without support, and all questions should be directed to discussion
-            groups.
+            The UI components are an experimental Auth0Lab library. They might
+            not remain available or be incorporated into the Auth0 platform. Use
+            of these components is without support and all questions should be
+            directed to the open source repository or the{" "}
+            <a
+              href="https://discord.gg/QGHxwDsbQQ"
+              target="_blank"
+              className="text-blue-700 underline"
+            >
+              Auth0Lab discord
+            </a>
+            .
           </AlertDescription>
         </Alert>
         Content

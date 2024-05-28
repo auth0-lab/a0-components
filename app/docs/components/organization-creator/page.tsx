@@ -14,7 +14,7 @@ export default function CreateOrganizationPage() {
   return (
     <DocsLayout>
       <PageLayout
-        title="Create Organization"
+        title="Organization Creator"
         description="Creates organizations quickly and easily, streamlining the process for admins and users."
       >
         <DocTabs align="start" code={componentUsage}>

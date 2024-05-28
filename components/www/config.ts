@@ -63,8 +63,8 @@ export const config = {
         },
 
         {
-          title: "Create organization",
-          href: "/docs/components/create-organization",
+          title: "Organization Creator",
+          href: "/docs/components/organization-creator",
           items: [],
         },
       ],
