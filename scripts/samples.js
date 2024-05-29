@@ -97,7 +97,7 @@ const data = {
   ],
 };
 
-async function main() {
+function main() {
   data.components.forEach((meta) => {
     const code = fs.readFileSync(meta.src, "utf8");
 
