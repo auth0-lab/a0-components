@@ -1,4 +1,4 @@
-import { handleOrganizationCreation } from "@/registry/routes/organizations";
+import { handleOrganizationCreation } from "@/registry/routers/organizations";
 
 export const POST = handleOrganizationCreation({
   enabled_connections: [

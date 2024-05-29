@@ -63,24 +63,58 @@ const data = {
       ],
     },
   ],
+  routers: [
+    {
+      destination: "./app/docs/components/mfa-enrollment/data/routers.ts",
+      collection: [
+        {
+          name: "MFA router",
+          description: "Handles list, update and create enrollments.",
+          src: "./registry/routers/mfa.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-creator/data/routers.ts",
+      collection: [
+        {
+          name: "Organizations router",
+          description: "The route can be used to create an organization.",
+          src: "./registry/routers/organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/user-metadata/data/routers.ts",
+      collection: [
+        {
+          name: "UserMetadata router",
+          description: "Handles user metadata update.",
+          src: "./registry/routers/user-metadata.ts",
+        },
+      ],
+    },
+  ],
 };
 
 async function main() {
   data.components.forEach((meta) => {
     const code = fs.readFileSync(meta.src, "utf8");
 
+    const componentCode = {
+      code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+    };
+
     fs.writeFileSync(
       meta.destination,
-      `export const componentCode = \`${code
-        .replace(/`/gi, "\\`")
-        .replace(/\${/gi, "\\${")}\`;`
+      `export const componentCode = ${JSON.stringify(componentCode, null, 2)};`
     );
 
     console.log(meta.src);
   });
 
   data.hooks.map((hookMeta) => {
-    let hooks = [];
+    const hooks = [];
     hookMeta.collection.forEach((meta) => {
       const code = fs.readFileSync(meta.src, "utf8");
 
@@ -96,6 +130,26 @@ async function main() {
     fs.writeFileSync(
       hookMeta.destination,
       `export const componentHooks = ${JSON.stringify(hooks, null, 2)};`
+    );
+  });
+
+  data.routers.map((routerMeta) => {
+    const routers = [];
+    routerMeta.collection.forEach((meta) => {
+      const code = fs.readFileSync(meta.src, "utf8");
+
+      routers.push({
+        name: meta.name,
+        description: meta.description,
+        code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+      });
+
+      console.log(meta.src);
+    });
+
+    fs.writeFileSync(
+      routerMeta.destination,
+      `export const componentRoutes = ${JSON.stringify(routers, null, 2)};`
     );
   });
 }

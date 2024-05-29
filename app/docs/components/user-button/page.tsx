@@ -80,7 +80,7 @@ export default function UserButtonPage() {
           </h3>
 
           <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
-            <Code text={componentCode} />
+            <Code text={componentCode.code} />
           </div>
 
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">

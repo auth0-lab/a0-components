@@ -1,7 +1,7 @@
 import {
   handleMFAFactorEnrollment,
   handleMFAFactorsList,
-} from "@/registry/routes/mfa";
+} from "@/registry/routers/mfa";
 
 export const GET = handleMFAFactorsList();
 

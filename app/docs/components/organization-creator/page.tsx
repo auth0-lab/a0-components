@@ -6,7 +6,7 @@ import { DocTabs } from "@/components/www/tabs";
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
 import { componentHooks } from "./data/hooks";
-import { componentRoutes } from "./data/routes";
+import { componentRoutes } from "./data/routers";
 import { componentUsage } from "./data/usage";
 import Example from "./example";
 
@@ -54,7 +54,7 @@ export default function CreateOrganizationPage() {
           </h3>
 
           <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
-            <Code text={componentCode} />
+            <Code text={componentCode.code} />
           </div>
 
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
@@ -101,7 +101,7 @@ export default function CreateOrganizationPage() {
           >
             <span className="icon icon-link"></span>
           </a>
-          NextJS route helpers
+          NextJS router helpers
         </h2>
 
         <div className=" mb-12">

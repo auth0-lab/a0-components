@@ -1,3 +1,3 @@
-import { handleMFADeleteEnrollment } from "@/registry/routes/mfa";
+import { handleMFADeleteEnrollment } from "@/registry/routers/mfa";
 
 export const DELETE = handleMFADeleteEnrollment();
