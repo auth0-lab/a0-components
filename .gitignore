@@ -7,6 +7,8 @@
 .yarn/install-state.gz
 
 /app/docs/components/**/data/code.ts
+/app/docs/components/**/data/hooks.ts
+/app/docs/components/**/data/routers.ts
 
 # testing
 /coverage
