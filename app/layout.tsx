@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { Metadata } from "next";
 
 import { SiteHeader } from "@/components/www/header";
+import { SiteFooter } from "@/components/www/site-footer";
 import { ThemeProvider } from "@/components/www/theme-provider";
 import { cn } from "@/lib/utils";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
@@ -35,6 +36,7 @@ export default async function RootLayout({
           >
             <SiteHeader />
             {children}
+            <SiteFooter />
           </ThemeProvider>
         </body>
       </UserProvider>

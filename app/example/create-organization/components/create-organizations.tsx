@@ -16,7 +16,6 @@ export function CreateOrganizationPage() {
   const { createOrganization } = useOrganizations();
 
   async function handleOnCreate(organization: OrganizationCreationProps) {
-    debugger;
     const createdOrg = await createOrganization(organization);
 
     return router.push(

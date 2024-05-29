@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 import { Card } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { config } from "@/components/www/config";
 import { DocsSidebarNav } from "@/components/www/sidebar-nav";
 import { cn } from "@/lib/utils";
@@ -24,35 +23,25 @@ export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const examples = [
-  {
-    name: "Dashboard",
-    href: "/examples/dashboard",
-  },
-  {
-    name: "User Profile",
-    href: "/examples/user-profile",
-  },
-  {
-    name: "Create Organization",
-    href: "/examples/create-organization",
-  },
-];
-
 export const ExamplesLayout = ({
   children,
   className,
+  isLoggedIn,
 }: {
   children: React.ReactNode;
   className?: string;
+  isLoggedIn?: boolean;
 }) => {
-  const pathname = usePathname();
-
   return (
-    <div className="container flex-1 items-start mb-10">
-      <section className="mx-auto flex max-w-[980px] flex-col items-center gap-2 py-8 md:py-12 md:pb-8 lg:py-24 lg:pb-20">
+    <div className="container flex-1 items-start border-b">
+      <section
+        className={cn(
+          "mx-auto flex max-w-[980px] flex-col items-center gap-2 py-8 md:py-12 lg:py-24",
+          isLoggedIn ? "md:pb-8 lg:pb-25" : "md:pb-4 lg:pb-10"
+        )}
+      >
         <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1] hidden md:block">
-          Check out examples
+          Live example
         </h1>
         <span
           className="max-w-[750px] text-center text-lg font-light text-foreground"
@@ -62,50 +51,50 @@ export const ExamplesLayout = ({
             display: "inline-block",
             verticalAlign: "top",
             textDecoration: "inherit",
-            maxWidth: "494px",
+            maxWidth: "650px",
           }}
         >
-          Dashboard, User Profile, and Create Organization examples, requiring
-          login to showcase their functionality.
+          {isLoggedIn ? (
+            <>
+              You&apos;re already logged in! Go ahead and explore the components
+              on the dashboard below, follow the{" "}
+              <span className="bg-purple-500 text-white px-2 rounded-sm">
+                purple dots
+              </span>
+              .
+            </>
+          ) : (
+            <>
+              After logging in, explore the components in action: experience how
+              User Profile, Organization Switcher, and more seamlessly integrate
+              with each other.
+            </>
+          )}
         </span>
-        <div className="flex w-full items-center justify-center space-x-4 py-4 md:pb-10">
-          <a
-            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 rounded-[6px]"
-            href="/docs"
-          >
-            Get Started
-          </a>
-          <a
-            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 rounded-[6px]"
-            href="/docs/components/user-profile"
-          >
-            Components
-          </a>
-        </div>
-      </section>
-      <div className="relative">
-        <ScrollArea className="max-w-[600px] lg:max-w-none">
-          <div className={cn("mb-4 flex items-center")}>
-            {examples.map((example, index) => (
-              <Link
-                href={example.href}
-                key={example.href}
-                className={cn(
-                  "flex h-7 items-center justify-center rounded-full px-4 text-center text-sm transition-colors hover:text-primary",
-                  pathname?.startsWith(example.href) ||
-                    (index === 0 && pathname === "/")
-                    ? "bg-muted font-medium text-primary"
-                    : "text-muted-foreground"
-                )}
-              >
-                {example.name}
-              </Link>
-            ))}
+        {!isLoggedIn && (
+          <div className="flex w-full items-center justify-center space-x-4 py-4 md:pb-10">
+            <a
+              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 rounded-[6px]"
+              href="/api/auth/login?returnTo=/example/dashboard"
+            >
+              Login to Start
+            </a>
           </div>
-          <ScrollBar orientation="horizontal" className="invisible" />
-        </ScrollArea>
-      </div>
-      <Card className={className}>{children}</Card>
+        )}
+      </section>
+      {!isLoggedIn && (
+        <div className="flex w-full items-center flex-col py-4 md:pb-10 gap-5 relative mb-10">
+          <Image
+            className="grayscale drop-shadow-2xl rounded-xl max-h-[450px] object-top object-cover rounded-b-none"
+            src="/dashboard.png"
+            alt="dashboard"
+            width={1336}
+            height={754}
+          />
+        </div>
+      )}
+
+      {isLoggedIn && <Card className="mb-10">{children}</Card>}
     </div>
   );
 };

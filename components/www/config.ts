@@ -4,7 +4,7 @@ export const config = {
     url: "https://lab.auth0.com/",
     links: {
       twitter: "https://twitter.com/Auth0Lab",
-      github: "https://github.com/auth0-lab",
+      github: "https://github.com/auth0-lab/a0-components",
     },
   },
   mainNav: [
