@@ -3,7 +3,7 @@ import { ChevronLeftIcon } from "lucide-react";
 import { ExamplesLayout } from "@/components/www/layouts";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import TopBar from "../dashboard/components/top-bar";
+import TopBar from "../components/top-bar";
 import { CreateOrganizationPage } from "./components/create-organizations";
 
 export default async function CreateOrganization() {

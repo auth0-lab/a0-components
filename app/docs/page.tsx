@@ -10,6 +10,7 @@ export default function Docs() {
       <PageLayout
         title="Introduction"
         description="UI components provide a solid foundation for developing robust and user-friendly identity-related features in applications."
+        experimental={false}
       >
         <Alert variant="warning" className="mb-5">
           <AlertCircle className="h-4 w-4" />

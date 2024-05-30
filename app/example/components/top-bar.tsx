@@ -13,7 +13,7 @@ import OrganizationSwitcher from "@/registry/components/organization-switcher";
 import UserButton from "@/registry/components/user-button";
 import { Claims } from "@auth0/nextjs-auth0";
 
-import { MainNav } from "./main-nav";
+import { MainNav } from "../dashboard/components/main-nav";
 
 export default function TopBar({ user }: { user: Claims }) {
   const [orgsDot, setOrgsDot] = useState(true);
@@ -33,8 +33,8 @@ export default function TopBar({ user }: { user: Claims }) {
         <div className="w-[200px] relative" onPointerDown={handleOrgsDot}>
           {orgsDot && (
             <span className="absolute flex h-3 w-3 left-0 mr-5 mt-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7a7afa] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#6666FF]"></span>
             </span>
           )}
 
@@ -58,8 +58,8 @@ export default function TopBar({ user }: { user: Claims }) {
         >
           {userDot && (
             <span className="absolute flex h-3 w-3 right-0 -mt-6 z-10">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7a7afa] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#6666FF]"></span>
             </span>
           )}
 

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+import TopBar from "@/app/example/components/top-bar";
 import {
   Card,
   CardContent,
@@ -10,9 +11,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getSession } from "@auth0/nextjs-auth0";
 
-import { Overview } from "../dashboard/components/overview";
-import { RecentSales } from "../dashboard/components/recent-sales";
-import TopBar from "../top-bar";
+import { Overview } from "./overview";
+import { RecentSales } from "./recent-sales";
 
 export const metadata: Metadata = {
   title: "Dashboard",

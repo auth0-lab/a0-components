@@ -3,14 +3,18 @@ import Balancer from "react-wrap-balancer";
 
 import { cn } from "@/lib/utils";
 
+import { Badge } from "../ui/badge";
+
 export default function PageLayout({
   title,
   description,
   children,
+  experimental = true,
 }: {
   title: string;
   description: string;
   children: React.ReactNode;
+  experimental?: boolean;
 }) {
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid">
@@ -23,9 +27,16 @@ export default function PageLayout({
           <div className="font-medium text-foreground">{title}</div>
         </div>
         <div className="space-y-2">
-          <h1 className={cn("scroll-m-20 text-4xl font-bold tracking-tight")}>
-            {title}
-          </h1>
+          <div className="flex flex-col items-left gap-2">
+            {experimental && (
+              <div>
+                <Badge className="bg-[#6666FF] rounded-sm">Experimental</Badge>
+              </div>
+            )}
+            <h1 className={cn("scroll-m-20 text-4xl font-bold tracking-tight")}>
+              {title}
+            </h1>
+          </div>
 
           <p className="text-lg text-muted-foreground">
             <Balancer>{description}</Balancer>
