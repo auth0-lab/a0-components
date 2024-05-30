@@ -16,7 +16,7 @@ export function SiteFooter() {
             <Link
               href={config.common.links.github}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               <div
                 className={cn(
@@ -33,7 +33,7 @@ export function SiteFooter() {
             <Link
               href={config.common.links.twitter}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               <div
                 className={cn(

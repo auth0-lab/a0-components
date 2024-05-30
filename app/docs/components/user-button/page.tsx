@@ -1,9 +1,4 @@
-import {
-  DropdownMenu,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
 import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
@@ -62,10 +57,7 @@ export default function UserButtonPage() {
         </h2>
 
         <div className="steps mb-12 ml-4 border-l pl-8 [counter-reset:step]">
-          <h3
-            className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight"
-            data-count="5"
-          >
+          <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Install the following dependencies:
           </h3>
 

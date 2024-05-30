@@ -1,3 +1,5 @@
+import Balancer from "react-wrap-balancer";
+
 import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
@@ -36,10 +38,7 @@ export default function UserProfile() {
         </h2>
 
         <div className="steps mb-12 ml-4 border-l pl-8 [counter-reset:step]">
-          <h3
-            className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight"
-            data-count="5"
-          >
+          <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Install the following dependencies:
           </h3>
 
@@ -58,22 +57,59 @@ export default function UserProfile() {
           </div>
 
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
+            Component behavior
+          </h3>
+
+          <div className="flex flex-col gap-2 mt-8 overflow-y-auto max-w-[680px]">
+            <p className="text-md text-muted-foreground text-gray-500">
+              <Balancer>
+                By design, our components provide basic behavior without making
+                any requests to the Auth0 Management API. To help you implement
+                the full feature, we&apos;ve also included{" "}
+                <a
+                  href="#react-hooks"
+                  className="text-blue-700 hover:underline"
+                >
+                  React Hooks
+                </a>{" "}
+                and{" "}
+                <a
+                  href="#nextjs-routers"
+                  className="text-blue-700 hover:underline"
+                >
+                  NextJS routers
+                </a>{" "}
+                for calling and proxying the{" "}
+                <a
+                  href="https://auth0.com/docs/api/management/v2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-700 hover:underline"
+                >
+                  Auth0 Management API
+                </a>
+                .
+              </Balancer>
+            </p>
+          </div>
+
+          <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Update the import paths to match your project setup.
           </h3>
         </div>
 
         <h2
           className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
-          id="installation"
+          id="react-hooks"
         >
           <a
             className="font-medium underline underline-offset-4 subheading-anchor"
             aria-label="Link to section"
-            href="#installation"
+            href="#react-hooks"
           >
             <span className="icon icon-link"></span>
           </a>
-          Hooks
+          React Hooks
         </h2>
 
         <div className=" mb-12">
@@ -92,16 +128,16 @@ export default function UserProfile() {
 
         <h2
           className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
-          id="installation"
+          id="nextjs-routers"
         >
           <a
             className="font-medium underline underline-offset-4 subheading-anchor"
             aria-label="Link to section"
-            href="#installation"
+            href="#nextjs-routers"
           >
             <span className="icon icon-link"></span>
           </a>
-          NextJS router helpers
+          NextJS routers
         </h2>
 
         <div className=" mb-12">

@@ -11,7 +11,8 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 export const metadata: Metadata = {
   title: "Auth0 Lab - UI Components",
-  description: "UI Components",
+  description:
+    "UI components provide a solid foundation for developing robust and user-friendly identity-related features in applications.",
 };
 
 export default async function RootLayout({

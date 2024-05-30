@@ -4,13 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
@@ -129,17 +123,19 @@ function Spinner() {
   );
 }
 
+type MFAEnrollmentProps = {
+  factors?: MfaEnrollment[];
+  onFetch: () => Promise<MfaEnrollment[]>;
+  onCreate: (factor: string) => Promise<{ ticket_url: string }>;
+  onDelete: (enrollmentId: string) => Promise<void>;
+};
+
 export default function MFAEnrollment({
   factors,
   onFetch,
   onCreate,
   onDelete,
-}: {
-  factors?: MfaEnrollment[];
-  onFetch: () => Promise<MfaEnrollment[]>;
-  onCreate: (factor: string) => Promise<{ ticket_url: string }>;
-  onDelete: (enrollmentId: string) => Promise<void>;
-}) {
+}: MFAEnrollmentProps) {
   const [currentFactors, setCurrentFactors] = useState(factors || []);
   const [isEnrolling, setIsEnrolling] = useState<string | null>(null);
   const [isRemovingEnrollment, setIsRemovingEnrollment] = useState<

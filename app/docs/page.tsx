@@ -13,17 +13,26 @@ export default function Docs() {
         experimental={false}
       >
         <Alert variant="warning" className="mb-5">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Important</AlertTitle>
-          <AlertDescription>
-            The UI components are an experimental Auth0Lab library. They might
-            not remain available or be incorporated into the Auth0 platform. Use
-            of these components is without support and all questions should be
-            directed to the open source{" "}
+          <AlertCircle className="h-4 w-4 mt-1" />
+          <AlertTitle className="mb-3 mt-1">Important</AlertTitle>
+          <AlertDescription className="text-md">
+            The UI components are an experimental{" "}
+            <a
+              href="https://lab.auth0.com/"
+              target="_blank"
+              className="text-blue-700 hover:underline"
+              rel="noopener noreferrer"
+            >
+              Auth0Lab
+            </a>{" "}
+            library. They might not remain available or be incorporated into the
+            Auth0 platform. Use of these components is without support and all
+            questions should be directed to the open source{" "}
             <a
               href="https://github.com/auth0-lab/a0-components"
               target="_blank"
-              className="text-blue-700 underline"
+              className="text-blue-700 hover:underline"
+              rel="noopener noreferrer"
             >
               repository
             </a>{" "}
@@ -31,7 +40,8 @@ export default function Docs() {
             <a
               href="https://discord.gg/QGHxwDsbQQ"
               target="_blank"
-              className="text-blue-700 underline"
+              className="text-blue-700 hover:underline"
+              rel="noopener noreferrer"
             >
               Auth0Lab discord
             </a>

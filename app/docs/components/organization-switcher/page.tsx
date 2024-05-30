@@ -54,10 +54,7 @@ export default function OrganizationSwitcherPage() {
         </h2>
 
         <div className="steps mb-12 ml-4 border-l pl-8 [counter-reset:step]">
-          <h3
-            className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight"
-            data-count="5"
-          >
+          <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Install the following dependencies:
           </h3>
 

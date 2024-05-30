@@ -12,7 +12,11 @@ export function SiteHeader() {
         <MainNav />
         <div className="flex items-center justify-between space-x-2 md:justify-end">
           <nav className="flex items-center">
-            <Link href={config.common.url} target="_blank" rel="noreferrer">
+            <Link
+              href={config.common.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Icons.logo className="h-6 w-6" />
             </Link>
           </nav>
