@@ -96,9 +96,9 @@ function openPopupWindow(popupOptions: IPopupWindow): Window | null {
       popupOptions.url,
       popupOptions.title,
       `scrollbars=${popupOptions.scrollbars ? "yes" : "no"},
-      width=${popupOptions.width / systemZoom}, 
-      height=${popupOptions.height / systemZoom}, 
-      top=${top}, 
+      width=${popupOptions.width / systemZoom},
+      height=${popupOptions.height / systemZoom},
+      top=${top},
       left=${left}
       `
     );
@@ -201,7 +201,7 @@ export default function MFAEnrollment({
                 const meta = factorsMeta[factor.name];
 
                 return (
-                  <>
+                  <div key={`${meta.name}-${idx}`}>
                     {idx > 0 && <Separator />}
                     <div
                       key={factor.name}
@@ -256,7 +256,7 @@ export default function MFAEnrollment({
                         )}
                       </div>
                     </div>
-                  </>
+                  </div>
                 );
               })}
           </CardContent>

@@ -25,11 +25,9 @@ export const DocsLayout = ({ children }: { children: React.ReactNode }) => {
 
 export const ExamplesLayout = ({
   children,
-  className,
   isLoggedIn,
 }: {
   children: React.ReactNode;
-  className?: string;
   isLoggedIn?: boolean;
 }) => {
   return (
@@ -85,11 +83,11 @@ export const ExamplesLayout = ({
       {!isLoggedIn && (
         <div className="flex w-full items-center flex-col py-4 md:pb-10 gap-5 relative mb-10">
           <Image
-            className="grayscale drop-shadow-2xl rounded-xl max-h-[450px] object-top object-cover rounded-b-none"
+            className="grayscale drop-shadow-2xl rounded-xl"
             src="/dashboard.png"
             alt="dashboard"
-            width={1336}
-            height={754}
+            width={1000}
+            height={614}
           />
         </div>
       )}
