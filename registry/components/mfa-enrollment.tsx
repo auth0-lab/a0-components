@@ -201,7 +201,10 @@ export default function MFAEnrollment({
                 const meta = factorsMeta[factor.name];
 
                 return (
-                  <div key={`${meta.name}-${idx}`}>
+                  <div
+                    key={`${meta.name}-${idx}`}
+                    className="flex flex-col gap-6"
+                  >
                     {idx > 0 && <Separator />}
                     <div
                       key={factor.name}
@@ -229,7 +232,7 @@ export default function MFAEnrollment({
                       <div className="flex space-x-24 items-center justify-end min-w-72">
                         {factor.enrollmentId ? (
                           <Button
-                            className="h-fit"
+                            className="h-fit min-w-24"
                             variant="outline"
                             onClick={handleRemoveEnrollment(
                               factor.enrollmentId
@@ -245,7 +248,7 @@ export default function MFAEnrollment({
                           </Button>
                         ) : (
                           <Button
-                            className="h-fit"
+                            className="h-fit min-w-24"
                             variant="default"
                             onClick={handleCreateEnrollment(factor.name)}
                             disabled={isEnrolling === factor.name}

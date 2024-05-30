@@ -2,7 +2,7 @@
 
 ## Disclaimer
 
-The UI components are an experimental Auth0Lab library. They might not remain available or be incorporated into the Auth0 platform. Use of these components is without support and all questions should be directed to the open source repository or the [Auth0Lab discord](https://discord.gg/QGHxwDsbQQ).
+The UI components are an experimental Auth0Lab library. They might not remain available or be incorporated into the Auth0 platform. Use of these components is without support and all questions should be directed to the open source [repository](https://github.com/auth0-lab/a0-components) or the [Auth0Lab discord](https://discord.gg/QGHxwDsbQQ).
 
 ## Getting Started
 

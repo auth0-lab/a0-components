@@ -19,7 +19,15 @@ export default function Docs() {
             The UI components are an experimental Auth0Lab library. They might
             not remain available or be incorporated into the Auth0 platform. Use
             of these components is without support and all questions should be
-            directed to the open source repository or the{" "}
+            directed to the open source{" "}
+            <a
+              href="https://github.com/auth0-lab/a0-components"
+              target="_blank"
+              className="text-blue-700 underline"
+            >
+              repository
+            </a>{" "}
+            or the{" "}
             <a
               href="https://discord.gg/QGHxwDsbQQ"
               target="_blank"
