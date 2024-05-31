@@ -1,6 +1,7 @@
 export const componentUsage = `<OrganizationCreate
   onCreate={async () => {
     alert("Created!");
+    return { status: 200 };
   }}
   schema={z.object({
     plan: z.enum(["basic", "starter", "business"], {
