@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
 
 import OrganizationCreate, {
-  OrganizationCreationProps,
+  OrganizationCreationResponse,
 } from "@/registry/components/organization-create";
 import useOrganizations from "@/registry/hooks/use-organizations";
 
@@ -15,12 +15,16 @@ export function CreateOrganizationPage() {
   const pathname = usePathname();
   const { createOrganization } = useOrganizations();
 
-  async function handleOnCreate(organization: OrganizationCreationProps) {
-    const createdOrg = await createOrganization(organization);
+  async function handleOnCreate(organization: OrganizationCreationResponse) {
+    const response = await createOrganization(organization);
 
-    return router.push(
-      `/api/auth/login?organization=${createdOrg.id}&returnTo=${pathname}`
-    );
+    if (response.organization) {
+      router.push(
+        `/api/auth/login?organization=${response.organization.id}&returnTo=${pathname}`
+      );
+    }
+
+    return response;
   }
 
   return (

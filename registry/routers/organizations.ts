@@ -32,33 +32,46 @@ export function handleOrganizationCreation(
 ) {
   return withRateLimit(
     withApiAuthRequired(async (request: Request): Promise<NextResponse> => {
-      const session = await getSession();
-      const userId = session?.user.sub;
-      const body: PostOrganizationsRequest = await request.json();
-      const postOrganization: PostOrganizationsRequest = {
-        name: body.name,
-      };
+      try {
+        const session = await getSession();
+        const userId = session?.user.sub;
+        const body: PostOrganizationsRequest = await request.json();
+        const postOrganization: PostOrganizationsRequest = {
+          name: body.name,
+        };
 
-      if (params && params.enabled_connections) {
-        postOrganization.enabled_connections = params.enabled_connections;
+        if (params && params.enabled_connections) {
+          postOrganization.enabled_connections = params.enabled_connections;
+        }
+
+        // Create organization
+        const { data: organization } = await client.organizations.create(
+          postOrganization
+        );
+
+        // Add current user to new organization
+        await client.organizations.addMembers(
+          { id: organization.id },
+          { members: [userId] }
+        );
+
+        return NextResponse.json(
+          {
+            id: organization.id,
+            name: organization.name,
+            display_name: organization.display_name,
+          },
+          {
+            status: 200,
+          }
+        );
+      } catch (error) {
+        console.error(error);
+        return NextResponse.json(
+          { error: "Error creating organization" },
+          { status: 500 }
+        );
       }
-
-      // Create organization
-      const { data: organization } = await client.organizations.create(
-        postOrganization
-      );
-
-      // Add current user to new organization
-      await client.organizations.addMembers(
-        { id: organization.id },
-        { members: [userId] }
-      );
-
-      return NextResponse.json({
-        id: organization.id,
-        name: organization.name,
-        display_name: organization.display_name,
-      });
     })
   );
 }

@@ -22,9 +22,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export type OrganizationCreationProps = {
+export type OrganizationCreationResponse = {
   name: string;
   display_name?: string;
   branding?: {
@@ -49,7 +51,10 @@ type OrganizationCreateProps = {
   customFields?: any[];
   schema?: any;
   defaultValues?: any;
-  onCreate?: (organization: OrganizationCreationProps) => Promise<void>;
+  onCreate?: (organization: OrganizationCreationResponse) => Promise<{
+    organization?: OrganizationCreationResponse;
+    status: number;
+  }>;
 };
 
 type BaseFormProps = {
@@ -183,6 +188,7 @@ export default function OrganizationCreate({
   schema,
   onCreate,
 }: OrganizationCreateProps) {
+  const { toast } = useToast();
   const [working, setWorking] = React.useState<boolean>(false);
   let formSchema: any = formSchemaBase;
 
@@ -201,24 +207,31 @@ export default function OrganizationCreate({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setWorking(true);
 
-    // TODO: better handling errors.
-    try {
-      if (typeof onCreate === "function") {
-        await onCreate(values);
+    if (typeof onCreate === "function") {
+      const response = await onCreate(values);
+
+      if (response.status !== 200) {
+        setWorking(false);
+        return toast({
+          title: "Info",
+          description:
+            "There was a problem creating the organization. Try again later.",
+        });
       }
-    } catch (e) {
-      console.error(e);
     }
 
     setWorking(false);
   }
 
   return (
-    <PageMode
-      working={working}
-      form={form}
-      onSubmit={onSubmit}
-      customFields={customFields}
-    />
+    <>
+      <Toaster />
+      <PageMode
+        working={working}
+        form={form}
+        onSubmit={onSubmit}
+        customFields={customFields}
+      />
+    </>
   );
 }
