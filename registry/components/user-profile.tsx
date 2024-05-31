@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import useMfaEnrollment from "../hooks/use-mfa-enrollment";
-import useUserMedata from "../hooks/use-user-medata";
+import useUserMetadata from "../hooks/use-user-metadata";
 import BasicInfoForm from "./basic-info-form";
 import MFAEnrollment from "./mfa-enrollment";
 import UserMetadata from "./user-metadata";
@@ -48,7 +48,7 @@ export default function UserProfile({
 }) {
   const picture = user.picture;
   const metadataDefaultValues = userMetadata;
-  const { update } = useUserMedata(user);
+  const { update } = useUserMetadata(user);
   const { fetchFactors, createEnrollment, deleteEnrollment } =
     useMfaEnrollment();
 

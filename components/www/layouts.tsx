@@ -57,9 +57,9 @@ export const ExamplesLayout = ({
               You&apos;re already logged in! Go ahead and explore the components
               on the dashboard below, follow the{" "}
               <span className="bg-[#6666FF] text-white px-2 py-[2px] rounded-sm">
-                purple dots
-              </span>
-              .
+                purple
+              </span>{" "}
+              dots.
             </>
           ) : (
             <>

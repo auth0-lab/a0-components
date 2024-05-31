@@ -4,6 +4,7 @@ import Balancer from "react-wrap-balancer";
 import { cn } from "@/lib/utils";
 
 import { Badge } from "../ui/badge";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function PageLayout({
   title,
@@ -17,7 +18,7 @@ export default function PageLayout({
   experimental?: boolean;
 }) {
   return (
-    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid">
+    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_200px]">
       <div className="mx-auto w-full min-w-0">
         <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
           <div className="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -30,7 +31,9 @@ export default function PageLayout({
           <div className="flex flex-col items-left gap-2">
             {experimental && (
               <div>
-                <Badge className="bg-[#6666FF] rounded-sm">Experimental</Badge>
+                <Badge className="bg-[#6666FF] rounded-sm hover:bg-[#6666FF]">
+                  Experimental
+                </Badge>
               </div>
             )}
             <h1 className={cn("scroll-m-20 text-4xl font-bold tracking-tight")}>

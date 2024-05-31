@@ -23,15 +23,15 @@ export function Example() {
     <MFAEnrollment
       factors={factors}
       onFetch={async () => {
-        return factors;
+        return { factors, status: 200 };
       }}
       onCreate={async (factor: string) => {
         alert(`Create ${factor}`);
-
-        return { ticket_url: "https://auth0.com" };
+        return { enrollment: { ticket_url: "https://auth0.com" }, status: 200 };
       }}
       onDelete={async (enrollmentId: string) => {
         alert(`Delete ${enrollmentId}`);
+        return { status: 200 };
       }}
     />
   );

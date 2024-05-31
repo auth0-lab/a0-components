@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
+import { withRateLimit } from "./helpers/rate-limit";
+
 const client = new ManagementClient({
   domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
   clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
@@ -28,8 +30,8 @@ type HandleOrganizationCreationParams = Pick<
 export function handleOrganizationCreation(
   params?: HandleOrganizationCreationParams
 ) {
-  return withApiAuthRequired(
-    async (request: Request): Promise<NextResponse> => {
+  return withRateLimit(
+    withApiAuthRequired(async (request: Request): Promise<NextResponse> => {
       const session = await getSession();
       const userId = session?.user.sub;
       const body: PostOrganizationsRequest = await request.json();
@@ -57,6 +59,6 @@ export function handleOrganizationCreation(
         name: organization.name,
         display_name: organization.display_name,
       });
-    }
+    })
   );
 }

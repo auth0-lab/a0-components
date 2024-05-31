@@ -38,7 +38,7 @@ const data = {
         {
           name: "useMfaEnrollment",
           description: "A hook to manage MFA enrollments.",
-          src: "./registry/hooks/use-mfa-enrollment.ts",
+          src: "./registry/hooks/use-mfa-enrollment.tsx",
         },
       ],
     },
@@ -56,9 +56,9 @@ const data = {
       destination: "./app/docs/components/user-metadata/data/hooks.ts",
       collection: [
         {
-          name: "useUserMedata",
+          name: "useUserMetadata",
           description: "A hook to update the user metadata.",
-          src: "./registry/hooks/use-user-medata.ts",
+          src: "./registry/hooks/use-user-metadata.ts",
         },
       ],
     },

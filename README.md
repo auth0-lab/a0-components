@@ -37,20 +37,30 @@ The code for the UI components, React hooks and NextJS routers can be found at [
 For running the live example, you'll need to have the following values in your `.env.local`.
 
 ```bash
-AUTH0_SECRET='xxxxxxxxx'
+# A long, secret value used to encrypt the session cookie
+AUTH0_SECRET='LONG_RANDOM_VALUE'
+# The base url of your application
 AUTH0_BASE_URL='http://localhost:3000'
-AUTH0_ISSUER_BASE_URL='https://{TENANT_DOMAIN}'
-
-# Web application client
-AUTH0_CLIENT_ID='xxxxxxxxx'
-AUTH0_CLIENT_SECRET='xxxxxxxxx'
-
-# Auth0 Management API Client
-AUTH0_CLIENT_ID_MGMT="xxxxxxxxx"
-AUTH0_CLIENT_SECRET_MGMT="xxxxxxxxx"
-
+# The url of your Auth0 tenant domain
+AUTH0_ISSUER_BASE_URL='https://YOUR_AUTH0_DOMAIN.auth0.com'
+# Your Auth0 application's Client ID
+AUTH0_CLIENT_ID='YOUR_AUTH0_CLIENT_ID'
+# Your Auth0 application's Client Secret
+AUTH0_CLIENT_SECRET='YOUR_AUTH0_CLIENT_SECRET'
+# Auth0 Management API Client ID
+AUTH0_CLIENT_ID_MGMT="YOUR_AUTH0_MGMT_CLIENT_ID"
+# Auth0 Management API Client SECRET
+AUTH0_CLIENT_SECRET_MGMT="YOUR_AUTH0_MGMT_CLIENT_SECRET"
 # Default connection when creating organizations
 ORGANIZATIONS_ENABLED_CONNECTION="con_xxxxxxxxx"
+# Token for LRU cache
+LRU_CACHE_TOKEN="CACHE_TOKEN"
+```
+
+You can execute the following command to generate a suitable string for the `AUTH0_SECRET` value:
+
+```bash
+node -e "console.log(crypto.randomBytes(32).toString('hex'))"
 ```
 
 ## License

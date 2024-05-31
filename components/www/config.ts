@@ -7,16 +7,6 @@ export const config = {
       github: "https://github.com/auth0-lab/a0-components",
     },
   },
-  mainNav: [
-    {
-      title: "Documentation",
-      href: "/docs",
-    },
-    {
-      title: "Components",
-      href: "/docs/components/accordion",
-    },
-  ],
   sidebarNav: [
     {
       title: "Getting Started",
@@ -24,7 +14,10 @@ export const config = {
         {
           title: "Introduction",
           href: "/docs",
-          items: [],
+        },
+        {
+          title: "Rate Limit",
+          href: "/docs/rate-limit",
         },
       ],
     },
@@ -34,38 +27,31 @@ export const config = {
         {
           title: "User Profile",
           href: "/docs/components/user-profile",
-          items: [],
         },
         {
           title: "User Button",
           href: "/docs/components/user-button",
-          items: [],
         },
         {
           title: "User Metadata",
           href: "/docs/components/user-metadata",
-          items: [],
         },
         {
           title: "Basic Info",
           href: "/docs/components/basic-info",
-          items: [],
         },
         {
           title: "MFA Enrollment",
           href: "/docs/components/mfa-enrollment",
-          items: [],
         },
         {
           title: "Organization Switcher",
           href: "/docs/components/organization-switcher",
-          items: [],
         },
 
         {
           title: "Organization Creator",
           href: "/docs/components/organization-creator",
-          items: [],
         },
       ],
     },

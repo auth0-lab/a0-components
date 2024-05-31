@@ -1,18 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
 type MfaEnrollment = {
   name: string;
   enabled: boolean;
   enrollmentId?: string;
 };
+
+type CreateEnrollmentResponse = { ticket_url: string };
+
+type DeleteEnrollmentResponse = { id: string };
 
 interface IPopupWindow {
   width: number;
@@ -125,9 +137,15 @@ function Spinner() {
 
 type MFAEnrollmentProps = {
   factors?: MfaEnrollment[];
-  onFetch: () => Promise<MfaEnrollment[]>;
-  onCreate: (factor: string) => Promise<{ ticket_url: string }>;
-  onDelete: (enrollmentId: string) => Promise<void>;
+  onFetch: () => Promise<{ factors?: MfaEnrollment[]; status: number }>;
+  onCreate: (factor: string) => Promise<{
+    enrollment?: CreateEnrollmentResponse | undefined;
+    status: number;
+  }>;
+  onDelete: (enrollmentId: string) => Promise<{
+    enrollment?: DeleteEnrollmentResponse;
+    status: number;
+  }>;
 };
 
 export default function MFAEnrollment({
@@ -136,16 +154,32 @@ export default function MFAEnrollment({
   onCreate,
   onDelete,
 }: MFAEnrollmentProps) {
-  const [currentFactors, setCurrentFactors] = useState(factors || []);
+  const { toast } = useToast();
+  const [currentFactors, setCurrentFactors] = useState<
+    MfaEnrollment[] | undefined
+  >(factors);
   const [isEnrolling, setIsEnrolling] = useState<string | null>(null);
   const [isRemovingEnrollment, setIsRemovingEnrollment] = useState<
     string | null
   >(null);
+  const [fetching, setFetching] = useState(false);
 
   const handleCreateEnrollment = (factor: string) => async () => {
     setIsEnrolling(factor);
-    const { ticket_url } = await onCreate(factor);
 
+    const response = await onCreate(factor);
+
+    if (response.status !== 200) {
+      setIsEnrolling(null);
+
+      return toast({
+        title: "Info",
+        description:
+          "There was a problem starting the enrollment process. Try again later.",
+      });
+    }
+
+    const { ticket_url } = response.enrollment!;
     const enrollmentPopupWindow = openPopupWindow({
       url: ticket_url,
       title: "",
@@ -159,39 +193,97 @@ export default function MFAEnrollment({
       if (enrollmentPopupWindow && enrollmentPopupWindow.closed) {
         setIsEnrolling(null);
         clearInterval(timer);
-        setCurrentFactors(await onFetch());
+        await handleFetching();
       }
     }, 0);
   };
 
   const handleRemoveEnrollment = (enrollmentId: string) => async () => {
     setIsRemovingEnrollment(enrollmentId);
-    await onDelete(enrollmentId);
-    setCurrentFactors(await onFetch());
-    setIsRemovingEnrollment(enrollmentId);
+    const response = await onDelete(enrollmentId);
+
+    if (response.status !== 200) {
+      setIsRemovingEnrollment(null);
+
+      return toast({
+        title: "Info",
+        description:
+          "There was a problem removing the enrollment. Try again later.",
+      });
+    }
+
+    const { id } = response.enrollment!;
+
+    setCurrentFactors((prev) =>
+      prev?.map((factor) =>
+        factor.enrollmentId === id
+          ? { ...factor, enrollmentId: undefined }
+          : factor
+      )
+    );
+
+    setIsRemovingEnrollment(null);
   };
+
+  const handleFetching = useCallback(
+    async function handleFetching() {
+      setFetching(true);
+      const response = await onFetch();
+
+      if (response.status !== 200) {
+        return setFetching(false);
+      }
+
+      setCurrentFactors(response.factors);
+      setFetching(false);
+    },
+    [onFetch]
+  );
 
   useEffect(() => {
     (async () => {
       if (!factors) {
-        setCurrentFactors(await onFetch());
+        await handleFetching();
       }
     })();
-  }, [factors, onFetch]);
+  }, [factors, handleFetching]);
 
   return (
     <>
-      {currentFactors.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-normal">
-              Multi-Factor Authentication
-            </CardTitle>
-            <CardDescription></CardDescription>
-          </CardHeader>
+      <Toaster />
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-normal">
+            Multi-Factor Authentication
+          </CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
 
-          <CardContent className="grid gap-6">
-            {currentFactors
+        <CardContent className="grid gap-6">
+          {fetching && (
+            <div className="flex w-full items-center justify-left">
+              <Spinner />
+              <span className="text-sm text-muted-foreground">
+                Fetching MFA factors...
+              </span>
+            </div>
+          )}
+          {!currentFactors && !fetching && (
+            <div className="flex flex-col gap-6">
+              <Separator />
+              <div className="flex items-center justify-between space-x-2">
+                <Label className="flex flex-col space-y-2">
+                  <p className="font-normal leading-snug text-muted-foreground max-w-fit">
+                    There was a problem listing MFA factors. Try again later.
+                  </p>
+                </Label>
+              </div>
+            </div>
+          )}
+          {currentFactors &&
+            currentFactors.length > 0 &&
+            !fetching &&
+            currentFactors
               .filter((factor: any) => factor.enabled)
               .map((factor: any, idx: number) => {
                 const meta = factorsMeta[factor.name];
@@ -206,11 +298,8 @@ export default function MFAEnrollment({
                       key={factor.name}
                       className="flex items-center justify-between space-x-2"
                     >
-                      <Label
-                        htmlFor="performance"
-                        className="flex flex-col space-y-1"
-                      >
-                        <span>
+                      <Label className="flex flex-col space-y-1">
+                        <span className="leading-6">
                           {meta.title}
                           {factor.enrollmentId && (
                             <Badge
@@ -258,9 +347,8 @@ export default function MFAEnrollment({
                   </div>
                 );
               })}
-          </CardContent>
-        </Card>
-      )}
+        </CardContent>
+      </Card>
     </>
   );
 }
