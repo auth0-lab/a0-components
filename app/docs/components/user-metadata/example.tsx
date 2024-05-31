@@ -11,6 +11,7 @@ export function Example() {
     <UserMetadata
       onSave={async () => {
         alert("Saved!");
+        return { status: 200 };
       }}
       schema={z.object({
         address: z.string(),

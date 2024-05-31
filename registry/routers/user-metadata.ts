@@ -18,13 +18,23 @@ const client = new ManagementClient({
 export function handleUserMetadataUpdate() {
   return withRateLimit(
     withApiAuthRequired(async (request: Request): Promise<NextResponse> => {
-      const session = await getSession();
-      const userId = session?.user.sub;
-      const user_metadata = await request.json();
+      try {
+        const session = await getSession();
+        const userId = session?.user.sub;
+        const user_metadata = await request.json();
 
-      await client.users.update({ id: userId }, { user_metadata });
+        await client.users.update({ id: userId }, { user_metadata });
 
-      return NextResponse.json(user_metadata);
+        return NextResponse.json(user_metadata, {
+          status: 200,
+        });
+      } catch (error) {
+        console.error(error);
+        return NextResponse.json(
+          { error: "Error updating user metadata" },
+          { status: 500 }
+        );
+      }
     })
   );
 }

@@ -1,18 +1,19 @@
-import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 interface KeyValueMap {
   [key: string]: any;
 }
 
-export default function useUserMedata(user: KeyValueMap) {
-  const router = useRouter();
-  const pathname = usePathname();
-
+export default function useUserMedata() {
   const update = useCallback(
-    async (values: KeyValueMap) => {
+    async (
+      values: KeyValueMap
+    ): Promise<{
+      metadata?: KeyValueMap;
+      status: number;
+    }> => {
       try {
-        await fetch("/api/auth/user/metadata", {
+        const response = await fetch("/api/auth/user/metadata", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -20,18 +21,20 @@ export default function useUserMedata(user: KeyValueMap) {
           body: JSON.stringify(values),
         });
 
-        if (user.org_id) {
-          return router.push(
-            `/api/auth/login?organization=${user.org_id}&returnTo=${pathname}`
-          );
+        // TODO: Better handling rate limits
+        if (response.status === 429) {
+          return { status: 429 };
         }
 
-        return router.push(`/api/auth/login?returnTo=${pathname}`);
+        const metadata: KeyValueMap = await response.json();
+
+        return { metadata, status: response.status };
       } catch (e) {
         console.error(e);
+        return { status: 500 };
       }
     },
-    [user, router, pathname]
+    []
   );
 
   return { update };

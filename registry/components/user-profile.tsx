@@ -40,17 +40,29 @@ export default function UserProfile({
   userMetadata,
   metadataSchema,
   factors,
+  onPreferencesSaved,
 }: {
   user: KeyValueMap;
   metadataSchema: any;
   userMetadata: KeyValueMap;
   factors?: MfaEnrollment[];
+  onPreferencesSaved?: () => Promise<void>;
 }) {
   const picture = user.picture;
   const metadataDefaultValues = userMetadata;
-  const { update } = useUserMetadata(user);
+  const { update } = useUserMetadata();
   const { fetchFactors, createEnrollment, deleteEnrollment } =
     useMfaEnrollment();
+
+  async function handleOnSavePreferences(values: KeyValueMap) {
+    const response = await update(values);
+
+    if (typeof onPreferencesSaved === "function") {
+      await onPreferencesSaved();
+    }
+
+    return response;
+  }
 
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-4 py-2 flex flex-col w-full">
@@ -70,7 +82,7 @@ export default function UserProfile({
       <UserMetadata
         schema={metadataSchema}
         defaultValues={metadataDefaultValues}
-        onSave={update}
+        onSave={handleOnSavePreferences}
       />
 
       <MFAEnrollment

@@ -29,6 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface KeyValueMap {
@@ -61,8 +63,12 @@ export default function UserMetadataForm({
 }: {
   schema: any;
   defaultValues: KeyValueMap;
-  onSave?: (values: KeyValueMap) => Promise<void>;
+  onSave?: (values: KeyValueMap) => Promise<{
+    metadata?: KeyValueMap;
+    status: number;
+  }>;
 }) {
+  const { toast } = useToast();
   const [working, setWorking] = useState<boolean>(false);
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -73,32 +79,74 @@ export default function UserMetadataForm({
     setWorking(true);
 
     if (typeof onSave === "function") {
-      await onSave(values);
+      const response = await onSave(values);
+
+      if (response.status !== 200) {
+        toast({
+          title: "Info",
+          description:
+            "There was a problem updating preferences. Try again later.",
+        });
+      }
     }
 
     setWorking(false);
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="text-lg font-normal">Preferences</CardTitle>
-        <CardDescription></CardDescription>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              {Object.keys(schema.shape).map((key: any) => {
-                // @ts-ignore
-                const type = schema.shape[key]._def;
-                const formLabel = (
-                  <FormLabel className="capitalize">
-                    {key.replace("_", " ")}
-                  </FormLabel>
-                );
+    <>
+      <Toaster />
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="text-lg font-normal">Preferences</CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                {Object.keys(schema.shape).map((key: any) => {
+                  // @ts-ignore
+                  const type = schema.shape[key]._def;
+                  const formLabel = (
+                    <FormLabel className="capitalize">
+                      {key.replace("_", " ")}
+                    </FormLabel>
+                  );
 
-                if (type.typeName === "ZodEnum") {
+                  if (type.typeName === "ZodEnum") {
+                    return (
+                      <FormField
+                        key={key}
+                        control={form.control}
+                        name={key}
+                        render={({ field }) => (
+                          <FormItem>
+                            {formLabel}
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {type.values.map((value: any) => (
+                                  <SelectItem key={value} value={value}>
+                                    {value}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    );
+                  }
+
                   return (
                     <FormField
                       key={key}
@@ -107,61 +155,30 @@ export default function UserMetadataForm({
                       render={({ field }) => (
                         <FormItem>
                           {formLabel}
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {type.values.map((value: any) => (
-                                <SelectItem key={value} value={value}>
-                                  {value}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   );
-                }
-
-                return (
-                  <FormField
-                    key={key}
-                    control={form.control}
-                    name={key}
-                    render={({ field }) => (
-                      <FormItem>
-                        {formLabel}
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                );
-              })}
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button
-              type="submit"
-              disabled={working}
-              className="disabled:opacity-50 ml-auto"
-            >
-              {working && <Spinner />}
-              Save Preferences
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+                })}
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button
+                type="submit"
+                disabled={working}
+                className="disabled:opacity-50 ml-auto"
+              >
+                {working && <Spinner />}
+                Save Preferences
+              </Button>
+            </CardFooter>
+          </form>
+        </Form>
+      </Card>
+    </>
   );
 }
