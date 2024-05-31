@@ -54,18 +54,17 @@ export const ExamplesLayout = ({
         >
           {isLoggedIn ? (
             <>
-              You&apos;re already logged in! Go ahead and explore the components
-              on the dashboard below, click on the{" "}
+              You&apos;re already logged in! Explore the dashboard components
+              below by clicking on the{" "}
               <span className="bg-[#6666FF] text-white px-2 py-[2px] rounded-sm">
                 purple
               </span>{" "}
-              dots to try the interactions.
+              dots. Try out User Profile, Organization Switcher, and others.
             </>
           ) : (
             <>
-              After logging in, explore the components in action: experience how
-              User Profile, Organization Switcher, and more seamlessly integrate
-              with each other.
+              Ready to explore? Log in now to experience seamless integration
+              with User Profile, Organization Switcher, and more.
             </>
           )}
         </span>

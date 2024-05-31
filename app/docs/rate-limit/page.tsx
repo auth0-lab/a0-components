@@ -9,11 +9,11 @@ export default function Docs() {
     <DocsLayout>
       <PageLayout
         title="Rate Limit"
-        description="A security mechanism that limits request frequency/volume, preventing excessive use and potential DoS attacks or performance issues."
+        description="A mechanism that limits request frequency/volume, preventing excessive use."
         experimental={false}
       >
         <p className="mb-3 leading-7">
-          UI Components functionality was built on top of{" "}
+          UI Components functionality are built on top of{" "}
           <a
             href="https://auth0.com/docs/api/management/v2"
             target="_blank"
