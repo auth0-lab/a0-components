@@ -4,7 +4,6 @@ import Balancer from "react-wrap-balancer";
 import { cn } from "@/lib/utils";
 
 import { Badge } from "../ui/badge";
-import { ScrollArea } from "../ui/scroll-area";
 
 export default function PageLayout({
   title,

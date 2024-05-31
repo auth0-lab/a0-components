@@ -1,3 +1,7 @@
+/**
+ * Based on the example from:
+ *   - https://github.com/shadcn-ui/ui/blob/main/apps/www/app/(app)/examples/dashboard/page.tsx
+ */
 import { Metadata } from "next";
 
 import TopBar from "@/app/example/components/top-bar";
