@@ -12,8 +12,8 @@ export function MainNav() {
 
   return (
     <>
-      <div className="hidden md:flex">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
+      <div className="hidden md:flex w-[148px]">
+        <Link href="/" className="flex items-center space-x-2">
           <span className="hidden font-bold sm:inline-block">
             {config.common.name}
           </span>
@@ -43,13 +43,13 @@ export function MainNav() {
         <Link
           href="/example/dashboard"
           className={cn(
-            "transition-colors hover:text-foreground/80",
+            "flex items-center gap-1 transition-colors hover:text-foreground/80",
             pathname?.startsWith("/example")
               ? "text-foreground"
               : "text-foreground/60"
           )}
         >
-          Example
+          Live Example
         </Link>
       </nav>
     </>

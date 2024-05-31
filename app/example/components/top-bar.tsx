@@ -32,7 +32,7 @@ export default function TopBar({ user }: { user: Claims }) {
       <div className="flex h-16 items-center px-4">
         <div className="w-[200px] relative" onPointerDown={handleOrgsDot}>
           {orgsDot && (
-            <span className="absolute flex h-3 w-3 left-0 mr-5 mt-0">
+            <span className="absolute flex h-3 w-3 right-0 mr-10 mt-3.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7a7afa] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-[#6666FF]"></span>
             </span>

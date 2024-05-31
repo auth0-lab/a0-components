@@ -9,6 +9,7 @@
 /app/docs/components/**/data/code.ts
 /app/docs/components/**/data/hooks.ts
 /app/docs/components/**/data/routers.ts
+/app/docs/rate-limit/**/data/helpers.ts
 
 # testing
 /coverage

@@ -1,4 +1,9 @@
-// https://github.com/vercel/next.js/blob/canary/examples/api-routes-rate-limit/pages/api/user.ts
+/**
+ * Rate limiting
+ *
+ * This is a simple rate limiting based on:
+ *   - https://github.com/vercel/next.js/tree/main/examples/api-routes-rate-limit
+ */
 import { LRUCache } from "lru-cache";
 import { NextResponse } from "next/server";
 

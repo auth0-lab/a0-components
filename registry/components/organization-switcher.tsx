@@ -34,7 +34,7 @@ type Organization = {
   picture: string;
 };
 
-// https://auth0.com/docs/manage-users/organizations/configure-organizations/define-organization-behavior
+// Ref: https://auth0.com/docs/manage-users/organizations/configure-organizations/define-organization-behavior
 enum OrganizationTypeOfUsers {
   Deny = "deny",
   Require = "require",

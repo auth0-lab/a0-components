@@ -15,8 +15,8 @@ export default function OrganizationSwitcherPage() {
         title="Organization Switcher"
         description="Enables users to easily switch between different organizations or create new ones."
       >
-        <DocTabs align="start" code={componentUsage}>
-          <div className="w-full max-w-[200px]">
+        <DocTabs align="start" code={componentUsage} fullWidth={false}>
+          <div className="w-full max-w-[200px] min-w-[200px]">
             <OrganizationSwitcher
               createOrganizationUrl="/docs/components/organization-switcher"
               user={{

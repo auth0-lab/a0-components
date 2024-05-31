@@ -95,6 +95,18 @@ const data = {
       ],
     },
   ],
+  helpers: [
+    {
+      destination: "./app/docs/rate-limit/data/helpers.ts",
+      collection: [
+        {
+          name: "Rate Limiter",
+          description: "Simple rate limiting based which uses lru-cache.",
+          src: "./registry/routers/helpers/rate-limit.ts",
+        },
+      ],
+    },
+  ],
 };
 
 function main() {
@@ -150,6 +162,26 @@ function main() {
     fs.writeFileSync(
       routerMeta.destination,
       `export const componentRoutes = ${JSON.stringify(routers, null, 2)};`
+    );
+  });
+
+  data.helpers.map((helperMeta) => {
+    const helpers = [];
+    helperMeta.collection.forEach((meta) => {
+      const code = fs.readFileSync(meta.src, "utf8");
+
+      helpers.push({
+        name: meta.name,
+        description: meta.description,
+        code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+      });
+
+      console.log(meta.src);
+    });
+
+    fs.writeFileSync(
+      helperMeta.destination,
+      `export const helpers = ${JSON.stringify(helpers, null, 2)};`
     );
   });
 }

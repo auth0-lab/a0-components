@@ -1,8 +1,14 @@
+import Balancer from "react-wrap-balancer";
+
 import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
 import { DocTabs } from "@/components/www/tabs";
 
+import { componentHooks as mfaHooks } from "../mfa-enrollment/data/hooks";
+import { componentRoutes as mfaRoutes } from "../mfa-enrollment/data/routers";
+import { componentHooks as metadataHooks } from "../user-metadata/data/hooks";
+import { componentRoutes as metadataRoutes } from "../user-metadata/data/routers";
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
 import { componentUsage } from "./data/usage";
@@ -53,8 +59,101 @@ export default function UserProfile() {
           </div>
 
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
+            Component behavior
+          </h3>
+
+          <div className="flex flex-col gap-2 mt-8 overflow-y-auto max-w-[680px]">
+            <p className="text-md text-muted-foreground text-gray-500">
+              <Balancer>
+                By design, our components provide basic behavior without making
+                any requests to the Auth0 Management API. To help you implement
+                the full feature, we&apos;ve also included{" "}
+                <a
+                  href="#react-hooks"
+                  className="text-blue-700 hover:underline"
+                >
+                  React Hooks
+                </a>{" "}
+                and{" "}
+                <a
+                  href="#nextjs-routers"
+                  className="text-blue-700 hover:underline"
+                >
+                  NextJS routers
+                </a>{" "}
+                for calling and proxying the{" "}
+                <a
+                  href="https://auth0.com/docs/api/management/v2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-700 hover:underline"
+                >
+                  Auth0 Management API
+                </a>
+                .
+              </Balancer>
+            </p>
+          </div>
+
+          <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Update the import paths to match your project setup.
           </h3>
+        </div>
+
+        <h2
+          className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
+          id="react-hooks"
+        >
+          <a
+            className="font-medium underline underline-offset-4 subheading-anchor"
+            aria-label="Link to section"
+            href="#react-hooks"
+          >
+            <span className="icon icon-link"></span>
+          </a>
+          React Hooks
+        </h2>
+
+        <div className=" mb-12">
+          {mfaHooks.concat(metadataHooks).map((hook, index) => (
+            <div key={index}>
+              <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
+                {hook.name}
+              </h3>
+              <p>{hook.description}</p>
+              <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
+                <Code language="bash" text={hook.code} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h2
+          className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
+          id="nextjs-routers"
+        >
+          <a
+            className="font-medium underline underline-offset-4 subheading-anchor"
+            aria-label="Link to section"
+            href="#nextjs-routers"
+          >
+            <span className="icon icon-link"></span>
+          </a>
+          NextJS routers
+        </h2>
+
+        <div className=" mb-12">
+          {mfaRoutes.concat(metadataRoutes).map((hook, index) => (
+            <div key={index}>
+              <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
+                {hook.name}
+              </h3>
+              <p>{hook.description}</p>
+              <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
+                <Code language="bash" text={hook.code} />
+              </div>
+            </div>
+          ))}
         </div>
       </PageLayout>
     </DocsLayout>

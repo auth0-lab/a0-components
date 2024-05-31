@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
+/**
+ * Make sure to install the withRateLimit from:
+ *   - https://a0-components.vercel.app/docs/rate-limit#helpers
+ */
 import { withRateLimit } from "./helpers/rate-limit";
 
 const client = new ManagementClient({

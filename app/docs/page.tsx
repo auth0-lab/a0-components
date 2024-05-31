@@ -49,7 +49,7 @@ export default function Docs() {
           </AlertDescription>
         </Alert>
         <div>
-          <p className="mb-6 leading-7">
+          <p className="mb-3 leading-7">
             Our goal is to deliver reusable UI components that help customers
             build high-quality interfaces efficiently. These self-contained
             pieces of code can be easily integrated into existing projects,
@@ -77,6 +77,44 @@ export default function Docs() {
                 alongside your codebase.
               </li>
             </ul>
+          </div>
+
+          <h2
+            className="mb-3 font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight"
+            id="notes"
+          >
+            <a
+              className="font-medium underline underline-offset-4 subheading-anchor"
+              aria-label="Link to section"
+              href="#notes"
+            >
+              <span className="icon icon-link"></span>
+            </a>
+            Notes
+          </h2>
+          <div className="mt-8">
+            The UI components were designed specifically for use with{" "}
+            <a
+              href="https://react.dev"
+              target="_blank"
+              className="text-blue-700 hover:underline"
+              rel="noopener noreferrer"
+            >
+              React
+            </a>{" "}
+            applications. They are built on top of{" "}
+            <a
+              href="https://ui.shadcn.com/docs"
+              target="_blank"
+              className="text-blue-700 hover:underline"
+              rel="noopener noreferrer"
+            >
+              Shadcn
+            </a>
+            , a powerful collection that provides re-usable components you can
+            easily integrate into your apps. Our UI components follow the same
+            philosophy: simply copy and paste them to customize them for your
+            specific app.
           </div>
         </div>
       </PageLayout>

@@ -1,4 +1,9 @@
-import { DropdownMenu, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu";
 import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
@@ -16,7 +21,7 @@ export default function UserButtonPage() {
         title="User Button"
         description="Offers a user menu for logged-in users, showing their info and allowing them to logout."
       >
-        <DocTabs align="start" code={componentUsage}>
+        <DocTabs align="start" code={componentUsage} fullWidth={false}>
           <UserButton
             user={{
               given_name: "John",

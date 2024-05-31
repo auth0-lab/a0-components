@@ -11,9 +11,15 @@ import { theme } from "./theme";
 interface DocTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: "center" | "start" | "end";
   code: string;
+  fullWidth?: boolean;
 }
 
-export function DocTabs({ children, align = "center", code }: DocTabsProps) {
+export function DocTabs({
+  children,
+  align = "center",
+  code,
+  fullWidth = true,
+}: DocTabsProps) {
   return (
     <div className={cn("group relative my-4 flex flex-col space-y-2")}>
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
@@ -35,13 +41,23 @@ export function DocTabs({ children, align = "center", code }: DocTabsProps) {
         </div>
         <TabsContent value="preview" className="rounded-md border">
           <div
-            className={cn("flex min-h-[350px] justify-center p-10", {
-              "items-center": align === "center",
-              "items-start": align === "start",
-              "items-end": align === "end",
-            })}
+            className={cn(
+              "flex min-h-[350px] justify-center p-10 bg-gray-50 rounded-md",
+              {
+                "items-center": align === "center",
+                "items-start": align === "start",
+                "items-end": align === "end",
+              }
+            )}
           >
-            {children}
+            <div
+              className={cn(
+                "drop-shadow-2xl bg-white rounded-lg p-3",
+                fullWidth ? "w-full" : "w-fit"
+              )}
+            >
+              {children}
+            </div>
           </div>
         </TabsContent>
         <TabsContent value="code">
