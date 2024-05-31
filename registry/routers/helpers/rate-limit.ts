@@ -43,7 +43,8 @@ const limiter = rateLimit({
 export function withRateLimit(handler: any) {
   return async (req: Request, res: Response) => {
     try {
-      await limiter.check(2, process.env.LRU_CACHE_TOKEN!);
+      // Note: Update the limit and token as needed
+      await limiter.check(10, process.env.LRU_CACHE_TOKEN!);
       return await handler(req, res);
     } catch (error) {
       return NextResponse.json(

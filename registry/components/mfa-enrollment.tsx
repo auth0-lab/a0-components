@@ -183,8 +183,8 @@ export default function MFAEnrollment({
     const enrollmentPopupWindow = openPopupWindow({
       url: ticket_url,
       title: "",
-      width: 600,
-      height: 800,
+      width: 450,
+      height: 720,
       scrollbars: true,
       focus: true,
     });
