@@ -114,7 +114,7 @@ function main() {
     const code = fs.readFileSync(meta.src, "utf8");
 
     const componentCode = {
-      code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+      code,
     };
 
     fs.writeFileSync(
@@ -133,7 +133,7 @@ function main() {
       hooks.push({
         name: meta.name,
         description: meta.description,
-        code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+        code,
       });
 
       console.log(meta.src);
@@ -153,7 +153,7 @@ function main() {
       routers.push({
         name: meta.name,
         description: meta.description,
-        code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+        code,
       });
 
       console.log(meta.src);
@@ -173,7 +173,7 @@ function main() {
       helpers.push({
         name: meta.name,
         description: meta.description,
-        code: code.replace(/`/gi, "\\`").replace(/\${/gi, "\\${"),
+        code,
       });
 
       console.log(meta.src);

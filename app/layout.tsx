@@ -1,13 +1,15 @@
 import "./globals.css";
 
-import { GeistSans } from "geist/font/sans";
 import { Metadata } from "next";
+import { Inter } from "next/font/google";
 
 import { SiteHeader } from "@/components/www/header";
 import { SiteFooter } from "@/components/www/site-footer";
 import { ThemeProvider } from "@/components/www/theme-provider";
 import { cn } from "@/lib/utils";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Auth0 Lab - UI Components",
@@ -26,7 +28,7 @@ export default async function RootLayout({
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
-            GeistSans.className
+            inter.className
           )}
         >
           <ThemeProvider
