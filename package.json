@@ -16,9 +16,6 @@
     "name": "Auth0 Inc.",
     "url": "https://auth0.com"
   },
-  "contributors": [
-    "Javier Centurion (https://x.com/jcenturion86)"
-  ],
   "license": "Apache-2.0",
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
