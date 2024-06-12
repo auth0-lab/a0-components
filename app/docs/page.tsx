@@ -9,14 +9,14 @@ export default function Docs() {
     <DocsLayout>
       <PageLayout
         title="Introduction"
-        description="UI components provide a solid foundation for developing robust and user-friendly identity-related features in applications."
+        description="Auth0Lab UI components provide a solid foundation for developing robust and user-friendly identity-related features in applications."
         experimental={false}
       >
         <Alert variant="warning" className="mb-5">
           <AlertCircle className="h-4 w-4 mt-1" />
           <AlertTitle className="mb-3 mt-1">Important</AlertTitle>
           <AlertDescription className="text-md">
-            The UI components are an experimental{" "}
+            The UI components provided from the experimental{" "}
             <a
               href="https://lab.auth0.com/"
               target="_blank"
@@ -25,9 +25,10 @@ export default function Docs() {
             >
               Auth0Lab
             </a>{" "}
-            library. They might not remain available or be incorporated into the
-            Auth0 platform. Use of these components is without support and all
-            questions should be directed to the open source{" "}
+            library may not remain available or be incorporated into the Auth0
+            platform. The Auht0Lab UI components are community supported and are
+            not directly supported by Auth0 by Okta. All questions should be
+            directed to the open source{" "}
             <a
               href="https://github.com/auth0-lab/a0-components"
               target="_blank"
@@ -50,10 +51,10 @@ export default function Docs() {
         </Alert>
         <div>
           <p className="mb-3 leading-7">
-            Our goal is to deliver reusable UI components that help customers
-            build high-quality interfaces efficiently. These self-contained
-            pieces of code can be easily integrated into existing projects,
-            allowing for customization and extension as needed.
+            The goal of this project is to deliver reusable UI components that
+            help customers build high-quality interfaces efficiently. These
+            self-contained pieces of code can be easily integrated into existing
+            projects, allowing for customization and extension as needed.
           </p>
           <div>
             <ul className="list-disc ml-4">
@@ -69,7 +70,7 @@ export default function Docs() {
                 functionality.
               </li>
               <li className="leading-7">
-                <strong>Integration</strong>: Integrage the UI components into
+                <strong>Integration</strong>: Integrate the UI components into
                 your existing codebase.
               </li>
               <li className="leading-7">
@@ -111,7 +112,7 @@ export default function Docs() {
             >
               Shadcn
             </a>
-            , a powerful collection that provides re-usable components you can
+            , a powerful collection that provides reusable components you can
             easily integrate into your apps. Our UI components follow the same
             philosophy: simply copy and paste them to customize them for your
             specific app.

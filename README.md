@@ -1,8 +1,10 @@
 # Auth0 Lab / UI Components
 
-## Disclaimer
+Auth0Lab UI components provide a solid foundation for developing robust and user-friendly identity-related features in applications.
 
-The UI components are an experimental [Auth0Lab](https://lab.auth0.com) library. They might not remain available or be incorporated into the Auth0 platform. Use of these components is without support and all questions should be directed to the open source [repository](https://github.com/auth0-lab/a0-components) or the [Auth0Lab discord](https://discord.gg/QGHxwDsbQQ).
+## Important
+
+The UI components provided from the experimental [Auth0Lab](https://lab.auth0.com) library may not remain available or be incorporated into the Auth0 platform. The Auht0Lab UI components are community supported and are not directly supported by Auth0 by Okta. All questions should be directed to the open source [repository](https://github.com/auth0-lab/a0-components) or the [Auth0Lab discord](https://discord.gg/QGHxwDsbQQ).
 
 ## Getting Started
 
