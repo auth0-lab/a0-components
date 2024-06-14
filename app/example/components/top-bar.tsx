@@ -66,7 +66,7 @@ export default function TopBar({ user }: { user: Claims }) {
           <UserButton user={user}>
             <DropdownMenu>
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem className="pointer-events-none opacity-50">
                   Billing
                   <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                 </DropdownMenuItem>
