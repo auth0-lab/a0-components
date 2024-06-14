@@ -9,6 +9,9 @@ const languages = ["en-US", "es-AR"] as const;
 export function Example() {
   return (
     <UserMetadata
+      onFetch={async () => {
+        return {};
+      }}
       onSave={async () => {
         alert("Saved!");
         return { status: 200 };
@@ -18,7 +21,7 @@ export function Example() {
         job_title: z.string(),
         language: z.enum(languages),
       })}
-      defaultValues={{
+      metadata={{
         address: "123 Fake st",
         job_title: "Designer",
         language: "es-AR",

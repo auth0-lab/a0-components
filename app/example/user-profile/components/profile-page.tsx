@@ -1,31 +1,16 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
 
-import { CLAIMS } from "@/lib/utils";
 import UserProfile from "@/registry/components/user-profile";
 import { Claims } from "@auth0/nextjs-auth0";
 
 const languages = ["en-US", "es-AR"] as const;
 
 export function ProfilePage({ user }: { user: Claims }) {
-  const router = useRouter();
-  const pathname = usePathname();
-
   return (
     <UserProfile
       user={user}
-      userMetadata={user[CLAIMS.USER_METADATA]}
-      onPreferencesSaved={async () => {
-        if (user.org_id) {
-          router.push(
-            `/api/auth/login?organization=${user.org_id}&returnTo=${pathname}`
-          );
-        } else {
-          router.push(`/api/auth/login?returnTo=${pathname}`);
-        }
-      }}
       metadataSchema={z.object({
         address: z
           .string()

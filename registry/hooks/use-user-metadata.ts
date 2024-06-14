@@ -5,7 +5,33 @@ interface KeyValueMap {
 }
 
 export default function useUserMedata() {
-  const update = useCallback(
+  const fetchUserMetadata = useCallback(async (): Promise<KeyValueMap> => {
+    try {
+      const response = await fetch("/api/auth/user/metadata", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // TODO: Better handling rate limits
+      if (response.status === 429) {
+        return { status: 429 };
+      }
+
+      const userMetadata: KeyValueMap = await response.json();
+
+      return {
+        metadata: userMetadata,
+        status: response.status,
+      };
+    } catch (error) {
+      console.error(error);
+      return { status: 500 };
+    }
+  }, []);
+
+  const updateUserMetadata = useCallback(
     async (
       values: KeyValueMap
     ): Promise<{
@@ -37,5 +63,5 @@ export default function useUserMedata() {
     []
   );
 
-  return { update };
+  return { updateUserMetadata, fetchUserMetadata };
 }

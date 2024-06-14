@@ -7,12 +7,12 @@ import useUserMetadata from "../hooks/use-user-metadata";
 import BasicInfoForm from "./basic-info-form";
 /**
  * Make sure to install the MFAEnrollment component from:
- *   - https://a0-components.vercel.app/docs/components/mfa-enrollment
+ *   - https://components.lab.auth0.com/docs/components/mfa-enrollment
  */
 import MFAEnrollment from "./mfa-enrollment";
 /**
  * Make sure to install the UserMetadata component from:
- *   - https://a0-components.vercel.app/docs/components/user-metadata
+ *   - https://components.lab.auth0.com/docs/components/user-metadata
  */
 import UserMetadata from "./user-metadata";
 
@@ -48,29 +48,17 @@ export default function UserProfile({
   userMetadata,
   metadataSchema,
   factors,
-  onPreferencesSaved,
 }: {
   user: KeyValueMap;
   metadataSchema: any;
-  userMetadata: KeyValueMap;
+  userMetadata?: KeyValueMap;
   factors?: MfaEnrollment[];
-  onPreferencesSaved?: () => Promise<void>;
 }) {
   const picture = user.picture;
   const metadataDefaultValues = userMetadata;
-  const { update } = useUserMetadata();
+  const { updateUserMetadata, fetchUserMetadata } = useUserMetadata();
   const { fetchFactors, createEnrollment, deleteEnrollment } =
     useMfaEnrollment();
-
-  async function handleOnSavePreferences(values: KeyValueMap) {
-    const response = await update(values);
-
-    if (typeof onPreferencesSaved === "function") {
-      await onPreferencesSaved();
-    }
-
-    return response;
-  }
 
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-2 flex flex-col w-full">
@@ -89,8 +77,9 @@ export default function UserProfile({
 
       <UserMetadata
         schema={metadataSchema}
-        defaultValues={metadataDefaultValues}
-        onSave={handleOnSavePreferences}
+        metadata={metadataDefaultValues}
+        onFetch={fetchUserMetadata}
+        onSave={updateUserMetadata}
       />
 
       <MFAEnrollment

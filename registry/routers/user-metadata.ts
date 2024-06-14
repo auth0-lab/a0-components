@@ -5,7 +5,7 @@ import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 /**
  * Make sure to install the withRateLimit from:
- *   - https://a0-components.vercel.app/docs/rate-limit#helpers
+ *   - https://components.lab.auth0.com/docs/rate-limit#helpers
  */
 import { withRateLimit } from "./helpers/rate-limit";
 
@@ -14,6 +14,34 @@ const client = new ManagementClient({
   clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
   clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
 });
+
+/**
+ * @example export const GET = handleUserMetadataFetch();
+ */
+export function handleUserMetadataFetch() {
+  return withRateLimit(
+    withApiAuthRequired(async (): Promise<NextResponse> => {
+      try {
+        const session = await getSession();
+        const user_id = session?.user.sub;
+        const response = await client.users.get({
+          id: user_id,
+        });
+        const { data } = response;
+
+        return NextResponse.json(data.user_metadata, {
+          status: response.status,
+        });
+      } catch (error) {
+        console.error(error);
+        return NextResponse.json(
+          { error: "Error fetching user metadata" },
+          { status: 500 }
+        );
+      }
+    })
+  );
+}
 
 /**
  * @example export const PUT = handleUserMetadataUpdate();

@@ -29,20 +29,20 @@ export const config = {
           href: "/docs/components/user-profile",
         },
         {
-          title: "User Button",
-          href: "/docs/components/user-button",
+          title: "Basic Info",
+          href: "/docs/components/basic-info",
         },
         {
           title: "User Metadata",
           href: "/docs/components/user-metadata",
         },
         {
-          title: "Basic Info",
-          href: "/docs/components/basic-info",
-        },
-        {
           title: "MFA Enrollment",
           href: "/docs/components/mfa-enrollment",
+        },
+        {
+          title: "User Button",
+          href: "/docs/components/user-button",
         },
         {
           title: "Organization Switcher",
