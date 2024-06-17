@@ -26,7 +26,7 @@ export default function Docs() {
               Auth0Lab
             </a>{" "}
             library may not remain available or be incorporated into the Auth0
-            platform. The Auht0Lab UI components are community supported and are
+            platform. The Auth0Lab UI components are community supported and are
             not directly supported by Auth0 by Okta. All questions should be
             directed to the open source{" "}
             <a
