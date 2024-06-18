@@ -18,6 +18,12 @@ export default function useMfaEnrollment() {
     status: number;
   }> => {
     try {
+      /**
+       * '/api/auth/mfa' is a custom endpoint which will proxy
+       * the request to the Auth0 Management API.
+       *
+       * Proxy sample at: https://components.lab.auth0.com/docs/components/mfa-enrollment#nextjs-routers
+       */
       const response = await fetch("/api/auth/mfa", {
         method: "GET",
         headers: {
@@ -50,6 +56,12 @@ export default function useMfaEnrollment() {
       status: number;
     }> => {
       try {
+        /**
+         * '/api/auth/mfa' is a custom endpoint which will proxy
+         * the request to the Auth0 Management API.
+         *
+         * Proxy sample at: https://components.lab.auth0.com/docs/components/mfa-enrollment#nextjs-routers
+         */
         const response = await fetch("/api/auth/mfa", {
           method: "POST",
           headers: {
@@ -81,6 +93,12 @@ export default function useMfaEnrollment() {
       status: number;
     }> => {
       try {
+        /**
+         * '/api/auth/mfa' is a custom endpoint which will proxy
+         * the request to the Auth0 Management API.
+         *
+         * Proxy sample at: https://components.lab.auth0.com/docs/components/mfa-enrollment#nextjs-routers
+         */
         const response = await fetch(`/api/auth/mfa/${enrollmentId}`, {
           method: "DELETE",
         });

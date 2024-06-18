@@ -7,6 +7,12 @@ interface KeyValueMap {
 export default function useUserMedata() {
   const fetchUserMetadata = useCallback(async (): Promise<KeyValueMap> => {
     try {
+      /**
+       * '/api/auth/user/metadata' is a custom endpoint which will proxy
+       * the request to the Auth0 Management API.
+       *
+       * Proxy sample at: https://components.lab.auth0.com/docs/components/user-metadata#nextjs-routers
+       */
       const response = await fetch("/api/auth/user/metadata", {
         method: "GET",
         headers: {
@@ -39,6 +45,12 @@ export default function useUserMedata() {
       status: number;
     }> => {
       try {
+        /**
+         * '/api/auth/user/metadata' is a custom endpoint which will proxy
+         * the request to the Auth0 Management API.
+         *
+         * Proxy sample at: https://components.lab.auth0.com/docs/components/user-metadata#nextjs-routers
+         */
         const response = await fetch("/api/auth/user/metadata", {
           method: "PUT",
           headers: {

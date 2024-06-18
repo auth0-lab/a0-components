@@ -32,6 +32,12 @@ export default function useOrganizations() {
       status: number;
     }> => {
       try {
+        /**
+         * '/api/auth/orgs' is a custom endpoint which will proxy
+         * the request to the Auth0 Management API.
+         *
+         * Proxy sample at: https://components.lab.auth0.com/docs/components/organization-creator#nextjs-routers
+         */
         const response = await fetch("/api/auth/orgs", {
           method: "POST",
           headers: {
