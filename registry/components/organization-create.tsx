@@ -143,14 +143,14 @@ function PageMode({ form, working, customFields, onSubmit }: PageModeProps) {
   return (
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center">
       <Card>
-        <CardHeader>
+        <CardHeader className="p-4 md:p-6">
           <CardTitle>Create Organization</CardTitle>
           <CardDescription>
             Creating a new organization will allow you to manage a separate
             group with unique settings and resources.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="grid gap-6 p-4 pt-0 md:p-6 md:pt-0">
           <OrganizationForm
             form={form}
             onSubmit={onSubmit}

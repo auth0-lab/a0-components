@@ -130,13 +130,13 @@ export default function UserMetadataForm({
     <>
       <Toaster />
       <Card className="w-full">
-        <CardHeader>
+        <CardHeader className="p-4 md:p-6">
           <CardTitle className="text-lg font-normal">Preferences</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
 
         {fetching && (
-          <CardContent>
+          <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
             <div className="flex w-full items-center justify-left">
               <Spinner />
               <span className="text-sm text-muted-foreground">
@@ -146,7 +146,7 @@ export default function UserMetadataForm({
           </CardContent>
         )}
         {!defaultValues && !fetching && (
-          <CardContent>
+          <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
             <div className="flex flex-col gap-6">
               <Separator />
               <div className="flex items-center justify-between space-x-2">
@@ -163,8 +163,8 @@ export default function UserMetadataForm({
         {defaultValues && !fetching && (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
+              <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Object.keys(schema.shape).map((key: any) => {
                     // @ts-ignore
                     const type = schema.shape[key]._def;
@@ -226,7 +226,7 @@ export default function UserMetadataForm({
                   })}
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="p-4 pt-0 md:p-6 md:pt-0">
                 <Button
                   type="submit"
                   disabled={working}

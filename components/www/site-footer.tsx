@@ -9,8 +9,10 @@ import { Icons } from "./icons";
 export function SiteFooter() {
   return (
     <footer className="py-6 md:px-8 md:py-0">
-      <div className="container flex flex-col items-center justify-between gap-4 md:h-20 md:flex-row">
-        <Icons.logo />
+      <div className="container flex items-center justify-between gap-4 md:h-20 md:flex-row">
+        <div className="hidden md:block">
+          <Icons.logo />
+        </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <nav className="flex items-center">
             <Link

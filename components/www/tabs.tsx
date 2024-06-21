@@ -42,7 +42,7 @@ export function DocTabs({
         <TabsContent value="preview" className="rounded-md border">
           <div
             className={cn(
-              "flex min-h-[350px] justify-center p-10 bg-gray-50 rounded-md",
+              "flex min-h-[350px] justify-center p-5 md:p-10 bg-gray-50 rounded-md",
               {
                 "items-center": align === "center",
                 "items-start": align === "start",

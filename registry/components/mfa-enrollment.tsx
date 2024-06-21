@@ -252,14 +252,14 @@ export default function MFAEnrollment({
     <>
       <Toaster />
       <Card>
-        <CardHeader>
+        <CardHeader className="p-4 md:p-6">
           <CardTitle className="text-lg font-normal">
             Multi-Factor Authentication
           </CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
 
-        <CardContent className="grid gap-6">
+        <CardContent className="grid gap-6 p-4 pt-0 md:p-6 md:pt-0">
           {fetching && (
             <div className="flex w-full items-center justify-left">
               <Spinner />
@@ -296,7 +296,7 @@ export default function MFAEnrollment({
                     {idx > 0 && <Separator />}
                     <div
                       key={factor.name}
-                      className="flex items-center justify-between space-x-2"
+                      className="flex flex-col md:flex-row items-center justify-between md:space-x-2 space-y-6 md:space-y-0"
                     >
                       <Label className="flex flex-col space-y-1">
                         <span className="leading-6">
@@ -314,7 +314,7 @@ export default function MFAEnrollment({
                           {meta.description}
                         </p>
                       </Label>
-                      <div className="flex space-x-24 items-center justify-end min-w-72">
+                      <div className="flex space-x-24 items-center justify-end md:min-w-72">
                         {factor.enrollmentId ? (
                           <Button
                             className="h-fit min-w-24"

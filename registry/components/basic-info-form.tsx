@@ -22,12 +22,12 @@ export default function BasicInfoForm({ user }: { user: KeyValueMap }) {
 
   return (
     <Card className="w-full">
-      <CardHeader>
+      <CardHeader className="p-4 md:p-6">
         <CardTitle className="text-lg font-normal">Basic Info</CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+      <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="grid items-center gap-1.5">
             <Label htmlFor="name">Name</Label>
             <Input
