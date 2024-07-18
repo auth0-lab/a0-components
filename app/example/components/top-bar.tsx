@@ -66,10 +66,14 @@ export default function TopBar({ user }: { user: Claims }) {
           <UserButton user={user}>
             <DropdownMenu>
               <DropdownMenuGroup>
-                <DropdownMenuItem className="pointer-events-none opacity-50">
-                  Billing
-                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                </DropdownMenuItem>
+                {user.org_id && (
+                  <a href="/example/organization">
+                    <DropdownMenuItem>
+                      <span>Organization</span>
+                      <DropdownMenuShortcut>⌘O</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </a>
+                )}
                 <a href="/example/user-profile">
                   <DropdownMenuItem>
                     <span>Profile</span>
