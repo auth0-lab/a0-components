@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -23,7 +17,7 @@ export default function BasicInfoForm({ user }: { user: KeyValueMap }) {
   return (
     <Card className="w-full">
       <CardHeader className="p-4 md:p-6">
-        <CardTitle className="text-lg font-normal">Basic Info</CardTitle>
+        <CardTitle className="text-lg font-normal">General</CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
       <CardContent className="p-4 pt-0 md:p-6 md:pt-0">

@@ -20,7 +20,7 @@ import OrganizationInfo from "./organization-info";
 import OrganizationMetadata from "./organization-metadata";
 import OrganizationSSO from "./organization-sso";
 
-export function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
