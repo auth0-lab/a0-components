@@ -76,7 +76,7 @@ export default function OrganizationProfile({
               {[
                 { title: "General", id: "basic-info" },
                 { title: "Preferences", id: "preferences" },
-                { title: "SSO", id: "sso" },
+                { title: "Security", id: "sso" },
               ].map((item) => (
                 <button
                   onClick={handleItemClick(item.id)}

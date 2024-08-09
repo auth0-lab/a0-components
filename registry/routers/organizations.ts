@@ -1,6 +1,9 @@
-import { ManagementClient, PostOrganizationsRequest } from "auth0";
+import {
+  AuthenticationClient,
+  ManagementClient,
+  PostOrganizationsRequest,
+} from "auth0";
 import { NextRequest, NextResponse } from "next/server";
-import { ClientCredentials } from "simple-oauth2";
 
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
@@ -11,6 +14,11 @@ import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { withRateLimit } from "./helpers/rate-limit";
 
 const client = new ManagementClient({
+  domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
+  clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
+});
+const authClient = new AuthenticationClient({
   domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
   clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
   clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
@@ -160,24 +168,16 @@ export function handleSelfService(params: SelfServiceParams) {
     withApiAuthRequired(async (request: NextRequest): Promise<NextResponse> => {
       try {
         const body = await request.json();
-        const config = {
-          client: {
-            id: process.env.AUTH0_CLIENT_ID_MGMT!,
-            secret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
-          },
-          auth: {
-            tokenHost: process.env.AUTH0_ISSUER_BASE_URL!,
-          },
-        };
-        // NOTE: Requires `default_audience` set at tenant level
-        const simpleOauth = new ClientCredentials(config);
-        const credentials = await simpleOauth.getToken({});
+
+        const { data: tokens } = await authClient.oauth.clientCredentialsGrant({
+          audience: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/`,
+        });
 
         const $selfServiceProfile = await fetch(
           `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/self-service-profiles`,
           {
             headers: {
-              Authorization: `Bearer ${credentials.token.access_token}`,
+              Authorization: `Bearer ${tokens.access_token}`,
             },
           }
         );
@@ -190,7 +190,7 @@ export function handleSelfService(params: SelfServiceParams) {
           {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${credentials.token.access_token}`,
+              Authorization: `Bearer ${tokens.access_token}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -229,24 +229,16 @@ export function handleConnectionUpdate(params: SelfServiceParams) {
     withApiAuthRequired(async (request: NextRequest): Promise<NextResponse> => {
       try {
         const body = await request.json();
-        const config = {
-          client: {
-            id: process.env.AUTH0_CLIENT_ID_MGMT!,
-            secret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
-          },
-          auth: {
-            tokenHost: process.env.AUTH0_ISSUER_BASE_URL!,
-          },
-        };
-        // NOTE: Requires `default_audience` set at tenant level
-        const simpleOauth = new ClientCredentials(config);
-        const credentials = await simpleOauth.getToken({});
+
+        const { data: tokens } = await authClient.oauth.clientCredentialsGrant({
+          audience: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/`,
+        });
 
         const $selfServiceProfile = await fetch(
           `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/self-service-profiles`,
           {
             headers: {
-              Authorization: `Bearer ${credentials.token.access_token}`,
+              Authorization: `Bearer ${tokens.access_token}`,
             },
           }
         );
@@ -258,7 +250,7 @@ export function handleConnectionUpdate(params: SelfServiceParams) {
           {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${credentials.token.access_token}`,
+              Authorization: `Bearer ${tokens.access_token}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
