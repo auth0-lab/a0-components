@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 import useMfaEnrollment from "../hooks/use-mfa-enrollment";
 import useUserMetadata from "../hooks/use-user-metadata";
+import useUserSessions from "../hooks/use-user-sessions";
 import BasicInfoForm from "./basic-info-form";
 /**
  * Make sure to install the MFAEnrollment component from:
@@ -20,6 +21,7 @@ import MFAEnrollment from "./mfa-enrollment";
  *   - https://components.lab.auth0.com/docs/components/user-metadata
  */
 import UserMetadata from "./user-metadata";
+import UserSessions from "./user-sessions";
 
 interface KeyValueMap {
   [key: string]: any;
@@ -40,15 +42,18 @@ export default function UserProfile({
   userMetadata,
   metadataSchema,
   factors,
+  sessions,
 }: {
   user: KeyValueMap;
   metadataSchema: any;
   userMetadata?: KeyValueMap;
   factors?: MfaEnrollment[];
+  sessions?: KeyValueMap[];
 }) {
   const [currentItem, setCurrentItem] = useState("basic-info");
   const metadataDefaultValues = userMetadata;
   const { updateUserMetadata, fetchUserMetadata } = useUserMetadata();
+  const { fetchUserSessions, deleteUserSession } = useUserSessions();
   const { fetchFactors, createEnrollment, deleteEnrollment } =
     useMfaEnrollment();
 
@@ -77,6 +82,7 @@ export default function UserProfile({
                 { title: "General", id: "basic-info" },
                 { title: "Preferences", id: "preferences" },
                 { title: "Security", id: "security" },
+                { title: "Sessions", id: "sessions" },
               ].map((item) => (
                 <button
                   onClick={handleItemClick(item.id)}
@@ -114,6 +120,15 @@ export default function UserProfile({
                 onFetch={fetchFactors}
                 onCreate={createEnrollment}
                 onDelete={deleteEnrollment}
+              />
+            )}
+
+            {currentItem === "sessions" && (
+              <UserSessions
+                user={user}
+                sessions={sessions}
+                onFetch={fetchUserSessions}
+                onDelete={deleteUserSession}
               />
             )}
           </div>

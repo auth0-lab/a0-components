@@ -27,6 +27,10 @@ const data = {
       destination: "./app/docs/components/user-metadata/data/code.ts",
     },
     {
+      src: "./registry/components/user-sessions.tsx",
+      destination: "./app/docs/components/user-sessions/data/code.ts",
+    },
+    {
       src: "./registry/components/user-profile.tsx",
       destination: "./app/docs/components/user-profile/data/code.ts",
     },
