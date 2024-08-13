@@ -44,7 +44,7 @@ export function handleUserSessionsFetch() {
 }
 
 /**
- * @example export const DELETE = handleMFADeleteEnrollment();
+ * @example export const DELETE = handleDeleteUserSession();
  */
 export function handleDeleteUserSession() {
   return withRateLimit(

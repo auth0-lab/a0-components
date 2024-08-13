@@ -5,12 +5,10 @@ import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
 import { DocTabs } from "@/components/www/tabs";
 
-import { componentHooks as mfaHooks } from "../mfa-enrollment/data/hooks";
-import { componentRoutes as mfaRoutes } from "../mfa-enrollment/data/routers";
-import { componentHooks as metadataHooks } from "../user-metadata/data/hooks";
-import { componentRoutes as metadataRoutes } from "../user-metadata/data/routers";
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
+import { componentHooks } from "./data/hooks";
+import { componentRoutes } from "./data/routers";
 import { componentUsage } from "./data/usage";
 import { Example } from "./example";
 
@@ -115,7 +113,7 @@ export default function UserProfile() {
         </h2>
 
         <div className=" mb-12">
-          {mfaHooks.concat(metadataHooks).map((hook, index) => (
+          {componentHooks.map((hook, index) => (
             <div key={index}>
               <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
                 {hook.name}
@@ -143,14 +141,14 @@ export default function UserProfile() {
         </h2>
 
         <div className=" mb-12">
-          {mfaRoutes.concat(metadataRoutes).map((hook, index) => (
+          {componentRoutes.map((route, index) => (
             <div key={index}>
               <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
-                {hook.name}
+                {route.name}
               </h3>
-              <p>{hook.description}</p>
+              <p>{route.description}</p>
               <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
-                <Code language="bash" text={hook.code} />
+                <Code language="bash" text={route.code} />
               </div>
             </div>
           ))}

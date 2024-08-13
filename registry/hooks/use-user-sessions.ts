@@ -11,10 +11,11 @@ export default function useUserSessions() {
   }> => {
     try {
       /**
-       * '/api/auth/user/metadata' is a custom endpoint which will proxy
+       * '/api/auth/user/sessions' is a custom endpoint which will proxy
        * the request to the Auth0 Management API.
        *
-       * Proxy sample at: https://components.lab.auth0.com/docs/components/user-metadata#nextjs-routers
+       * Proxy sample at:
+       *  - https://components.lab.auth0.com/docs/components/user-sessions#nextjs-routers
        */
       const response = await fetch("/api/auth/user/sessions", {
         method: "GET",
@@ -49,10 +50,11 @@ export default function useUserSessions() {
     }> => {
       try {
         /**
-         * '/api/auth/mfa' is a custom endpoint which will proxy
+         * '/api/auth/user/sessions/[id]' is a custom endpoint which will proxy
          * the request to the Auth0 Management API.
          *
-         * Proxy sample at: https://components.lab.auth0.com/docs/components/mfa-enrollment#nextjs-routers
+         * Proxy sample at:
+         *   - https://components.lab.auth0.com/docs/components/user-sessions#nextjs-routers
          */
         const response = await fetch(`/api/auth/user/sessions/${sessionId}`, {
           method: "DELETE",
