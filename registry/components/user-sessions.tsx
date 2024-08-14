@@ -155,7 +155,7 @@ export default function UserSessions({
                   key={`session-${idx}-${id}`}
                   className="flex flex-col gap-6"
                 >
-                  <Separator />
+                  {idx > 0 && <Separator />}
                   <div
                     key={id}
                     className="flex flex-col md:flex-row items-center justify-between md:space-x-2 space-y-6 md:space-y-0"
