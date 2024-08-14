@@ -76,7 +76,7 @@ export default function UserProfile({
               {[
                 { title: "General", id: "basic-info" },
                 { title: "Preferences", id: "preferences" },
-                { title: "MFA", id: "mfa" },
+                { title: "Security", id: "security" },
               ].map((item) => (
                 <button
                   onClick={handleItemClick(item.id)}
@@ -108,7 +108,7 @@ export default function UserProfile({
               />
             )}
 
-            {currentItem === "mfa" && (
+            {currentItem === "security" && (
               <MFAEnrollment
                 factors={factors}
                 onFetch={fetchFactors}
