@@ -1,5 +1,7 @@
+import { AlertCircle } from "lucide-react";
 import Balancer from "react-wrap-balancer";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
@@ -19,6 +21,16 @@ export default function OrganizationMetadata() {
         title="Organization Single sign-on"
         description="Displays and edits organization Single sign-on configuration."
       >
+        <Alert variant="warning" className="mb-10">
+          <AlertCircle className="h-4 w-4 mt-1" />
+          <AlertTitle className="mb-3 mt-1">Important</AlertTitle>
+          <AlertDescription className="text-md">
+            Self-service SSO for organizations is currently in beta and subject
+            to change, so please be cautious when integrating with the API and
+            expect potential updates or modifications.
+          </AlertDescription>
+        </Alert>
+
         <DocTabs align="start" code={componentUsage}>
           <Example />
         </DocTabs>

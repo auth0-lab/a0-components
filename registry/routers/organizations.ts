@@ -246,7 +246,7 @@ export function handleConnectionUpdate(params: SelfServiceParams) {
         const profile = (await $selfServiceProfile.json()).pop();
 
         const $ticket = await fetch(
-          `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/tickets/sso-access`,
+          `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/self-service-profiles/${profile.id}/sso-ticket`,
           {
             method: "POST",
             headers: {
@@ -254,10 +254,7 @@ export function handleConnectionUpdate(params: SelfServiceParams) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              sso_profile_id: profile.id,
               connection_id: body.connection_id,
-              clients_to_enable: params.clients_to_enable,
-              organizations_to_enable: body.organizations_to_enable,
             }),
           }
         );
