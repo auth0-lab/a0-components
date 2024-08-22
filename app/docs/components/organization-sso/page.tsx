@@ -25,9 +25,9 @@ export default function OrganizationMetadata() {
           <AlertCircle className="h-4 w-4 mt-1" />
           <AlertTitle className="mb-3 mt-1">Important</AlertTitle>
           <AlertDescription className="text-md">
-            Self-service SSO for organizations is currently in beta and subject
-            to change, so please be cautious when integrating with the API and
-            expect potential updates or modifications.
+            Self-Service SSO is currently in Limited Early Access and subject to
+            change. When integrating with the API, please exercise caution and
+            expect potential updates.
           </AlertDescription>
         </Alert>
 
