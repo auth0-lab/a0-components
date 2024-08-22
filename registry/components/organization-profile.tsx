@@ -7,50 +7,48 @@ import { twMerge } from "tailwind-merge";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-import useMfaEnrollment from "../hooks/use-mfa-enrollment";
-import useUserMetadata from "../hooks/use-user-metadata";
-import BasicInfoForm from "./basic-info-form";
+import useOrganizations from "../hooks/use-organizations";
 /**
- * Make sure to install the MFAEnrollment component from:
- *   - https://components.lab.auth0.com/docs/components/mfa-enrollment
+ * Make sure to install the OrganizationInfo component from:
+ *   - https://components.lab.auth0.com/docs/components/organization-info
  */
-import MFAEnrollment from "./mfa-enrollment";
+import OrganizationInfo from "./organization-info";
 /**
- * Make sure to install the UserMetadata component from:
- *   - https://components.lab.auth0.com/docs/components/user-metadata
+ * Make sure to install the OrganizationMetadata component from:
+ *   - https://components.lab.auth0.com/docs/components/organization-metadata
  */
-import UserMetadata from "./user-metadata";
-
-interface KeyValueMap {
-  [key: string]: any;
-}
-
-type MfaEnrollment = {
-  name: string;
-  enabled: boolean;
-  enrollmentId?: string;
-};
+import OrganizationMetadata from "./organization-metadata";
+import OrganizationSSO from "./organization-sso";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export default function UserProfile({
-  user,
-  userMetadata,
+interface KeyValueMap {
+  [key: string]: any;
+}
+
+export default function OrganizationProfile({
+  orgId,
+  organization,
+  connections,
   metadataSchema,
-  factors,
 }: {
-  user: KeyValueMap;
+  orgId: string;
+  organization?: KeyValueMap;
+  connections?: KeyValueMap[];
   metadataSchema: any;
-  userMetadata?: KeyValueMap;
-  factors?: MfaEnrollment[];
 }) {
   const [currentItem, setCurrentItem] = useState("basic-info");
-  const metadataDefaultValues = userMetadata;
-  const { updateUserMetadata, fetchUserMetadata } = useUserMetadata();
-  const { fetchFactors, createEnrollment, deleteEnrollment } =
-    useMfaEnrollment();
+  const metadataDefaultValues = organization?.metadata;
+  const {
+    fetchOrganization,
+    updateOrganization,
+    fetchOrganizationConnections,
+    deleteOrganizationConnection,
+    startSelfServiceConfiguration,
+    startSelfServiceConnectionUpdate,
+  } = useOrganizations();
 
   const handleItemClick = (id: string) => () => {
     setCurrentItem(id);
@@ -60,9 +58,11 @@ export default function UserProfile({
     <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-2 flex flex-col w-full">
       <div className="md:block">
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">User Profile</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Organization Settings
+          </h2>
           <p className="text-muted-foreground">
-            Info about you and your preferences
+            All the information about your organization.
           </p>
         </div>
         <Separator className="my-6" />
@@ -76,7 +76,7 @@ export default function UserProfile({
               {[
                 { title: "General", id: "basic-info" },
                 { title: "Preferences", id: "preferences" },
-                { title: "Security", id: "security" },
+                { title: "Security", id: "sso" },
               ].map((item) => (
                 <button
                   onClick={handleItemClick(item.id)}
@@ -97,23 +97,33 @@ export default function UserProfile({
             </nav>
           </aside>
           <div className="flex-1">
-            {currentItem === "basic-info" && <BasicInfoForm user={user} />}
-
-            {currentItem === "preferences" && (
-              <UserMetadata
-                schema={metadataSchema}
-                metadata={metadataDefaultValues}
-                onFetch={fetchUserMetadata}
-                onSave={updateUserMetadata}
+            {currentItem === "basic-info" && (
+              <OrganizationInfo
+                organization={organization}
+                orgId={orgId}
+                onFetch={fetchOrganization}
+                onSave={updateOrganization}
               />
             )}
 
-            {currentItem === "security" && (
-              <MFAEnrollment
-                factors={factors}
-                onFetch={fetchFactors}
-                onCreate={createEnrollment}
-                onDelete={deleteEnrollment}
+            {currentItem === "preferences" && (
+              <OrganizationMetadata
+                orgId={orgId}
+                schema={metadataSchema}
+                metadata={metadataDefaultValues}
+                onFetch={fetchOrganization}
+                onSave={updateOrganization}
+              />
+            )}
+
+            {currentItem === "sso" && (
+              <OrganizationSSO
+                orgId={orgId}
+                connections={connections}
+                onFetch={fetchOrganizationConnections}
+                onDelete={deleteOrganizationConnection}
+                onConfigure={startSelfServiceConfiguration}
+                onUpdateConfiguration={startSelfServiceConnectionUpdate}
               />
             )}
           </div>

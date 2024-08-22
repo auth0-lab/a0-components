@@ -30,6 +30,22 @@ const data = {
       src: "./registry/components/user-profile.tsx",
       destination: "./app/docs/components/user-profile/data/code.ts",
     },
+    {
+      src: "./registry/components/organization-metadata.tsx",
+      destination: "./app/docs/components/organization-metadata/data/code.ts",
+    },
+    {
+      src: "./registry/components/organization-info.tsx",
+      destination: "./app/docs/components/organization-info/data/code.ts",
+    },
+    {
+      src: "./registry/components/organization-profile.tsx",
+      destination: "./app/docs/components/organization-profile/data/code.ts",
+    },
+    {
+      src: "./registry/components/organization-sso.tsx",
+      destination: "./app/docs/components/organization-sso/data/code.ts",
+    },
   ],
   hooks: [
     {
@@ -47,7 +63,8 @@ const data = {
       collection: [
         {
           name: "useOrganizations",
-          description: "The hook can be used to create an organization.",
+          description:
+            "The hook can be used to create or update an organization.",
           src: "./registry/hooks/use-organizations.ts",
         },
       ],
@@ -59,6 +76,50 @@ const data = {
           name: "useUserMetadata",
           description: "A hook to update the user metadata.",
           src: "./registry/hooks/use-user-metadata.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-metadata/data/hooks.ts",
+      collection: [
+        {
+          name: "useOrganizations",
+          description:
+            "The hook can be used to create or update an organization.",
+          src: "./registry/hooks/use-organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-info/data/hooks.ts",
+      collection: [
+        {
+          name: "useOrganizations",
+          description:
+            "The hook can be used to create or update an organization.",
+          src: "./registry/hooks/use-organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-profile/data/hooks.ts",
+      collection: [
+        {
+          name: "useOrganizations",
+          description:
+            "The hook can be used to create or update an organization.",
+          src: "./registry/hooks/use-organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-sso/data/hooks.ts",
+      collection: [
+        {
+          name: "useOrganizations",
+          description:
+            "The hook can be used to create or update an organization.",
+          src: "./registry/hooks/use-organizations.ts",
         },
       ],
     },
@@ -79,7 +140,53 @@ const data = {
       collection: [
         {
           name: "Organizations router",
-          description: "The route can be used to create an organization.",
+          description:
+            "The route can be used to create or update an organization.",
+          src: "./registry/routers/organizations.ts",
+        },
+      ],
+    },
+    {
+      destination:
+        "./app/docs/components/organization-metadata/data/routers.ts",
+      collection: [
+        {
+          name: "Organizations router",
+          description:
+            "The route can be used to create or update an organization.",
+          src: "./registry/routers/organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-info/data/routers.ts",
+      collection: [
+        {
+          name: "Organizations router",
+          description:
+            "The route can be used to create or update an organization.",
+          src: "./registry/routers/organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-profile/data/routers.ts",
+      collection: [
+        {
+          name: "Organizations router",
+          description:
+            "The route can be used to create or update an organization.",
+          src: "./registry/routers/organizations.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/organization-sso/data/routers.ts",
+      collection: [
+        {
+          name: "Organizations router",
+          description:
+            "The route can be used to create or update an organization.",
           src: "./registry/routers/organizations.ts",
         },
       ],

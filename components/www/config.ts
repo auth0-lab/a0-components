@@ -48,7 +48,22 @@ export const config = {
           title: "Organization Switcher",
           href: "/docs/components/organization-switcher",
         },
-
+        {
+          title: "Organization Profile",
+          href: "/docs/components/organization-profile",
+        },
+        {
+          title: "Organization Info",
+          href: "/docs/components/organization-info",
+        },
+        {
+          title: "Organization Metadata",
+          href: "/docs/components/organization-metadata",
+        },
+        {
+          title: "Organization SSO",
+          href: "/docs/components/organization-sso",
+        },
         {
           title: "Organization Creator",
           href: "/docs/components/organization-creator",
