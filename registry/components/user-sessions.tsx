@@ -198,7 +198,7 @@ export default function UserSessions({
                           .
                         </p>
                       </Label>
-                      <div className="flex space-x-24 items-center justify-end md:min-w-72">
+                      <div className="flex space-x-24 items-center justify-end md:min-w-24">
                         <Button
                           className="h-fit min-w-24"
                           variant="outline"
