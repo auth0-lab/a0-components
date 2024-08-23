@@ -6,13 +6,7 @@ import { UAParser } from "ua-parser-js";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
@@ -144,79 +138,81 @@ export default function UserSessions({
           )}
 
           {currentSessions &&
-            currentSessions.map((session, idx) => {
-              const { id } = session;
-              const lastUA = new UAParser(
-                session.device?.last_user_agent || "unknown"
-              ).getResult();
+            currentSessions
+              .sort(({ id }) => (id === user.sid ? -1 : 1))
+              .map((session, idx) => {
+                const { id } = session;
+                const lastUA = new UAParser(
+                  session.device?.last_user_agent || "unknown"
+                ).getResult();
 
-              return (
-                <div
-                  key={`session-${idx}-${id}`}
-                  className="flex flex-col gap-6"
-                >
-                  {idx > 0 && <Separator />}
+                return (
                   <div
-                    key={id}
-                    className="flex flex-col md:flex-row items-center justify-between md:space-x-2 space-y-6 md:space-y-0"
+                    key={`session-${idx}-${id}`}
+                    className="flex flex-col gap-6"
                   >
-                    <Label className="flex flex-col space-y-1">
-                      <span className="leading-6">
-                        {`Session on ${lastUA.browser.name} - ${lastUA.os.name} [${lastUA.os.version}]`}
+                    {idx > 0 && <Separator />}
+                    <div
+                      key={id}
+                      className="flex flex-col md:flex-row items-center justify-between md:space-x-2 space-y-6 md:space-y-0"
+                    >
+                      <Label className="flex flex-col space-y-1">
+                        <span className="leading-6">
+                          {`Session on ${lastUA.browser.name} - ${lastUA.os.name} [${lastUA.os.version}]`}
 
-                        {id === user.sid && (
-                          <Badge
-                            variant="default"
-                            className="h-fit bg-green-300 text-black ml-3 font-light hover:bg-green-300"
-                          >
-                            Current
-                          </Badge>
-                        )}
-                      </span>
-                      <p className="font-normal leading-snug text-muted-foreground max-w-fit">
-                        Last activity{" "}
-                        <span
-                          className="underline decoration-dotted cursor-help"
-                          title={session.updated_at}
-                        >
-                          {moment(session.updated_at).fromNow()}
-                        </span>{" "}
-                        from location{" "}
-                        <span
-                          className="underline decoration-dotted cursor-help"
-                          title={session.device?.last_ip}
-                        >
-                          {session.device?.last_ip}
-                        </span>
-                        .
-                        <br />
-                        First sign-in on{" "}
-                        <span
-                          className="underline decoration-dotted cursor-help"
-                          title={session.created_at}
-                        >
-                          {moment(session.created_at).format(
-                            "MMMM DD, YYYY \\a\\t HH:MM:SS"
+                          {id === user.sid && (
+                            <Badge
+                              variant="default"
+                              className="h-fit bg-green-300 text-black ml-3 font-light hover:bg-green-300"
+                            >
+                              Current
+                            </Badge>
                           )}
                         </span>
-                        .
-                      </p>
-                    </Label>
-                    <div className="flex space-x-24 items-center justify-end md:min-w-72">
-                      <Button
-                        className="h-fit min-w-24"
-                        variant="outline"
-                        onClick={handleRevokeSession(id)}
-                        disabled={isRevokingSession === id}
-                      >
-                        {isRevokingSession === id && <Spinner />}
-                        Sign out
-                      </Button>
+                        <p className="font-normal leading-snug text-muted-foreground max-w-fit">
+                          Last activity{" "}
+                          <span
+                            className="underline decoration-dotted cursor-help"
+                            title={session.updated_at}
+                          >
+                            {moment(session.updated_at).fromNow()}
+                          </span>{" "}
+                          from location{" "}
+                          <span
+                            className="underline decoration-dotted cursor-help"
+                            title={session.device?.last_ip}
+                          >
+                            {session.device?.last_ip}
+                          </span>
+                          .
+                          <br />
+                          First sign-in on{" "}
+                          <span
+                            className="underline decoration-dotted cursor-help"
+                            title={session.created_at}
+                          >
+                            {moment(session.created_at).format(
+                              "MMMM DD, YYYY \\a\\t HH:MM:SS"
+                            )}
+                          </span>
+                          .
+                        </p>
+                      </Label>
+                      <div className="flex space-x-24 items-center justify-end md:min-w-72">
+                        <Button
+                          className="h-fit min-w-24"
+                          variant="outline"
+                          onClick={handleRevokeSession(id)}
+                          disabled={isRevokingSession === id}
+                        >
+                          {isRevokingSession === id && <Spinner />}
+                          Sign out
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
         </CardContent>
       </Card>
     </>
