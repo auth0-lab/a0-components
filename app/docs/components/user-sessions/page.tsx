@@ -22,8 +22,8 @@ export default function UserProfile() {
         description="Allows the user to review and manage their active sessions"
       >
         <p className="mb-3 leading-7">
-          It is important to remember when working with Authorization Servers
-          and Web Applications that there is always more than one session
+          When working with Authorization Servers and Web Applications, it is
+          important to remember that there is always more than one session
           involved in the process of tracking the authentication state of a
           user.
         </p>
@@ -44,7 +44,7 @@ export default function UserProfile() {
         </p>
 
         <p className="mb-3 leading-7">
-          You can learn out more about the topic of logging users out safely at:
+          You can learn more about the topic of logging users out safely at:
         </p>
         <div>
           <ul className="list-disc ml-4">
@@ -88,9 +88,9 @@ export default function UserProfile() {
             >
               OIDC Back-channel Logout
             </a>
-            . If not done so, the only session that will be removed is the one
-            from the Authorization Server (your Auth0 tenant) but your Web
-            Applicaition&apos;s session will remain for as long as its TTL has
+            . If this is not done, only the session from the Authorization
+            Server (your Auth0 tenant) will be removed, but your web
+            application&apos;s session will remain for as long as its TTL has
             been defined.
           </AlertDescription>
         </Alert>
