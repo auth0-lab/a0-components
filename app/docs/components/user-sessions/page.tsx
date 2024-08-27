@@ -22,8 +22,8 @@ export default function UserProfile() {
         description="Allows the user to review and manage their active sessions"
       >
         <p className="mb-3 leading-7">
-          It is important to remember when working with Authorization Servers
-          and Web Applications that there is always more than one session
+          When working with Authorization Servers and Web Applications, it is
+          important to remember that there is always more than one session
           involved in the process of tracking the authentication state of a
           user.
         </p>
@@ -44,7 +44,7 @@ export default function UserProfile() {
         </p>
 
         <p className="mb-3 leading-7">
-          You can learn out more about the topic of logging users out safely at:
+          You can learn more about the topic of logging users out safely at:
         </p>
         <div>
           <ul className="list-disc ml-4">
