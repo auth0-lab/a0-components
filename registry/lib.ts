@@ -2,7 +2,8 @@ import { ManagementClient } from "auth0";
 import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 
-import { handleCallback, handleLogin, Session } from "@auth0/nextjs-auth0";
+import auth0 from "@/lib/auth0";
+import { Session } from "@auth0/nextjs-auth0";
 
 const client = new ManagementClient({
   domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
@@ -61,7 +62,7 @@ export async function enhanceClaimsWithOrganizations(
 
 export function handleOrganizations(organizationsClaim: string) {
   return {
-    login: handleLogin((req) => {
+    login: auth0.handleLogin((req) => {
       const { searchParams } = new URL(req.url!);
       const { prompt, organization } = Object.fromEntries(searchParams);
 
@@ -69,7 +70,7 @@ export function handleOrganizations(organizationsClaim: string) {
         authorizationParams: { prompt, organization },
       };
     }),
-    callback: handleCallback({
+    callback: auth0.handleCallback({
       afterCallback: async (_req: NextRequest, session: Session) => {
         return await enhanceClaimsWithOrganizations(
           session,
