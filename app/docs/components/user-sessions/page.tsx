@@ -46,30 +46,29 @@ export default function UserProfile() {
         <p className="mb-3 leading-7">
           You can learn more about the topic of logging users out safely at:
         </p>
-        <div>
-          <ul className="list-disc ml-4">
-            <li className="leading-7">
-              <a
-                href="https://auth0.com/blog/the-not-so-easy-art-of-logging-out/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-700 hover:underline"
-              >
-                Auth0 Blog: The Not-So-Easy Art of Logging Out
-              </a>
-            </li>
-            <li className="leading-7">
-              <a
-                href="https://auth0.com/docs/authenticate/login/logout/back-channel-logout"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-700 hover:underline"
-              >
-                Auth0 Docs: OIDC Back-channel Logout
-              </a>
-            </li>
-          </ul>
-        </div>
+        <ul className="list-disc ml-7 relative mb-5">
+          <li className="leading-7">
+            <a
+              href="https://auth0.com/blog/the-not-so-easy-art-of-logging-out/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:underline"
+            >
+              Auth0 Blog: The Not-So-Easy Art of Logging Out
+            </a>
+          </li>
+          <li className="leading-7">
+            <a
+              href="https://auth0.com/docs/authenticate/login/logout/back-channel-logout"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:underline"
+            >
+              Auth0 Docs: OIDC Back-channel Logout
+            </a>
+          </li>
+        </ul>
+
         <DocTabs align="start" code={componentUsage}>
           <Example />
         </DocTabs>
