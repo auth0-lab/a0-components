@@ -1,5 +1,8 @@
+import { AlertCircle } from "lucide-react";
+import Link from "next/link";
 import Balancer from "react-wrap-balancer";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Code from "@/components/www/code";
 import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
@@ -9,11 +12,15 @@ import { componentHooks as mfaHooks } from "../mfa-enrollment/data/hooks";
 import { componentRoutes as mfaRoutes } from "../mfa-enrollment/data/routers";
 import { componentHooks as metadataHooks } from "../user-metadata/data/hooks";
 import { componentRoutes as metadataRoutes } from "../user-metadata/data/routers";
+import { componentHooks as sessionsHooks } from "../user-sessions/data/hooks";
+import { componentRoutes as sessionsRoutes } from "../user-sessions/data/routers";
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
 import { componentUsage } from "./data/usage";
 import { Example } from "./example";
 
+const componentHooks = [...metadataHooks, ...mfaHooks, ...sessionsHooks];
+const componentRoutes = [...metadataRoutes, ...mfaRoutes, ...sessionsRoutes];
 export default function UserProfile() {
   return (
     <DocsLayout>
@@ -24,6 +31,32 @@ export default function UserProfile() {
         <DocTabs align="start" code={componentUsage}>
           <Example />
         </DocTabs>
+
+        <Alert variant="warning" className="mb-10">
+          <AlertCircle className="h-4 w-4 mt-1" />
+          <AlertTitle className="mb-3 mt-1">Important</AlertTitle>
+          <AlertDescription className="text-md">
+            To make the &quot;Sign out&quot; button work for{" "}
+            <span className="font-bold">User Sessions</span> section, the
+            implementation of{" "}
+            <a
+              href="https://auth0.com/docs/authenticate/login/logout/back-channel-logout"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:underline"
+            >
+              OIDC Back-channel Logout
+            </a>{" "}
+            is required. Check the{" "}
+            <Link
+              href="/docs/components/user-sessions"
+              className="text-blue-700 hover:underline"
+            >
+              User Sessions component
+            </Link>{" "}
+            documentation page for more information.
+          </AlertDescription>
+        </Alert>
 
         <h2
           className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
@@ -115,7 +148,7 @@ export default function UserProfile() {
         </h2>
 
         <div className=" mb-12">
-          {mfaHooks.concat(metadataHooks).map((hook, index) => (
+          {componentHooks.map((hook, index) => (
             <div key={index}>
               <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
                 {hook.name}
@@ -143,14 +176,14 @@ export default function UserProfile() {
         </h2>
 
         <div className=" mb-12">
-          {mfaRoutes.concat(metadataRoutes).map((hook, index) => (
+          {componentRoutes.map((route, index) => (
             <div key={index}>
               <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
-                {hook.name}
+                {route.name}
               </h3>
-              <p>{hook.description}</p>
+              <p>{route.description}</p>
               <div className="flex flex-col gap-2 mt-8 h-[450px] overflow-y-auto max-w-[680px]">
-                <Code language="bash" text={hook.code} />
+                <Code language="bash" text={route.code} />
               </div>
             </div>
           ))}
