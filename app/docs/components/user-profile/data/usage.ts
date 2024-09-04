@@ -25,4 +25,5 @@ export const componentUsage = `<UserProfile
     { name: "webauthn-roaming", enabled: true },
     { name: "webauthn-platform", enabled: true },
   ]}
+  sessions={sessions}
 />`;

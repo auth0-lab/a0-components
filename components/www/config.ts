@@ -37,6 +37,10 @@ export const config = {
           href: "/docs/components/user-metadata",
         },
         {
+          title: "User Sessions",
+          href: "/docs/components/user-sessions",
+        },
+        {
           title: "MFA Enrollment",
           href: "/docs/components/mfa-enrollment",
         },

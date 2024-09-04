@@ -1,5 +1,4 @@
 import { AlertCircle } from "lucide-react";
-import Link from "next/link";
 import Balancer from "react-wrap-balancer";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -8,26 +7,68 @@ import { DocsLayout } from "@/components/www/layouts";
 import PageLayout from "@/components/www/page-layout";
 import { DocTabs } from "@/components/www/tabs";
 
-import { componentHooks as mfaHooks } from "../mfa-enrollment/data/hooks";
-import { componentRoutes as mfaRoutes } from "../mfa-enrollment/data/routers";
-import { componentHooks as metadataHooks } from "../user-metadata/data/hooks";
-import { componentRoutes as metadataRoutes } from "../user-metadata/data/routers";
-import { componentHooks as sessionsHooks } from "../user-sessions/data/hooks";
-import { componentRoutes as sessionsRoutes } from "../user-sessions/data/routers";
 import { componentCode } from "./data/code";
 import { componentDependencies } from "./data/dependencies";
+import { componentHooks } from "./data/hooks";
+import { componentRoutes } from "./data/routers";
 import { componentUsage } from "./data/usage";
 import { Example } from "./example";
 
-const componentHooks = [...metadataHooks, ...mfaHooks, ...sessionsHooks];
-const componentRoutes = [...metadataRoutes, ...mfaRoutes, ...sessionsRoutes];
 export default function UserProfile() {
   return (
     <DocsLayout>
       <PageLayout
-        title="User Profile"
-        description="Provides a detailed user profile with essential information, supporting MFA enrollment."
+        title="User Sessions"
+        description="Allows the user to review and manage their active sessions"
       >
+        <p className="mb-3 leading-7">
+          When working with Authorization Servers and Web Applications, it is
+          important to remember that there is always more than one session
+          involved in the process of tracking the authentication state of a
+          user.
+        </p>
+
+        <p className="mb-3 leading-7">
+          Logging users out implies invalidating all sessions related to this
+          authentication state. It is beacuse of this that the{" "}
+          <a
+            href="https://auth0.com/docs/authenticate/login/logout/back-channel-logout"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 hover:underline"
+          >
+            OIDC Back-channel Logout
+          </a>{" "}
+          comes to play an important role to guarantee safely invalidating all
+          user&apos;s active sessions.
+        </p>
+
+        <p className="mb-3 leading-7">
+          You can learn more about the topic of logging users out safely at:
+        </p>
+        <ul className="list-disc ml-7 relative mb-5">
+          <li className="leading-7">
+            <a
+              href="https://auth0.com/blog/the-not-so-easy-art-of-logging-out/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:underline"
+            >
+              Auth0 Blog: The Not-So-Easy Art of Logging Out
+            </a>
+          </li>
+          <li className="leading-7">
+            <a
+              href="https://auth0.com/docs/authenticate/login/logout/back-channel-logout"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:underline"
+            >
+              Auth0 Docs: OIDC Back-channel Logout
+            </a>
+          </li>
+        </ul>
+
         <DocTabs align="start" code={componentUsage}>
           <Example />
         </DocTabs>
@@ -36,9 +77,8 @@ export default function UserProfile() {
           <AlertCircle className="h-4 w-4 mt-1" />
           <AlertTitle className="mb-3 mt-1">Important</AlertTitle>
           <AlertDescription className="text-md">
-            To make the &quot;Sign out&quot; button work for{" "}
-            <span className="font-bold">User Sessions</span> section, the
-            implementation of{" "}
+            For the &quot;Sign out&quot; to work as expected, it is necessary to
+            implement{" "}
             <a
               href="https://auth0.com/docs/authenticate/login/logout/back-channel-logout"
               target="_blank"
@@ -46,15 +86,11 @@ export default function UserProfile() {
               className="text-blue-700 hover:underline"
             >
               OIDC Back-channel Logout
-            </a>{" "}
-            is required. Check the{" "}
-            <Link
-              href="/docs/components/user-sessions"
-              className="text-blue-700 hover:underline"
-            >
-              User Sessions component
-            </Link>{" "}
-            documentation page for more information.
+            </a>
+            . If this is not done, only the session from the Authorization
+            Server (your Auth0 tenant) will be removed, but your web
+            application&apos;s session will remain for as long as its TTL has
+            been defined.
           </AlertDescription>
         </Alert>
 
@@ -71,7 +107,6 @@ export default function UserProfile() {
           </a>
           Installation
         </h2>
-
         <div className="steps mb-12 ml-4 border-l pl-8 [counter-reset:step]">
           <h3 className="font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight">
             Install the following dependencies:
@@ -132,7 +167,6 @@ export default function UserProfile() {
             Update the import paths to match your project setup.
           </h3>
         </div>
-
         <h2
           className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
           id="react-hooks"
@@ -146,7 +180,6 @@ export default function UserProfile() {
           </a>
           React Hooks
         </h2>
-
         <div className=" mb-12">
           {componentHooks.map((hook, index) => (
             <div key={index}>
@@ -160,7 +193,6 @@ export default function UserProfile() {
             </div>
           ))}
         </div>
-
         <h2
           className="font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0"
           id="nextjs-routers"
@@ -174,7 +206,6 @@ export default function UserProfile() {
           </a>
           NextJS routers
         </h2>
-
         <div className=" mb-12">
           {componentRoutes.map((route, index) => (
             <div key={index}>

@@ -16,20 +16,20 @@ const client = new ManagementClient({
 });
 
 /**
- * @example export const GET = handleUserMetadataFetch();
+ * @example export const GET = handleUserSessionsFetch();
  */
-export function handleUserMetadataFetch() {
+export function handleUserSessionsFetch() {
   return withRateLimit(
     withApiAuthRequired(async (): Promise<NextResponse> => {
       try {
         const session = await getSession();
         const user_id = session?.user.sub;
-        const response = await client.users.get({
-          id: user_id,
+        const response = await client.users.getSessions({
+          user_id,
         });
         const { data } = response;
 
-        return NextResponse.json(data.user_metadata || {}, {
+        return NextResponse.json(data.sessions || [], {
           status: response.status,
         });
       } catch (error) {
@@ -44,29 +44,33 @@ export function handleUserMetadataFetch() {
 }
 
 /**
- * @example export const PUT = handleUserMetadataUpdate();
+ * @example export const DELETE = handleDeleteUserSession();
  */
-// TODO: better error handling
-export function handleUserMetadataUpdate() {
+export function handleDeleteUserSession() {
   return withRateLimit(
-    withApiAuthRequired(async (request: Request): Promise<NextResponse> => {
-      try {
-        const session = await getSession();
-        const userId = session?.user.sub;
-        const user_metadata = await request.json();
+    withApiAuthRequired(
+      async (request: Request, { params }: any): Promise<NextResponse> => {
+        try {
+          const { id }: { id: string } = params;
 
-        await client.users.update({ id: userId }, { user_metadata });
+          await client.sessions.delete({
+            id,
+          });
 
-        return NextResponse.json(user_metadata, {
-          status: 200,
-        });
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-          { error: "Error updating user metadata" },
-          { status: 500 }
-        );
+          return NextResponse.json(
+            { id },
+            {
+              status: 200,
+            }
+          );
+        } catch (error) {
+          console.error(error);
+          return NextResponse.json(
+            { error: "Error deleting MFA Enrollment" },
+            { status: 500 }
+          );
+        }
       }
-    })
+    )
   );
 }

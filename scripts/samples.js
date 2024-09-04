@@ -27,6 +27,10 @@ const data = {
       destination: "./app/docs/components/user-metadata/data/code.ts",
     },
     {
+      src: "./registry/components/user-sessions.tsx",
+      destination: "./app/docs/components/user-sessions/data/code.ts",
+    },
+    {
       src: "./registry/components/user-profile.tsx",
       destination: "./app/docs/components/user-profile/data/code.ts",
     },
@@ -54,7 +58,7 @@ const data = {
         {
           name: "useMfaEnrollment",
           description: "A hook to manage MFA enrollments.",
-          src: "./registry/hooks/use-mfa-enrollment.tsx",
+          src: "./registry/hooks/use-mfa-enrollment.ts",
         },
       ],
     },
@@ -76,6 +80,16 @@ const data = {
           name: "useUserMetadata",
           description: "A hook to update the user metadata.",
           src: "./registry/hooks/use-user-metadata.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/user-sessions/data/hooks.ts",
+      collection: [
+        {
+          name: "useUserSessions",
+          description: "A hook to manage current user sessions.",
+          src: "./registry/hooks/use-user-sessions.ts",
         },
       ],
     },
@@ -198,6 +212,16 @@ const data = {
           name: "UserMetadata router",
           description: "Handles user metadata update.",
           src: "./registry/routers/user-metadata.ts",
+        },
+      ],
+    },
+    {
+      destination: "./app/docs/components/user-sessions/data/routers.ts",
+      collection: [
+        {
+          name: "UserSessions router",
+          description: "Handles user sessions fetch and revocation.",
+          src: "./registry/routers/user-sessions.ts",
         },
       ],
     },
