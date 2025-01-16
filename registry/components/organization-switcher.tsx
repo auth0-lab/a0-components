@@ -13,11 +13,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface KeyValueMap {
   [key: string]: any;
@@ -93,7 +89,7 @@ export default function OrganizationSwitcher({
     },
   ];
 
-  if (typeOfUsers === "require") {
+  if (typeOfUsers === OrganizationTypeOfUsers.Require) {
     groups.shift();
   }
 
@@ -147,12 +143,7 @@ export default function OrganizationSwitcher({
               {groups.map((group) => (
                 <CommandGroup key={group.label} heading={group.label}>
                   {group.organizations.map(
-                    (org: {
-                      value: string;
-                      label: string;
-                      picture: string;
-                      type: string;
-                    }) => (
+                    (org: (typeof groups)[number]["organizations"][number]) => (
                       <CommandItem
                         key={org.value}
                         onSelect={() => {
@@ -167,7 +158,7 @@ export default function OrganizationSwitcher({
                               ? `${loginUrl}?returnTo=${returnTo}`
                               : `${loginUrl}?organization=${org.value}&returnTo=${returnTo}`
                           }
-                          className="flex w-full flex items-center"
+                          className="flex w-full items-center"
                         >
                           {org.label}
                           {selectedOrg.value === org.value && (
@@ -189,7 +180,7 @@ export default function OrganizationSwitcher({
                     <CommandItem>
                       <a
                         href={createOrganizationUrl}
-                        className="flex items-center justify-between gap-3 w-full block text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        className="flex items-center justify-between gap-3 w-full text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                       >
                         {addOrganizationLabel}
                         <div className="RightSlot">+</div>
