@@ -2,9 +2,10 @@
   "name": "@auth0-lab/ui-components",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "node ./scripts/samples.js && next dev",
-    "build": "node ./scripts/samples.js && next build",
+    "dev": "node ./scripts/samples.mjs && next dev",
+    "build": "node ./scripts/samples.mjs && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -55,16 +56,16 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/simple-oauth2": "^5.0.7",
     "@types/ua-parser-js": "^0.7.39",
-    "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5"
   }
 }

@@ -141,7 +141,7 @@ function OrganizationForm({
 
 function PageMode({ form, working, customFields, onSubmit }: PageModeProps) {
   return (
-    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center">
+    <div className="max-w-(--breakpoint-lg) mx-auto gap-5 md:gap-5 lg:gap-5 justify-center">
       <Card>
         <CardHeader className="p-4 md:p-6">
           <CardTitle>Create Organization</CardTitle>
