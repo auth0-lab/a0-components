@@ -62,7 +62,7 @@ export default function UserProfile({
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-2 flex flex-col w-full">
+    <div className="max-w-(--breakpoint-lg) mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-2 flex flex-col w-full">
       <div className="md:block">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">User Profile</h2>

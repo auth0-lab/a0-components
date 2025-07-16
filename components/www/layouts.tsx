@@ -71,7 +71,7 @@ export const ExamplesLayout = ({
         {!isLoggedIn && (
           <div className="flex w-full items-center justify-center space-x-4 py-4 md:pb-10">
             <a
-              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 rounded-[6px]"
+              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 h-9 px-4 py-2 rounded-[6px]"
               href="/api/auth/login?returnTo=/example/dashboard"
             >
               Login to Start

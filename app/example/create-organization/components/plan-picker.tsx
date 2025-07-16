@@ -28,8 +28,8 @@ const PlanCard = ({ name, price, features, selected }: PlanCardProps) => {
   return (
     <div
       className={`flex flex-col px-7 py-7 rounded-2xl shadow-md bg-white ${
-        selected && "outline"
-      } hover:outline hover:outline-slate-400 hover:cursor-pointer w-full h-full border border-neutral-200`}
+        selected && "outline-solid"
+      } hover:outline-solid hover:outline-slate-400 hover:cursor-pointer w-full h-full border border-neutral-200`}
     >
       <h3 className="text-xl font-semibold mb-8">{name}</h3>
 

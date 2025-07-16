@@ -1,4 +1,4 @@
-const fs = require("fs");
+import { readFileSync, writeFileSync } from "fs";
 
 const data = {
   components: [
@@ -242,13 +242,13 @@ const data = {
 
 function main() {
   data.components.forEach((meta) => {
-    const code = fs.readFileSync(meta.src, "utf8");
+    const code = readFileSync(meta.src, "utf8");
 
     const componentCode = {
       code,
     };
 
-    fs.writeFileSync(
+    writeFileSync(
       meta.destination,
       `export const componentCode = ${JSON.stringify(componentCode, null, 2)};`
     );
@@ -259,7 +259,7 @@ function main() {
   data.hooks.map((hookMeta) => {
     const hooks = [];
     hookMeta.collection.forEach((meta) => {
-      const code = fs.readFileSync(meta.src, "utf8");
+      const code = readFileSync(meta.src, "utf8");
 
       hooks.push({
         name: meta.name,
@@ -270,7 +270,7 @@ function main() {
       console.log(meta.src);
     });
 
-    fs.writeFileSync(
+    writeFileSync(
       hookMeta.destination,
       `export const componentHooks = ${JSON.stringify(hooks, null, 2)};`
     );
@@ -279,7 +279,7 @@ function main() {
   data.routers.map((routerMeta) => {
     const routers = [];
     routerMeta.collection.forEach((meta) => {
-      const code = fs.readFileSync(meta.src, "utf8");
+      const code = readFileSync(meta.src, "utf8");
 
       routers.push({
         name: meta.name,
@@ -290,7 +290,7 @@ function main() {
       console.log(meta.src);
     });
 
-    fs.writeFileSync(
+    writeFileSync(
       routerMeta.destination,
       `export const componentRoutes = ${JSON.stringify(routers, null, 2)};`
     );
@@ -299,7 +299,7 @@ function main() {
   data.helpers.map((helperMeta) => {
     const helpers = [];
     helperMeta.collection.forEach((meta) => {
-      const code = fs.readFileSync(meta.src, "utf8");
+      const code = readFileSync(meta.src, "utf8");
 
       helpers.push({
         name: meta.name,
@@ -310,7 +310,7 @@ function main() {
       console.log(meta.src);
     });
 
-    fs.writeFileSync(
+    writeFileSync(
       helperMeta.destination,
       `export const helpers = ${JSON.stringify(helpers, null, 2)};`
     );
