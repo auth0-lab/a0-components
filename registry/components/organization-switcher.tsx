@@ -13,11 +13,13 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
-interface KeyValueMap {
-  [key: string]: any;
-}
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CLAIMS } from "@/lib/utils";
+import { useUser } from "@auth0/nextjs-auth0";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -40,8 +42,6 @@ enum OrganizationTypeOfUsers {
 type SubtitleHandler = string | ((organization: any) => string);
 
 interface OrganizationSwitcherProps extends PopoverTriggerProps {
-  user: KeyValueMap;
-  availableOrganizations: Organization[];
   loginUrl?: string;
   typeOfUsers?: OrganizationTypeOfUsers;
   subtitle?: SubtitleHandler;
@@ -54,38 +54,43 @@ interface OrganizationSwitcherProps extends PopoverTriggerProps {
 }
 
 export default function OrganizationSwitcher({
-  user,
-  loginUrl = "/api/auth/login",
+  loginUrl = "/auth/login",
   typeOfUsers = OrganizationTypeOfUsers.Allow,
   subtitle,
   showBorder = true,
-  availableOrganizations,
   organizationsLabel = "Organizations",
   personalAccountLabel = "Personal Account",
   addOrganizationLabel = "Add Organization",
   createOrganizationUrl,
   returnTo = "/",
 }: OrganizationSwitcherProps) {
+  const { user } = useUser();
+  const { name, org_id, picture, sub } = user || {};
+  const availableOrganizations = !!user
+    ? (user[CLAIMS.ORGANIZATIONS] as Organization[]) ?? []
+    : [];
+
   const groups = [
     {
       label: personalAccountLabel,
       organizations: [
         {
           type: "personal",
-          label: user.name,
-          value: user.sub,
-          picture: user.picture,
+          label: name,
+          value: sub,
+          picture: picture,
         },
       ],
     },
     {
       label: organizationsLabel,
-      organizations: availableOrganizations.map((org: Organization) => ({
-        type: "organization",
-        label: org.display_name,
-        value: org.id,
-        picture: org.picture,
-      })) as [],
+      organizations:
+        availableOrganizations.map((org: Organization) => ({
+          type: "organization",
+          label: org.display_name,
+          value: org.id,
+          picture: org.picture,
+        })) || [],
     },
   ];
 
@@ -97,9 +102,9 @@ export default function OrganizationSwitcher({
   const [selectedOrg, setSelectedOrg] = React.useState<
     (typeof groups)[number]["organizations"][number]
   >(
-    user.org_id
+    org_id
       ? groups[groups.length - 1].organizations.filter(
-          (org) => org.value === user.org_id
+          (org) => org.value === org_id
         )[0]
       : groups[0].organizations[0]
   );
@@ -118,7 +123,7 @@ export default function OrganizationSwitcher({
             }`}
           >
             <div className="flex flex-col items-start">
-              <span className="text-sm">{selectedOrg.label}</span>
+              <span className="text-sm">{selectedOrg?.label}</span>
               {subtitle && (
                 <span className="text-gray-500 font-light text-xs">
                   {typeof subtitle === "string"
@@ -145,7 +150,7 @@ export default function OrganizationSwitcher({
                   {group.organizations.map(
                     (org: (typeof groups)[number]["organizations"][number]) => (
                       <CommandItem
-                        key={org.value}
+                        key={org?.value}
                         onSelect={() => {
                           setSelectedOrg(org);
                           setOpen(false);
@@ -154,14 +159,14 @@ export default function OrganizationSwitcher({
                       >
                         <a
                           href={
-                            org.type === "personal"
+                            org?.type === "personal"
                               ? `${loginUrl}?returnTo=${returnTo}`
-                              : `${loginUrl}?organization=${org.value}&returnTo=${returnTo}`
+                              : `${loginUrl}?organization=${org?.value}&returnTo=${returnTo}`
                           }
                           className="flex w-full items-center"
                         >
-                          {org.label}
-                          {selectedOrg.value === org.value && (
+                          {org?.label}
+                          {selectedOrg?.value === org?.value && (
                             <Check className={"ml-auto h-4 w-4"} />
                           )}
                         </a>

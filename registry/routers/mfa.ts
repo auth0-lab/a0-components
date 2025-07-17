@@ -1,150 +1,153 @@
 import { ManagementClient } from "auth0";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
-
+import { checkSession } from "./helpers/check-session";
 /**
  * Make sure to install the withRateLimit from:
  *   - https://components.lab.auth0.com/docs/rate-limit#helpers
  */
 import { withRateLimit } from "./helpers/rate-limit";
 
+/**
+ * This forces NextJS to build this route as a dynamic route.
+ * This is required for the purpose of documentation but is likely not necessary in your own app.
+ */
+export const dynamic = "force-dynamic";
+
 const client = new ManagementClient({
-  domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
-  clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
-  clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
+  domain: process.env.AUTH0_MANAGEMENT_DOMAIN ?? process.env.AUTH0_DOMAIN,
+  clientId:
+    process.env.AUTH0_MANAGEMENT_CLIENT_ID ?? process.env.AUTH0_CLIENT_ID,
+  clientSecret:
+    process.env.AUTH0_MANAGEMENT_CLIENT_SECRET ??
+    process.env.AUTH0_CLIENT_SECRET,
 });
 
 /**
  * @example export const GET = handleMFAFactorsList();
  */
-export function handleMFAFactorsList() {
-  return withRateLimit(
-    withApiAuthRequired(async (): Promise<NextResponse> => {
-      try {
-        const session = await getSession();
-        const user_id = session?.user.sub;
-        const availableFactors = [
-          "push-notification",
-          "sms",
-          "voice",
-          "otp",
-          "webauthn-roaming",
-          "webauthn-platform",
-        ];
-        const { data: factors } = await client.guardian.getFactors();
-        const response = await client.users.getAuthenticationMethods({
-          id: user_id,
-        });
-        const { data: enrollments } = response;
+export const handleMFAFactorsList = withRateLimit(
+  async (_: NextRequest): Promise<NextResponse> => {
+    try {
+      const { sub: user_id } = await checkSession();
 
-        return NextResponse.json(
-          factors
-            .filter((factor: any) => {
+      const availableFactors = [
+        "push-notification",
+        "sms",
+        "voice",
+        "otp",
+        "webauthn-roaming",
+        "webauthn-platform",
+      ];
+      const { data: factors } = await client.guardian.getFactors();
+      const response = await client.users.getAuthenticationMethods({
+        id: user_id,
+      });
+      const { data: enrollments } = response;
+
+      return NextResponse.json(
+        factors
+          .filter((factor: any) => {
+            let factorName: string = factor.name;
+
+            return availableFactors.includes(factorName) && factor.enabled;
+          })
+          .map((factor: any) => {
+            const enrollmentInfo = enrollments.find((enrollment: any) => {
               let factorName: string = factor.name;
 
-              return availableFactors.includes(factorName) && factor.enabled;
-            })
-            .map((factor: any) => {
-              const enrollmentInfo = enrollments.find((enrollment: any) => {
-                let factorName: string = factor.name;
+              if (factor.name === "sms" || factor.name === "voice") {
+                factorName = "phone";
+              }
 
-                if (factor.name === "sms" || factor.name === "voice") {
-                  factorName = "phone";
-                }
+              return enrollment.type.includes(factorName);
+            });
 
-                return enrollment.type.includes(factorName);
-              });
-
-              return {
-                ...factor,
-                enrollmentId: enrollmentInfo?.id,
-              };
-            }),
-          {
-            status: response.status,
-          }
-        );
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-          { error: "Error fetching MFA Enrollments" },
-          { status: 500 }
-        );
-      }
-    })
-  );
-}
+            return {
+              ...factor,
+              enrollmentId: enrollmentInfo?.id,
+            };
+          }),
+        {
+          status: response.status,
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error fetching MFA Enrollments" },
+        { status: 500 }
+      );
+    }
+  }
+);
 
 /**
  * @example export const POST = handleMFAFactorEnrollment();
  */
-export function handleMFAFactorEnrollment() {
-  return withRateLimit(
-    withApiAuthRequired(async (request: Request): Promise<NextResponse> => {
-      try {
-        const session = await getSession();
-        const user_id = session?.user.sub;
-        const { factor }: { factor: string } = await request.json();
-        let factorName: string = factor;
+export const handleMFAFactorEnrollment = withRateLimit(
+  async (request: NextRequest): Promise<NextResponse> => {
+    try {
+      const { sub: user_id } = await checkSession();
 
-        if (factor === "sms" || factor === "voice") {
-          factorName = "phone";
-        }
+      const { factor }: { factor: string } = await request.json();
+      let factorName: string = factor;
 
-        const response = await client.guardian.createEnrollmentTicket({
-          user_id,
-          //@ts-ignore
-          factor: factorName,
-          allow_multiple_enrollments: true,
-        });
-        const { data } = response;
-
-        return NextResponse.json(data, {
-          status: response.status,
-        });
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-          { error: "Error creating MFA Enrollment" },
-          { status: 500 }
-        );
+      if (factor === "sms" || factor === "voice") {
+        factorName = "phone";
       }
-    })
-  );
-}
+
+      const response = await client.guardian.createEnrollmentTicket({
+        user_id,
+        //@ts-ignore
+        factor: factorName,
+        allow_multiple_enrollments: true,
+      });
+      const { data } = response;
+
+      return NextResponse.json(data, {
+        status: response.status,
+      });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error creating MFA Enrollment" },
+        { status: 500 }
+      );
+    }
+  }
+);
 
 /**
  * @example export const DELETE = handleMFADeleteEnrollment();
  */
-export function handleMFADeleteEnrollment() {
-  return withRateLimit(
-    withApiAuthRequired(
-      async (request: Request, { params }: any): Promise<NextResponse> => {
-        try {
-          const session = await getSession();
-          const user_id = session?.user.sub;
-          const { enrollmentId }: { enrollmentId: string } = params;
+export const handleMFADeleteEnrollment = withRateLimit(
+  async (
+    _: Request,
+    { params }: { params: { enrollmentId: string } }
+  ): Promise<NextResponse> => {
+    try {
+      const { sub: user_id } = await checkSession();
 
-          await client.users.deleteAuthenticationMethod({
-            id: user_id,
-            authentication_method_id: enrollmentId,
-          });
+      const { enrollmentId } = params;
 
-          return NextResponse.json(
-            { id: enrollmentId },
-            {
-              status: 200,
-            }
-          );
-        } catch (error) {
-          console.error(error);
-          return NextResponse.json(
-            { error: "Error deleting MFA Enrollment" },
-            { status: 500 }
-          );
+      await client.users.deleteAuthenticationMethod({
+        id: user_id,
+        authentication_method_id: enrollmentId,
+      });
+
+      return NextResponse.json(
+        { id: enrollmentId },
+        {
+          status: 200,
         }
-      }
-    )
-  );
-}
+      );
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error deleting MFA Enrollment" },
+        { status: 500 }
+      );
+    }
+  }
+);

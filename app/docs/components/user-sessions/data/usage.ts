@@ -1,5 +1,4 @@
 export const componentUsage = `<UserSessions
-  user={user}
   sessions={sessions}
   onFetch={async () => {
     return { sessions, status: 200 };

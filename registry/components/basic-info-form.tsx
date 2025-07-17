@@ -3,16 +3,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUser } from "@auth0/nextjs-auth0";
 
-interface KeyValueMap {
-  [key: string]: any;
-}
-
-export default function BasicInfoForm({ user }: { user: KeyValueMap }) {
-  const name = user.name;
-  const email = user.email;
-  const nickname = user.nickname;
-  const phone = user.phone_number;
+export default function BasicInfoForm() {
+  const { user } = useUser();
+  const { email, name, nickname, phone_number } = user || {};
 
   return (
     <Card className="w-full">
@@ -59,7 +54,7 @@ export default function BasicInfoForm({ user }: { user: KeyValueMap }) {
               type="phone"
               id="phone"
               placeholder="(415) 555-5555"
-              defaultValue={phone}
+              defaultValue={phone_number}
             />
           </div>
         </div>

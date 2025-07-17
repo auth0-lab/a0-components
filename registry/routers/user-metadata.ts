@@ -1,72 +1,83 @@
 import { ManagementClient } from "auth0";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
-
+import { checkSession } from "./helpers/check-session";
 /**
  * Make sure to install the withRateLimit from:
  *   - https://components.lab.auth0.com/docs/rate-limit#helpers
  */
 import { withRateLimit } from "./helpers/rate-limit";
 
+/**
+ * This forces NextJS to build this route as a dynamic route.
+ * This is required for the purpose of documentation but is likely not necessary in your own app.
+ */
+export const dynamic = "force-dynamic";
+
 const client = new ManagementClient({
-  domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
-  clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
-  clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
+  domain: process.env.AUTH0_MANAGEMENT_DOMAIN ?? process.env.AUTH0_DOMAIN,
+  clientId:
+    process.env.AUTH0_MANAGEMENT_CLIENT_ID ?? process.env.AUTH0_CLIENT_ID,
+  clientSecret:
+    process.env.AUTH0_MANAGEMENT_CLIENT_SECRET ??
+    process.env.AUTH0_CLIENT_SECRET,
 });
 
 /**
- * @example export const GET = handleUserMetadataFetch();
+ * @example export const GET = handleUserMetadataFetch
  */
-export function handleUserMetadataFetch() {
-  return withRateLimit(
-    withApiAuthRequired(async (): Promise<NextResponse> => {
-      try {
-        const session = await getSession();
-        const user_id = session?.user.sub;
-        const response = await client.users.get({
-          id: user_id,
-        });
-        const { data } = response;
+export const handleUserMetadataFetch = withRateLimit(
+  async (_: NextRequest): Promise<NextResponse> => {
+    try {
+      const { sub: user_id } = await checkSession();
 
-        return NextResponse.json(data.user_metadata || {}, {
-          status: response.status,
-        });
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-          { error: "Error fetching user metadata" },
-          { status: 500 }
-        );
-      }
-    })
-  );
-}
+      // Fetch user profile
+      const { data: user, status: userStatus } = await client.users.get({
+        id: user_id,
+      });
+
+      // Fetch user organization membership
+      const { data: organizations, status: orgStatus } =
+        await client.users.getUserOrganizations({ id: user_id });
+
+      return NextResponse.json(
+        { ...user?.user_metadata, organizations },
+        {
+          status: userStatus !== 200 ? userStatus : orgStatus,
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error fetching user metadata" },
+        { status: 500 }
+      );
+    }
+  }
+);
 
 /**
- * @example export const PUT = handleUserMetadataUpdate();
+ * @example export const PUT = handleUserMetadataUpdate
  */
 // TODO: better error handling
-export function handleUserMetadataUpdate() {
-  return withRateLimit(
-    withApiAuthRequired(async (request: Request): Promise<NextResponse> => {
-      try {
-        const session = await getSession();
-        const userId = session?.user.sub;
-        const user_metadata = await request.json();
+export const handleUserMetadataUpdate = withRateLimit(
+  async (request: Request): Promise<NextResponse> => {
+    try {
+      const { sub: user_id } = await checkSession();
 
-        await client.users.update({ id: userId }, { user_metadata });
+      const user_metadata = await request.json();
 
-        return NextResponse.json(user_metadata, {
-          status: 200,
-        });
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-          { error: "Error updating user metadata" },
-          { status: 500 }
-        );
-      }
-    })
-  );
-}
+      await client.users.update({ id: user_id }, { user_metadata });
+
+      return NextResponse.json(user_metadata, {
+        status: 200,
+      });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error updating user metadata" },
+        { status: 500 }
+      );
+    }
+  }
+);

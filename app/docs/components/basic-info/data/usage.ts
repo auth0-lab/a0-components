@@ -1,1 +1,1 @@
-export const componentUsage = `<BasicInfoForm user={user} />`;
+export const componentUsage = `<BasicInfoForm />`;

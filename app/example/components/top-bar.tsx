@@ -2,20 +2,16 @@
 
 import { useState } from "react";
 
-import {
-  DropdownMenu,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu";
-import { CLAIMS } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
 import OrganizationSwitcher from "@/registry/components/organization-switcher";
 import UserButton from "@/registry/components/user-button";
-import { Claims } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0";
 
 import { MainNav } from "../dashboard/components/main-nav";
 
-export default function TopBar({ user }: { user: Claims }) {
+export default function TopBar() {
+  const { user } = useUser();
+
   const [orgsDot, setOrgsDot] = useState(true);
   const [userDot, setUserDot] = useState(true);
 
@@ -25,6 +21,10 @@ export default function TopBar({ user }: { user: Claims }) {
 
   function handleUserDot() {
     setUserDot(false);
+  }
+
+  if (!user) {
+    return null;
   }
 
   return (
@@ -41,8 +41,6 @@ export default function TopBar({ user }: { user: Claims }) {
           <OrganizationSwitcher
             returnTo="/example/dashboard"
             showBorder={false}
-            user={user}
-            availableOrganizations={user[CLAIMS.ORGANIZATIONS] || []}
             subtitle="Basic (individual)"
             personalAccountLabel="Individual Account"
             createOrganizationUrl="/example/create-organization"
@@ -63,10 +61,10 @@ export default function TopBar({ user }: { user: Claims }) {
             </span>
           )}
 
-          <UserButton user={user}>
+          <UserButton>
             <DropdownMenu>
               <DropdownMenuGroup>
-                {user.org_id && (
+                {user?.org_id && (
                   <a href="/example/organization">
                     <DropdownMenuItem>
                       <span>Organization</span>

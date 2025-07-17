@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,10 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUser } from "@auth0/nextjs-auth0";
 
-interface KeyValueMap {
-  [key: string]: any;
-}
+import type { User } from "@auth0/nextjs-auth0/types";
 
 function LogOut() {
   return (
@@ -33,35 +33,30 @@ function LogOut() {
   );
 }
 
-function getAvatarFallback(user: KeyValueMap) {
-  const givenName = user.given_name;
-  const familyName = user.family_name;
-  const nickname = user.nickname;
-  const name = user.name;
-
-  if (givenName && familyName) {
-    return `${givenName[0]}${familyName[0]}`;
+function getAvatarFallback(user?: User | null) {
+  if (!user) {
+    return;
   }
 
-  if (nickname) {
-    return nickname[0];
+  const { given_name, family_name, nickname, name = nickname } = user;
+
+  if (given_name && family_name) {
+    return `${given_name[0]}${family_name[0]}`;
   }
 
-  return name[0];
+  return name;
 }
 
 export default function UserButton({
-  user,
   children,
-  logoutUrl = "/api/auth/logout",
+  logoutUrl = "/auth/logout",
 }: {
-  user: KeyValueMap;
   children?: React.ReactNode;
   logoutUrl?: string;
 }) {
-  const picture = user.picture;
-  const name = user.name;
-  const email = user.email;
+  const { user } = useUser();
+  const { email, name, picture } = user || {};
+
   const resolvedLogoutUrl = logoutUrl;
 
   return (

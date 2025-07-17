@@ -1,76 +1,82 @@
 import { ManagementClient } from "auth0";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
-
+import { checkSession } from "./helpers/check-session";
 /**
  * Make sure to install the withRateLimit from:
  *   - https://components.lab.auth0.com/docs/rate-limit#helpers
  */
 import { withRateLimit } from "./helpers/rate-limit";
 
+/**
+ * This forces NextJS to build this route as a dynamic route.
+ * This is required for the purpose of documentation but is likely not necessary in your own app.
+ */
+export const dynamic = "force-dynamic";
+
 const client = new ManagementClient({
-  domain: new URL(process.env.AUTH0_ISSUER_BASE_URL!).host,
-  clientId: process.env.AUTH0_CLIENT_ID_MGMT!,
-  clientSecret: process.env.AUTH0_CLIENT_SECRET_MGMT!,
+  domain: process.env.AUTH0_MANAGEMENT_DOMAIN ?? process.env.AUTH0_DOMAIN,
+  clientId:
+    process.env.AUTH0_MANAGEMENT_CLIENT_ID ?? process.env.AUTH0_CLIENT_ID,
+  clientSecret:
+    process.env.AUTH0_MANAGEMENT_CLIENT_SECRET ??
+    process.env.AUTH0_CLIENT_SECRET,
 });
 
 /**
- * @example export const GET = handleUserSessionsFetch();
+ * @example export const GET = handleUserSessionsFetch
  */
-export function handleUserSessionsFetch() {
-  return withRateLimit(
-    withApiAuthRequired(async (): Promise<NextResponse> => {
-      try {
-        const session = await getSession();
-        const user_id = session?.user.sub;
-        const response = await client.users.getSessions({
-          user_id,
-        });
-        const { data } = response;
+export const handleUserSessionsFetch = withRateLimit(
+  async (_: NextRequest): Promise<NextResponse> => {
+    try {
+      const { sub: user_id } = await checkSession();
 
-        return NextResponse.json(data.sessions || [], {
-          status: response.status,
-        });
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json(
-          { error: "Error fetching user metadata" },
-          { status: 500 }
-        );
-      }
-    })
-  );
-}
+      const { data, status } = await client.users.getSessions({
+        user_id,
+      });
+
+      return NextResponse.json(data.sessions || [], {
+        status,
+      });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error fetching user metadata" },
+        { status: 500 }
+      );
+    }
+  }
+);
 
 /**
- * @example export const DELETE = handleDeleteUserSession();
+ * @example export const DELETE = handleDeleteUserSession
  */
-export function handleDeleteUserSession() {
-  return withRateLimit(
-    withApiAuthRequired(
-      async (request: Request, { params }: any): Promise<NextResponse> => {
-        try {
-          const { id }: { id: string } = params;
+export const handleDeleteUserSession = withRateLimit(
+  async (
+    _: Request,
+    { params }: { params: { id: string } }
+  ): Promise<NextResponse> => {
+    try {
+      const { id } = params;
 
-          await client.sessions.delete({
-            id,
-          });
+      await checkSession();
 
-          return NextResponse.json(
-            { id },
-            {
-              status: 200,
-            }
-          );
-        } catch (error) {
-          console.error(error);
-          return NextResponse.json(
-            { error: "Error deleting MFA Enrollment" },
-            { status: 500 }
-          );
+      await client.sessions.delete({
+        id,
+      });
+
+      return NextResponse.json(
+        { id },
+        {
+          status: 200,
         }
-      }
-    )
-  );
-}
+      );
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: "Error deleting MFA Enrollment" },
+        { status: 500 }
+      );
+    }
+  }
+);

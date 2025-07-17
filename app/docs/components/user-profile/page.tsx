@@ -96,7 +96,7 @@ export default function UserProfile() {
           </h3>
 
           <div className="flex flex-col gap-2 mt-8 overflow-y-auto max-w-[680px]">
-            <p className="text-md text-muted-foreground text-gray-500">
+            <p className="text-md text-muted-foreground">
               <Balancer>
                 By design, our components provide basic behavior without making
                 any requests to the Auth0 Management API. To help you implement

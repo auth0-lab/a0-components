@@ -7,7 +7,7 @@ export const componentUsage = `<UserMetadataForm
     job_title: z.string(),
     language: z.enum(languages),
   })}
-  defaultValues={{
+  metadata={{
     address: "123 Fake st",
     job_title: "Designer",
     language: "es-AR",

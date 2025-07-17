@@ -9,14 +9,6 @@ const languages = ["en-US", "es-AR"] as const;
 export function Example() {
   return (
     <UserProfile
-      user={{
-        given_name: "John",
-        family_name: "Doe",
-        nickname: "johndoe",
-        name: "John Doe",
-        email: "john.doe@acme.com",
-        sid: "123123-123123-123123-123123",
-      }}
       userMetadata={{
         address: "123 Fake st",
         job_title: "Designer",

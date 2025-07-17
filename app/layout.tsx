@@ -7,7 +7,6 @@ import { SiteHeader } from "@/components/www/header";
 import { SiteFooter } from "@/components/www/site-footer";
 import { ThemeProvider } from "@/components/www/theme-provider";
 import { cn } from "@/lib/utils";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,25 +23,23 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <UserProvider>
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            inter.className
-          )}
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.className
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SiteHeader />
-            {children}
-            <SiteFooter />
-          </ThemeProvider>
-        </body>
-      </UserProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

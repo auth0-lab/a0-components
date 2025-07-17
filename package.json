@@ -2,9 +2,10 @@
   "name": "@auth0-lab/ui-components",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "node ./scripts/samples.js && next dev",
-    "build": "node ./scripts/samples.js && next build",
+    "dev": "node ./scripts/samples.mjs && next dev",
+    "build": "node ./scripts/samples.mjs && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -18,7 +19,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.5.0",
+    "@auth0/nextjs-auth0": "^4.8.0",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -42,7 +43,7 @@
     "lru-cache": "^10.2.2",
     "lucide-react": "^0.335.0",
     "moment": "^2.30.1",
-    "next": "14.2.3",
+    "next": "14.2.25",
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-code-blocks": "^0.1.6",
@@ -55,16 +56,16 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/simple-oauth2": "^5.0.7",
     "@types/ua-parser-js": "^0.7.39",
-    "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5"
   }
 }

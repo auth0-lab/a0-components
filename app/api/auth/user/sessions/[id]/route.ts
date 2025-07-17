@@ -1,3 +1,3 @@
 import { handleDeleteUserSession } from "@/registry/routers/user-sessions";
 
-export const DELETE = handleDeleteUserSession();
+export const DELETE = handleDeleteUserSession;

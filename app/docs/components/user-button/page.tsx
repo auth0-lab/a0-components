@@ -22,15 +22,7 @@ export default function UserButtonPage() {
         description="Offers a user menu for logged-in users, showing their info and allowing them to logout."
       >
         <DocTabs align="start" code={componentUsage} fullWidth={false}>
-          <UserButton
-            user={{
-              given_name: "John",
-              family_name: "Doe",
-              nickname: "johndoe",
-              name: "John Doe",
-              email: "john.doe@acme.com",
-            }}
-          >
+          <UserButton>
             <DropdownMenu>
               <DropdownMenuGroup>
                 <DropdownMenuItem>Theme</DropdownMenuItem>

@@ -20,7 +20,7 @@ export function CreateOrganizationPage() {
 
     if (response.organization) {
       router.push(
-        `/api/auth/login?organization=${response.organization.id}&returnTo=${pathname}`
+        `/auth/login?organization=${response.organization.id}&returnTo=${pathname}`
       );
     }
 

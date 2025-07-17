@@ -1,4 +1,4 @@
-export const componentUsage = `<UserButton user={user}>
+export const componentUsage = `<UserButton>
   <DropdownMenu>
     <DropdownMenuGroup>
       <DropdownMenuItem>Theme</DropdownMenuItem>

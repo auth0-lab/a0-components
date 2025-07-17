@@ -19,21 +19,6 @@ export default function OrganizationSwitcherPage() {
           <div className="w-full max-w-[200px] min-w-[200px]">
             <OrganizationSwitcher
               createOrganizationUrl="/docs/components/organization-switcher"
-              user={{
-                given_name: "John",
-                family_name: "Doe",
-                nickname: "johndoe",
-                name: "John Doe",
-                email: "john.doe@acme.com",
-              }}
-              availableOrganizations={[
-                {
-                  id: "org_xxxxxxxxxxx",
-                  name: "acme",
-                  display_name: "Acme",
-                  picture: "https://cdn.auth0.com/avatars/b.png",
-                },
-              ]}
               subtitle="Basic (individual)"
             />
           </div>

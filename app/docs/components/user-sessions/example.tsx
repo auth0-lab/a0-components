@@ -1,20 +1,6 @@
 "use client";
 
-import { z } from "zod";
-
 import UserSessions from "@/registry/components/user-sessions";
-
-const languages = ["en-US", "es-AR"] as const;
-
-const user = {
-  given_name: "John",
-  family_name: "Doe",
-  nickname: "john.doe",
-  name: "John Doe",
-  email: "john.doe@acme.com",
-  sub: "auth0|123456789101112",
-  sid: "123123-123123-123123-123123",
-};
 
 const sessions = [
   {
@@ -52,7 +38,6 @@ const sessions = [
 export function Example() {
   return (
     <UserSessions
-      user={user}
       sessions={sessions}
       onFetch={async () => {
         return { sessions, status: 200 };

@@ -5,15 +5,8 @@
 import { Metadata } from "next";
 
 import TopBar from "@/app/example/components/top-bar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getSession } from "@auth0/nextjs-auth0";
 
 import { Overview } from "./overview";
 import { RecentSales } from "./recent-sales";
@@ -23,12 +16,10 @@ export const metadata: Metadata = {
   description: "Example dashboard app built using the components.",
 };
 
-export default async function DashboardPage() {
-  const session = await getSession();
-
+export default function DashboardPage() {
   return (
     <div className="flex-col md:flex">
-      {session && <TopBar user={session!.user} />}
+      {<TopBar />}
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>

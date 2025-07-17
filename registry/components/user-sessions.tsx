@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
+import { useUser } from "@auth0/nextjs-auth0";
 
 function Spinner() {
   return (
@@ -36,7 +37,6 @@ interface KeyValueMap {
 }
 
 type UserSessionsProps = {
-  user: KeyValueMap;
   sessions?: KeyValueMap[];
   onFetch: () => Promise<{ sessions?: KeyValueMap[]; status: number }>;
   onDelete: (sessionId: string) => Promise<{
@@ -46,11 +46,13 @@ type UserSessionsProps = {
 };
 
 export default function UserSessions({
-  user,
   sessions,
   onFetch,
   onDelete,
 }: UserSessionsProps) {
+  const { user } = useUser();
+  const { sid } = user || {};
+
   const { toast } = useToast();
   const [currentSessions, setCurrentSessions] = useState<
     KeyValueMap[] | undefined
@@ -139,7 +141,7 @@ export default function UserSessions({
 
           {currentSessions &&
             currentSessions
-              .sort(({ id }) => (id === user.sid ? -1 : 1))
+              .sort(({ id }) => (id === sid ? -1 : 1))
               .map((session, idx) => {
                 const { id } = session;
                 const lastUA = new UAParser(
@@ -160,7 +162,7 @@ export default function UserSessions({
                         <span className="leading-6">
                           {`Session on ${lastUA.browser.name} - ${lastUA.os.name} [${lastUA.os.version}]`}
 
-                          {id === user.sid && (
+                          {id === sid && (
                             <Badge
                               variant="default"
                               className="h-fit bg-green-300 text-black ml-3 font-light hover:bg-green-300"

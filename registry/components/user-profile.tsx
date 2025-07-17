@@ -3,6 +3,7 @@
 import clsx, { ClassValue } from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +24,8 @@ import MFAEnrollment from "./mfa-enrollment";
 import UserMetadata from "./user-metadata";
 import UserSessions from "./user-sessions";
 
+const languages = ["en-US", "es-AR"] as const;
+
 interface KeyValueMap {
   [key: string]: any;
 }
@@ -38,20 +41,15 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export default function UserProfile({
-  user,
-  userMetadata,
-  metadataSchema,
+  userMetadata: metadataDefaultValues,
   factors,
   sessions,
 }: {
-  user: KeyValueMap;
-  metadataSchema: any;
   userMetadata?: KeyValueMap;
   factors?: MfaEnrollment[];
   sessions?: KeyValueMap[];
 }) {
   const [currentItem, setCurrentItem] = useState("basic-info");
-  const metadataDefaultValues = userMetadata;
   const { updateUserMetadata, fetchUserMetadata } = useUserMetadata();
   const { fetchUserSessions, deleteUserSession } = useUserSessions();
   const { fetchFactors, createEnrollment, deleteEnrollment } =
@@ -62,7 +60,7 @@ export default function UserProfile({
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-2 flex flex-col w-full">
+    <div className="max-w-(--breakpoint-lg) mx-auto gap-5 md:gap-5 lg:gap-5 justify-center p-2 flex flex-col w-full">
       <div className="md:block">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">User Profile</h2>
@@ -103,11 +101,29 @@ export default function UserProfile({
             </nav>
           </aside>
           <div className="flex-1">
-            {currentItem === "basic-info" && <BasicInfoForm user={user} />}
+            {currentItem === "basic-info" && <BasicInfoForm />}
 
             {currentItem === "preferences" && (
               <UserMetadata
-                schema={metadataSchema}
+                schema={z.object({
+                  address: z
+                    .string()
+                    .min(3, {
+                      message: "Address must be at least 3 characters.",
+                    })
+                    .max(50, {
+                      message: "Address must be at most 50 characters.",
+                    }),
+                  job_title: z
+                    .string()
+                    .min(3, {
+                      message: "Job title must be at least 3 characters.",
+                    })
+                    .max(50, {
+                      message: "Job title must be at most 50 characters.",
+                    }),
+                  language: z.enum(languages),
+                })}
                 metadata={metadataDefaultValues}
                 onFetch={fetchUserMetadata}
                 onSave={updateUserMetadata}
@@ -125,7 +141,6 @@ export default function UserProfile({
 
             {currentItem === "sessions" && (
               <UserSessions
-                user={user}
                 sessions={sessions}
                 onFetch={fetchUserSessions}
                 onDelete={deleteUserSession}

@@ -26,13 +26,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The code for the UI components, React hooks and NextJS routers can be found at [registry](https://github.com/auth0-lab/a0-components/tree/main/registry).
 
-- [User Profile](#user-profile)
-- [Basic Info](#basic-info)
-- [User Metadata](#user-metadata)
-- [MFA Enrollment](#mfa-enrollment)
-- [User Button](#user-button)
-- [Organization Switcher](#organization-switcher)
-- [Organization Creator](#organization-creator)
+- [Auth0 Lab / UI Components](#auth0-lab--ui-components)
+  - [Important](#important)
+  - [Getting Started](#getting-started)
+  - [Components](#components)
+    - [User Profile](#user-profile)
+      - [Code Sample](#code-sample)
+    - [Basic Info](#basic-info)
+      - [Code Sample](#code-sample-1)
+    - [User Metadata](#user-metadata)
+      - [Code Sample](#code-sample-2)
+    - [MFA Enrollment](#mfa-enrollment)
+      - [Code Sample](#code-sample-3)
+    - [User Button](#user-button)
+      - [Code Sample](#code-sample-4)
+    - [Organization Switcher](#organization-switcher)
+      - [Code Sample](#code-sample-5)
+    - [Organization Creator](#organization-creator)
+      - [Code Sample](#code-sample-6)
+  - [Live Example](#live-example)
+  - [License](#license)
 
 ### User Profile
 
@@ -44,17 +57,11 @@ Provides a detailed user profile with essential information, supporting MFA enro
 
 ```tsx
 <UserProfile
-  user={user}
   userMetadata={{
     address: "123 Fake st",
     job_title: "Designer",
     language: "es-AR",
   }}
-  metadataSchema={z.object({
-    address: z.string(),
-    job_title: z.string(),
-    language: z.enum(languages),
-  })}
   factors={[
     {
       name: "sms",
@@ -82,7 +89,7 @@ Displays essential user details, including name and nickname, providing a quick 
 #### Code Sample
 
 ```tsx
-<BasicInfoForm user={user} />
+<BasicInfoForm />
 ```
 
 ### User Metadata
@@ -103,7 +110,7 @@ Displays and edits user metadata with schema validation. For more info, visit th
     job_title: z.string(),
     language: z.enum(languages),
   })}
-  defaultValues={{
+  metadata={{
     address: "123 Fake st",
     job_title: "Designer",
     language: "es-AR",
@@ -143,7 +150,7 @@ Offers a user menu for logged-in users, showing their info and allowing them to 
 #### Code Sample
 
 ```tsx
-<UserButton user={user}>
+<UserButton>
   <DropdownMenu>
     <DropdownMenuGroup>
       <DropdownMenuItem>Theme</DropdownMenuItem>
@@ -171,21 +178,6 @@ Enables users to easily switch between different organizations or create new one
 ```tsx
 <OrganizationSwitcher
   createOrganizationUrl="/docs/components/organization-switcher"
-  user={{
-    given_name: "John",
-    family_name: "Doe",
-    nickname: "johndoe",
-    name: "John Doe",
-    email: "john.doe@acme.com",
-  }}
-  availableOrganizations={[
-    {
-      id: "org_xxxxxxxxxxx",
-      name: "acme",
-      display_name: "Acme",
-      picture: "https://cdn.auth0.com/avatars/b.png",
-    },
-  ]}
   subtitle="Basic (individual)"
 />
 ```
@@ -248,23 +240,27 @@ Creates organizations quickly and easily, streamlining the process for admins an
 
 For running the live example, you'll need to have the following values in your `.env.local`.
 
+> [!TIP]
+>
+> Copy `.env.sample` for a faster development experience.
+
 ```bash
-# A long, secret value used to encrypt the session cookie
-AUTH0_SECRET='LONG_RANDOM_VALUE'
-# The base url of your application
-AUTH0_BASE_URL='http://localhost:3000'
 # The url of your Auth0 tenant domain
-AUTH0_ISSUER_BASE_URL='https://YOUR_AUTH0_DOMAIN.auth0.com'
-# Your Auth0 application's Client ID
+AUTH0_DOMAIN='https://YOUR_AUTH0_DOMAIN.auth0.com'
+# A long, secret value used to encrypt the session cookie
 AUTH0_CLIENT_ID='YOUR_AUTH0_CLIENT_ID'
 # Your Auth0 application's Client Secret
 AUTH0_CLIENT_SECRET='YOUR_AUTH0_CLIENT_SECRET'
-# Auth0 Management API Client ID
-AUTH0_CLIENT_ID_MGMT="YOUR_AUTH0_MGMT_CLIENT_ID"
-# Auth0 Management API Client SECRET
-AUTH0_CLIENT_SECRET_MGMT="YOUR_AUTH0_MGMT_CLIENT_SECRET"
+# Auth0 Management API Client ID (if different from AUTH0_CLIENT_ID)
+AUTH0_MANAGEMENT_CLIENT_ID="YOUR_AUTH0_MGMT_CLIENT_ID"
+# Auth0 Management API Client Secret (if different from AUTH0_CLIENT_SECRET)
+AUTH0_MANAGEMENT_CLIENT_SECRET="YOUR_AUTH0_MGMT_CLIENT_SECRET"
 # Default connection when creating organizations
-ORGANIZATIONS_ENABLED_CONNECTION="con_xxxxxxxxx"
+AUTH0_SECRET='LONG_RANDOM_VALUE'
+# Your Auth0 application's Client ID
+AUTH0_DEFAULT_ORGANIZATIONS_ENABLED_CONNECTION="con_xxxxxxxxx"
+# The base url of your application
+AUTH0_BASE_URL='http://localhost:3000'
 # Token for LRU cache
 LRU_CACHE_TOKEN="CACHE_TOKEN"
 ```

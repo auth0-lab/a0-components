@@ -1,15 +1,9 @@
 export const componentUsage = `<UserProfile
-  user={user}
   userMetadata={{
     address: "123 Fake st",
     job_title: "Designer",
     language: "es-AR",
   }}
-  metadataSchema={z.object({
-    address: z.string(),
-    job_title: z.string(),
-    language: z.enum(languages),
-  })}
   factors={[
     {
       name: "sms",

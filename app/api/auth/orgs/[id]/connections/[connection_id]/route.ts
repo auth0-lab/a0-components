@@ -1,3 +1,3 @@
 import { handleDeleteConnection } from "@/registry/routers/organizations";
 
-export const DELETE = handleDeleteConnection();
+export const DELETE = handleDeleteConnection;
