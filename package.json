@@ -42,7 +42,7 @@
     "lru-cache": "^10.2.2",
     "lucide-react": "^0.335.0",
     "moment": "^2.30.1",
-    "next": "^14.2.35",
+    "next": "^15.5.21",
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-code-blocks": "^0.1.6",
