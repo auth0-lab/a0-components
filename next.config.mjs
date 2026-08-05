@@ -4,8 +4,10 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/docs",
+        source: "/:path*",
+        has: [{ type: "host", value: "components.lab.auth0.com" }],
+        destination:
+          "https://auth0.com/docs/get-started/universal-components/universal-components-overview",
         permanent: true,
       },
     ];
